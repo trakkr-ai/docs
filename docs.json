@@ -1,55 +1,74 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Trakkr Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0E9373",
+    "light": "#10B981",
+    "dark": "#047857"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Getting Started",
             "pages": [
-              "index",
+              "introduction",
               "quickstart",
-              "development"
+              "platform-tour"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "concepts/visibility-presence-scores",
+              "concepts/how-tracking-works",
+              "concepts/brands-competitors"
+            ]
+          },
+          {
+            "group": "Working with Prompts",
+            "pages": [
+              "prompts/creating-prompts",
+              "prompts/managing-prompts",
+              "prompts/prompt-results"
+            ]
+          },
+          {
+            "group": "Reports & Analytics", 
+            "pages": [
+              "reports/reading-reports",
+              "reports/report-generation",
+              "reports/comparing-performance"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "advanced/data-export"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              "troubleshooting/common-issues",
+              "troubleshooting/technical-issues"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "FAQ",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Frequently Asked Questions",
             "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "faq/scoring-metrics",
+              "faq/platform-usage",
+              "faq/technical-questions"
             ]
           }
         ]
@@ -58,19 +77,19 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Dashboard",
+          "href": "https://trakkr.ai",
+          "icon": "chart-line"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Support",
+          "href": "mailto:support@trakkr.ai",
+          "icon": "headset"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Feature Requests",
+          "href": "https://trakkr.ai/feedback",
+          "icon": "lightbulb"
         }
       ]
     }
@@ -82,21 +101,34 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Contact Support",
+        "href": "mailto:support@trakkr.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Go to Dashboard",
+      "href": "https://trakkr.ai"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/trakkr",
+      "linkedin": "https://linkedin.com/company/trakkr"
     }
+  },
+  "backgroundImage": "/background.png",
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  },
+  "search": {
+    "prompt": "Search Trakkr docs..."
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
   }
 }
