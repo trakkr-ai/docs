@@ -25,14 +25,8 @@
            "pages": [
              "understanding-scores",
              "working-with-prompts",
-             "reading-reports"
-           ]
-         },
-         {
-           "group": "Help",
-           "pages": [
-             "troubleshooting",
-             "faq"
+             "reading-reports",
+             "troubleshooting"
            ]
          }
        ]

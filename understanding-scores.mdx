@@ -1,0 +1,229 @@
+---
+title: "Understanding Scores"
+description: "Learn how Trakkr calculates visibility and presence scores, how AI brand tracking works, and how to interpret your competitive landscape"
+---
+
+Trakkr measures your brand's performance across AI models using two key metrics: **Visibility Score** and **Presence Score**. This guide explains how these scores work, how we track your brand, and what your competitive landscape means.
+
+## Visibility Score
+
+Your Visibility Score measures **how prominently** your brand appears when AI models mention you. It ranges from 0-100, with higher scores indicating better positioning.
+
+### How Visibility is Calculated
+
+<Steps>
+  <Step title="Position Scoring">
+    Each mention gets points based on ranking position:
+
+    - **1st place**: 10 points
+    - **2nd place**: 9 points
+    - **3rd place**: 8 points
+    - **10th place**: 1 point
+    - **Not mentioned**: 0 points
+  </Step>
+  <Step title="Aggregate Across Models">
+    We sum points from all AI models (OpenAI, Anthropic, Gemini, Grok, DeepSeek, Meta) for each prompt
+  </Step>
+  <Step title="Calculate Percentage">
+    Your total points ÷ maximum possible points × 100 = raw visibility percentage
+  </Step>
+  <Step title="Apply Scaling">
+    We apply a square root scaling to make score differences more meaningful and prevent artificial inflation
+  </Step>
+</Steps>
+
+### Visibility Score Examples
+
+**Score 90-100**: Exceptional performance
+
+- Consistently ranked #1-2 across most AI models
+- Strong brand recognition in your industry
+
+**Score 70-89**: Strong performance
+
+- Usually in top 3-5 positions when mentioned
+- Good brand awareness with room for improvement
+
+**Score 50-69**: Moderate performance
+
+- Mixed rankings, often in positions 5-8
+- Indicates opportunities for optimization
+
+**Score 0-49**: Needs improvement
+
+- Low rankings when mentioned, or infrequent mentions
+- Consider prompt strategy and brand positioning
+
+<Note>
+  A visibility score of 88.1 (like Nike's example) means when AI models mention Nike, they typically rank it very highly - usually in the top 2-3 positions.
+</Note>
+
+## Presence Score
+
+Your Presence Score shows **what percentage** of AI queries mention your brand at all. This represents your "share of voice" in AI conversations about your industry.
+
+### How Presence is Calculated
+
+Presence Score = (Number of AI responses mentioning your brand ÷ Total AI responses) × 100
+
+**Example**: If you run 5 prompts across 6 AI models (30 total queries) and your brand appears in 25 responses:
+
+- Presence Score = (25 ÷ 30) × 100 = 83.3%
+
+### Presence Score Interpretation
+
+**80-100%**: Dominant presence
+
+- AI models consistently think of your brand for industry queries
+- Strong market awareness and top-of-mind positioning
+
+**60-79%**: Good presence
+
+- Regularly mentioned but some gaps in coverage
+- Solid brand recognition with growth opportunities
+
+**40-59%**: Moderate presence
+
+- Inconsistent mentions across different queries
+- Brand awareness varies by context
+
+**0-39%**: Limited presence
+
+- Rarely mentioned by AI models
+- Indicates low brand awareness or need for different prompts
+
+## How AI Brand Tracking Works
+
+Understanding how we collect and analyze data helps interpret your scores:
+
+### 1. Multi-Model Querying
+
+We track your brand across 6 leading AI platforms:
+
+<CardGroup cols={2}>
+  <Card title="OpenAI" icon="brain">
+    GPT-4 models powering ChatGPT - most widely used AI platform
+  </Card>
+  <Card title="Anthropic" icon="robot">
+    Claude models - popular in enterprise and research
+  </Card>
+  <Card title="Google Gemini" icon="google">
+    Integrated across Google services and products
+  </Card>
+  <Card title="xAI Grok" icon="x-twitter">
+    Real-time information access, popular on X/Twitter
+  </Card>
+  <Card title="DeepSeek" icon="magnifying-glass">
+    Advanced reasoning capabilities for complex queries
+  </Card>
+  <Card title="Meta Llama" icon="meta">
+    Open-source models widely adopted across platforms
+  </Card>
+</CardGroup>
+
+### 2. Daily Report Generation
+
+- **Automated daily reports** query all AI models with your prompts
+- **Each prompt** is sent to all 6 AI models independently
+- **Results are analyzed** within 30 seconds to 2 minutes
+- **Scores are calculated** and historical trends updated
+
+### 3. Name Mapping & Competitor Detection
+
+**Smart Name Recognition**
+
+- AI models might mention your brand using variations ("Apple Inc." vs "Apple")
+- We use AI to map different mentions to your canonical brand name
+- Handles typos, abbreviations, and alternate names
+
+**Automatic Competitor Discovery**
+
+- Brands mentioned alongside yours are identified as potential competitors
+- Must appear in **2\+ reports** to be added to your competitor list
+- Helps you discover emerging competitors you might not know about
+
+### 4. Scoring Methodology
+
+**Why We Use Scaling**
+
+- Raw percentage scores can be misleading (small differences appear huge)
+- Square root scaling makes meaningful differences more apparent
+- Prevents artificial score inflation while maintaining accuracy
+- Scores are capped at 100 to maintain the 0-100 scale
+
+## Understanding Your Competitive Landscape
+
+### Competitor Analysis
+
+The Competitors section shows other brands AI models mention when discussing your industry:
+
+**Competitor Presence Scores**
+
+- Shows how often each competitor appears compared to you
+- Higher percentages indicate stronger AI "share of voice"
+- Helps identify market leaders and emerging threats
+
+**Competitor Rankings**
+
+- While we don't show competitor visibility scores, you can see their presence
+- Use this to understand the competitive landscape
+- Identify brands that might not be on your radar
+
+### Market Position Insights
+
+**Dominant Position**: High visibility \+ High presence
+
+- You're a market leader in AI conversations
+- Consistently mentioned and highly ranked
+
+**Niche Leader**: High visibility \+ Lower presence
+
+- Strong position in specific contexts
+- Opportunity to expand into broader industry conversations
+
+**Emerging Player**: Lower visibility \+ Higher presence
+
+- Frequently mentioned but not prominently positioned
+- Focus on improving ranking and brand strength
+
+**Specialist**: Variable scores across different prompts
+
+- Strong in some areas, weak in others
+- Tailor strategy to strengthen weak areas
+
+## Factors That Influence Your Scores
+
+### Content & Online Presence
+
+- **Quality content** that establishes authority and expertise
+- **Industry recognition** through awards, press, partnerships
+- **SEO optimization** helps AI models understand your positioning
+- **Active social media** and thought leadership
+
+### Brand Recognition
+
+- **Market maturity** - established brands typically score higher
+- **Industry category** - some sectors have more AI awareness
+- **Geographic presence** - global brands often outperform local ones
+- **Marketing investment** in brand awareness campaigns
+
+### Prompt Strategy
+
+- **Relevant prompts** that match your target market
+- **Balanced specificity** - not too broad, not too narrow
+- **Multiple contexts** to capture different use cases
+- **Regular updates** to reflect market changes
+
+<Tip>
+  Scores naturally fluctuate as AI models update their training data and as the competitive landscape evolves. Focus on long-term trends rather than daily variations.
+</Tip>
+
+---
+
+<Card title="Create Better Prompts" icon="message-question" href="/working-with-prompts">
+  Learn how to write prompts that better capture your brand's market position
+</Card>
+
+<Card title="Reading Your Reports" icon="chart-line" href="/reading-reports">
+  Understand how to interpret your dashboard and track performance over time
+</Card>
