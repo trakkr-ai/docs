@@ -24,8 +24,9 @@
            "group": "Using Trakkr",
            "pages": [
              "understanding-scores",
-             "working-with-prompts",
+             "intelligence",
              "reading-reports",
+             "working-with-prompts",
              "troubleshooting"
            ]
          }
