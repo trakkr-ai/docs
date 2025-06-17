@@ -29,6 +29,12 @@
              "working-with-prompts",
              "troubleshooting"
            ]
+         },
+         {
+           "group": "Pro Features",
+           "pages": [
+             "sentiment-analysis"
+           ]
          }
        ]
      }
