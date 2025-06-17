@@ -34,7 +34,9 @@
            "group": "Beta Features",
            "pages": [
              "sentiment-analysis",
-             "crawler-analytics"
+             "crawler-analytics",
+             "traffic-analytics",
+             "citations"
            ]
          }
        ]

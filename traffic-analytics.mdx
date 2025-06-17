@@ -1,0 +1,215 @@
+---
+title: "Traffic Analytics"
+description: "Track real user traffic referred to your website from AI models. See which pages LLMs are recommending to users and optimize your content strategy based on actual AI-driven traffic patterns."
+---
+
+<Warning>
+  Traffic analytics is currently in beta, and not available on standard accounts. Watch this space though - we'll be launching it soon\!
+</Warning>
+
+Traffic analytics reveals the real business impact of AI model recommendations by tracking actual user sessions that arrive at your website from LLM platforms. While other metrics show you mentions and sentiment, traffic analytics shows you the bottom line: which of your pages are generating real visitors when AI models recommend them to users.
+
+This feature uses the same tracking pixel as crawler analytics but focuses on human users who click through from AI platforms like ChatGPT, Claude, Perplexity, and others.
+
+## Setting Up Traffic Analytics
+
+Traffic analytics uses the same JavaScript tracking code as crawler analytics. If you've already installed the tracking pixel for crawler monitoring, you're automatically tracking LLM referral traffic as well.
+
+### Installation
+
+If you haven't set up tracking yet, copy the provided JavaScript code and paste it into the `<head>` section of every page you want to track.
+
+**The tracking automatically captures:**
+
+- **Referral source**: Which LLM platform sent the traffic
+- **Landing pages**: Which pages users visit from AI recommendations
+- **Device information**: How users access LLM-recommended content
+- **Session data**: Individual user visits and engagement patterns
+
+### Supported LLM Platforms
+
+The system automatically detects traffic from major AI platforms:
+
+**Primary LLM Platforms**
+
+- **ChatGPT**: OpenAI's conversational AI platform
+- **Claude**: Anthropic's AI assistant
+- **Perplexity**: AI-powered search and answer engine
+- **Gemini**: Google's conversational AI (formerly Bard)
+
+**Additional AI Platforms**
+
+- **Bing Chat/Copilot**: Microsoft's AI-integrated search
+- **You.com**: AI-enhanced search platform
+- **Character.AI**: Conversational AI character platform
+- **Mistral**: Open-source LLM platform
+- **Hugging Face**: AI model and chat platform
+
+<Note>
+  Traffic detection works through referrer headers and UTM parameters. The system automatically identifies when users click links provided by these AI platforms.
+</Note>
+
+## Understanding Your Traffic Dashboard
+
+### LLM Traffic Overview
+
+The main interface shows which AI platforms are sending the most traffic to your website.
+
+**What you're seeing**: Filter buttons for ChatGPT and Claude, with a date range showing traffic volume over time.
+
+**What it means**: These represent the AI platforms actively recommending your content to users. The prominence of certain platforms indicates where your brand has the strongest recommendation presence.
+
+**Why it matters**: Understanding which AI platforms drive the most traffic helps you focus optimization efforts on the channels that deliver real business value.
+
+### Top LLMs by Sessions
+
+See which AI platforms generate the most user sessions for your website.
+
+**What you're seeing**: A ranked list showing platforms like ChatGPT and Claude with their respective session counts.
+
+**What it means**:
+
+- **Higher session counts**: These platforms frequently recommend your content to users
+- **Platform distribution**: Shows your recommendation presence across different AI ecosystems
+- **Traffic quality**: Sessions represent real users, not just mentions
+
+**Why it matters**: This data reveals which AI platforms provide the highest business value. Platforms generating more sessions deserve priority in your content optimization strategy.
+
+### Most Visited Pages
+
+Discover which specific pages on your site receive the most traffic from LLM referrals.
+
+**What you're seeing**: A list of your pages ranked by total sessions from AI platform referrals.
+
+**What it means**: These are the pages AI models most frequently recommend to users when asked relevant questions. High-traffic pages typically:
+
+- **Answer common questions** in your industry comprehensively
+- **Provide unique value** that AI models recognize and recommend
+- **Match user intent** for specific queries or problems
+- **Maintain high quality** that earns AI platform trust
+
+**Why it matters**: Understanding which content generates actual traffic from AI recommendations helps you:
+
+- **Scale successful content patterns** to create more pages that attract LLM referrals
+- **Optimize high-performing pages** to capture even more AI-driven traffic
+- **Identify content gaps** where competitors might be capturing traffic you're missing
+
+### Device Breakdown
+
+Understand how users access your LLM-recommended content across different devices.
+
+**What you're seeing**: Session counts broken down by device type (Desktop, Mobile, Tablet).
+
+**What it means**: This reveals user behavior patterns for AI-referred traffic:
+
+- **Desktop dominance**: Users often access detailed content on larger screens
+- **Mobile usage**: Quick reference checks or on-the-go access
+- **Cross-device patterns**: How AI recommendations translate across different usage contexts
+
+**Why it matters**: Device insights help optimize your content experience:
+
+- **Responsive design priorities**: Ensure your best-performing pages work well on the dominant device types
+- **Content formatting**: Adapt detailed content for mobile if that's where users are accessing it
+- **User experience optimization**: Tailor the experience for how users actually consume AI-recommended content
+
+### Recent LLM Referrals
+
+Monitor real-time traffic from AI platforms with individual session details.
+
+**What you're seeing**: A live log of recent sessions including:
+
+- **LLM platform**: Which AI service referred the user
+- **Page path**: Where the user landed on your site
+- **Timestamp**: When the referral occurred
+
+**What it means**: This provides immediate visibility into:
+
+- **Current AI recommendation activity** for your content
+- **Popular landing pages** that AI models are actively recommending
+- **Platform-specific patterns** in recommendation timing and frequency
+
+**Why it matters**:
+
+- **Content performance monitoring**: See which new content starts attracting AI referrals
+- **Optimization opportunities**: Identify pages that could benefit from immediate improvements
+- **Trend identification**: Spot emerging patterns in how AI platforms recommend your content
+
+### Date Range Analysis
+
+Filter traffic data by specific time periods to identify trends and measure impact.
+
+**Strategic applications:**
+
+- **Campaign correlation**: Measure how content marketing efforts influence AI recommendation rates
+- **Content launch impact**: Track how quickly new content starts generating AI referrals
+- **Seasonal patterns**: Identify when AI platforms most actively recommend content in your industry
+
+## Strategic Applications
+
+### Content Performance Optimization
+
+Traffic analytics provides unique insights into which content actually drives business value through AI recommendations. By analyzing your most-visited pages from LLM referrals, you can identify the characteristics that make content recommendable by AI platforms. Look for patterns in topic depth, content structure, information comprehensiveness, and user value that distinguish high-performing pages.
+
+Successful AI-recommended content typically provides complete, authoritative answers to specific questions or problems. Unlike traditional SEO content that might target keywords, AI-recommended content needs to deliver immediate, actionable value that AI models can confidently recommend to users seeking solutions.
+
+Use traffic data to guide your content expansion strategy. Pages that consistently generate LLM referrals indicate topics where you have established authority that AI models recognize. Create related content that builds on these successful themes, addressing adjacent questions or diving deeper into subtopics.
+
+### Platform-Specific Strategy Development
+
+Different AI platforms serve different user needs and contexts, leading to varying recommendation patterns. ChatGPT traffic might indicate users seeking conversational explanations or creative applications of your expertise. Perplexity referrals often come from users researching specific facts or looking for authoritative sources. Claude traffic may indicate users working on complex problems requiring detailed analysis.
+
+Understanding these platform-specific patterns helps you tailor content for maximum impact. Create comprehensive guides and detailed explanations for platforms that favor thorough content, while developing quick-reference resources for platforms that recommend concise, actionable information.
+
+Monitor which platforms consistently drive traffic to specific types of content. This reveals how different AI models perceive and categorize your expertise, helping you understand your positioning in the AI recommendation ecosystem.
+
+### User Experience and Conversion Optimization
+
+LLM-referred users arrive at your site with specific expectations set by the AI platform's recommendation context. These users typically have clear intent and are looking for immediate value rather than browsing generally. This makes them high-quality traffic with strong conversion potential if their experience matches their expectations.
+
+Optimize your highest-traffic pages from LLM referrals for immediate value delivery. Ensure these pages load quickly, provide clear information hierarchy, and offer next steps that match user intent. Since users arrive with specific questions or problems, make sure your content addresses these directly without requiring extensive navigation.
+
+Consider the device breakdown when optimizing for LLM-referred traffic. If most referrals come through mobile devices, prioritize mobile-first design for your top-performing pages. Desktop-heavy traffic suggests users are engaging with detailed, comprehensive content that requires larger screens for optimal consumption.
+
+### Competitive Intelligence and Market Positioning
+
+Traffic analytics reveals how AI platforms perceive your competitive positioning by showing which content they actively recommend to users. Pages that consistently generate referrals indicate areas where AI models view you as an authoritative source worth recommending over competitors.
+
+Monitor traffic patterns after major content launches, industry events, or competitive developments. Changes in referral volume or platform distribution can indicate shifts in how AI models assess your expertise relative to competitors in your space.
+
+Use traffic data to identify content gaps where competitors might be capturing AI recommendations that you're missing. If certain topics in your industry generate minimal LLM referrals despite strong traditional traffic, investigate whether your content approach matches what AI models prefer to recommend.
+
+## Best Practices
+
+### Interpreting Traffic Patterns
+
+Focus on sustained traffic patterns rather than isolated spikes when evaluating content performance. Consistent LLM referrals over time indicate that AI models have established confidence in your content's value and reliability. Temporary spikes might reflect current events or trending topics, while steady traffic suggests evergreen value that AI platforms consistently recognize.
+
+Consider the context of referral timing when analyzing traffic data. AI platforms may recommend different types of content based on broader conversation patterns, industry news cycles, or seasonal information needs. Understanding these external factors helps you interpret traffic fluctuations and plan content timing strategically.
+
+Cross-reference traffic analytics with your traditional website analytics to understand the complete user journey. LLM-referred users often have different engagement patterns than search-driven traffic, typically showing higher intent but potentially shorter initial session times as they quickly find the specific information they need.
+
+### Content Optimization for AI Recommendations
+
+Structure your content to maximize AI recommendation potential by providing clear, comprehensive answers to specific questions. AI models prefer content that stands alone and provides complete information without requiring users to navigate to multiple pages for full understanding.
+
+Maintain high content quality and accuracy since AI platforms are increasingly selective about the sources they recommend. Regular updates to your highest-performing pages help maintain their recommendation worthiness as AI models refresh their understanding of current, reliable information sources.
+
+Consider the user intent behind AI-driven searches when creating new content. Users asking AI platforms for recommendations typically want actionable, specific information rather than general overviews. Design your content to provide immediate value while offering pathways for deeper engagement with your brand.
+
+### Technical Considerations
+
+Ensure your highest-performing pages from LLM referrals load quickly and function well across all device types shown in your traffic breakdown. Since AI-referred users arrive with specific expectations, technical issues can immediately derail their experience and reduce the likelihood of future AI recommendations.
+
+Monitor how quickly new content begins generating LLM referrals as an indicator of content quality and topic relevance. Content that quickly attracts AI recommendations demonstrates strong alignment with current user needs and AI platform preferences.
+
+Maintain consistent tracking implementation across all pages to ensure accurate traffic attribution. The same tracking pixel that captures crawler activity automatically detects LLM referrals, providing comprehensive insight into how AI platforms interact with your content at both the data collection and user recommendation levels.
+
+---
+
+<Card title="Crawler Analytics" icon="globe" href="/crawler-analytics">
+  Learn how to track AI training crawler activity on your website
+</Card>
+
+<Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores">
+  Discover how Visibility and Presence scores complement traffic insights
+</Card>
