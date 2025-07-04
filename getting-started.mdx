@@ -12,9 +12,9 @@ Think of it as "SEO for AI." Instead of tracking Google search rankings, we trac
 - Measure the impact of your marketing efforts on AI visibility.
 - Identify emerging competitors that AI models favor.
 
-## How Trakkr Works: The Core Concepts
+## How Trakkr works: The core concepts
 
-The main challenge in AI visibility is that measurement is tough. To solve this, Trakkr is built on a foundation of consistent, repeatable measurement.
+The main challenge in AI visibility is that measurement is tough. There is no central database that we can pull visibility numbers from. To solve this, Trakkr queries AI models with the same consistent set of prompts each day, and tracks changes over time.
 
 ### 1. Prompts as a Proxy for Visibility
 
@@ -36,17 +36,17 @@ From this data, we calculate two main scores:
 Get your first AI brand tracking report by following this simple setup process.
 
 <Steps>
-  <Step title="Analyze Your Site">
+  <Step title="Analyze your site">
     Trakkr starts by analyzing your website to understand your brand and suggest relevant prompts.
   </Step>
-  <Step title="Confirm Your Brand">
+  <Step title="Confirm your brand">
     Confirm your brand name and a brief description to ensure tracking accuracy.
   </Step>
-  <Step title="Choose Your Prompts">
-    Select from a list of suggested prompts or add your own. Start with 3-5 broad prompts that cover your main product categories.
+  <Step title="Choose your prompts">
+    Select from a list of suggested prompts or add your own. Start with 5 broad prompts that cover your main product categories.
   </Step>
-  <Step title="Generate Your First Report">
-    Trakkr queries the AI models, which takes about 30 seconds. Your dashboard will then be ready with your initial visibility and presence scores.
+  <Step title="Generate your first report">
+    Trakkr queries the AI models, which takes about 60 seconds. Your dashboard will then be ready with your initial visibility and presence scores.
   </Step>
 </Steps>
 
@@ -58,10 +58,14 @@ We've run the numbers on support questions, and these are the ones that get aske
   <Accordion title="Why are my visibiltiy and presence both zero?">
     If both your visibility and presence scores are zero, it means that for the specific set of prompts Trakkr is using to monitor your brand, your brand was not mentioned in any of the responses from the AI models we track. \
     \
-    This could be because the AI models do not currently associate your brand with the topics covered in the prompts. It's a strong indicator that there is an opportunity to improve your brand's visibility within these AI systems.
+    This could be because the AI models do not currently associate your brand with the topics covered in the prompts. It's a strong indicator that there is an opportunity to improve your brand's visibility within these AI systems.\
+    \
+    You may also want to consider changing your prompts to reflect the sub-industry or geography that you care about most. If you're a restaurant based in New York, you're unlikely to ever appear on any _best restaurant_ type prompts. In this case, you should consider editing your prompts to refer to _best restaurants in New York_. Not only will this be a more accurate reflection of the sorts of queries your customers are likely to actually use, but this is more likely to give you data which you can learn from.
   </Accordion>
   <Accordion title="Trakkr says I have visibility zero, but ChatGPT mentions me...">
-    ChatGPT and other model UIs can be heavily influenced by context, and what the model knows about you. Mentioning your brand in conversation with ChatGPT at any point can bias it towards mentioning your brand in responses it gives you.
+    ChatGPT and other model UIs can be heavily influenced by context, and what the model knows about you. Mentioning your brand in conversation with ChatGPT at any point can bias it towards mentioning your brand in responses it gives you. 
+
+    If you work for a brand, chances are that you've mentioned either the brand itself or contextual clues in past conversations. This means that inserting one of Trakkr's prompts into ChatGPT will give you (and only you) very different results to other users.
 
     Trakkr works by interacting with the raw model APIs; stripping out any bias from your past conversations. This provides the truest possible view of model visibility, and will accurately reflect what your customers see in their conversations.
   </Accordion>
