@@ -193,25 +193,25 @@ Returns all brands accessible with your API key.
 
 ## Frequently Asked Questions
 
-### Why is my visibility/presence over 100?
-
+<AccordionGroup>
+<Accordion title="Why is my visibility/presence over 100?">
 This typically occurs when you've selected a breakdown option but the data is being aggregated. When you break down by model or prompt, the connector may aggregate scores across multiple data points, which can result in values exceeding 100. To get accurate individual scores:
 
 - Use specific breakdowns (model OR prompt, not both)
 - Check that you're not accidentally aggregating across multiple dimensions
 - Verify your date range isn't too broad
+</Accordion>
 
-### Why don't I have visibility/presence score with model prompt breakdown?
-
+<Accordion title="Why don't I have visibility/presence score with model prompt breakdown?">
 The model-prompt breakdown doesn't include visibility and presence scores because these are aggregate metrics that don't make sense at the individual query level. For each specific model-prompt combination:
 
 - **Presence** would always be either 100% (if mentioned) or 0% (if not mentioned)
 - **Visibility** is an aggregate metric across multiple queries
 
 Instead, the model-prompt breakdown provides the `model_prompt_rank` field, which shows your brand's average position in responses for that specific combination.
+</Accordion>
 
-### Where do I find my brand ID?
-
+<Accordion title="Where do I find my brand ID?">
 You can find your brand ID in several ways:
 
 1. **Using the API directly**:
@@ -228,25 +228,27 @@ You can find your brand ID in several ways:
    - Use the `/get-brands` endpoint to list all accessible brands
 
 Brand IDs are 32-character hexadecimal strings that uniquely identify each brand in the Trakkr system.
+</Accordion>
 
-### How often does the data refresh?
-
+<Accordion title="How often does the data refresh?">
 The connector fetches data in real-time, but Trakkr implements caching on the back-end. This means that your data may be up to 180 minutes old. Trakkr implements caching to ensure that your dashboards load as quickly as possible.
+</Accordion>
 
-### Can I use multiple brands in one dashboard?
-
+<Accordion title="Can I use multiple brands in one dashboard?">
 Currently, the connector is designed to work with one brand per data source. To create a multi-brand dashboard:
 
 1. Create separate data sources for each brand
 2. Use the same connector configuration but with different brand IDs
 3. Combine the data sources in your Looker Studio report
+</Accordion>
 
-### What's the difference between visibility and presence scores?
-
+<Accordion title="What's the difference between visibility and presence scores?">
 - **Visibility Score**: Measures how often your brand is mentioned across AI responses (0-100 scale)
 - **Presence Score**: Measures the quality and context of those mentions (0-100% scale)
 
 A high visibility score means your brand is frequently mentioned, while a high presence score indicates those mentions are in positive or relevant contexts.
+</Accordion>
+</AccordionGroup>
 
 ## Support
 
