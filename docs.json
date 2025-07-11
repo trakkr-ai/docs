@@ -11,7 +11,7 @@
  "navigation": {
    "tabs": [
      {
-       "tab": "Documentation",
+       "tab": "Guides",
        "groups": [
          {
            "group": "Getting Started",
@@ -38,6 +38,38 @@
              "traffic-analytics",
              "citations",
              "teams"
+           ]
+         }
+       ]
+     },
+     {
+       "tab": "API",
+       "groups": [
+         {
+           "group": "Getting Started",
+           "pages": [
+             "introduction",
+             "authentication"
+           ]
+         },
+         {
+           "group": "API Reference",
+           "pages": [
+             "api-reference/get-scores"
+           ]
+         },
+         {
+           "group": "Guides",
+           "pages": [
+             "guides/breakdowns",
+             "guides/date-ranges",
+             "guides/response-formats"
+           ]
+         },
+         {
+           "group": "Errors",
+           "pages": [
+             "errors"
            ]
          }
        ]
