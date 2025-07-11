@@ -51,12 +51,15 @@
         "groups": [
           {
             "group": "Getting Started",
-            "expanded": true,
             "pages": [
               "api-reference/introduction",
               "api-reference/authentication",
               "api-reference/errors"
-            ],
+            ]
+          },
+          {
+            "group": "API Endpoints",
+            "expanded": true,
             "openapi": {
               "source": "openapi.yaml",
               "directory": "api"
