@@ -13,49 +13,55 @@ servers:
     description: Production server
 paths:
   /get-scores:
-    post:
+    get:
       summary: Get historical brand scores
       description: Retrieve historical brand visibility and presence scores with optional breakdowns by AI model and/or prompt.
       operationId: getScores
       security:
         - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - brand
-              properties:
-                brand:
-                  type: string
-                  description: The brand ID (32-character string in format: 0000000000000x000000000000000000)
-                  example: "0000000000000x000000000000000000"
-                breakdown:
-                  type: array
-                  items:
-                    type: string
-                    enum: 
-                      - model
-                      - prompt
-                  description: Array of breakdown types. Valid values: ["model"], ["prompt"], or ["model", "prompt"]
-                  example: 
-                    - "model"
-                start_date:
-                  type: string
-                  format: date
-                  description: Start date in YYYY-MM-DD format. If not provided, defaults to 28 days before end_date
-                  example: "2025-01-01"
-                end_date:
-                  type: string
-                  format: date
-                  description: End date in YYYY-MM-DD format. If not provided, defaults to the most recent report date
-                  example: "2025-01-31"
-                cache:
-                  type: boolean
-                  description: Whether to use cached results
-                  default: true
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The brand ID (32-character string in format: 0000000000000x000000000000000000)
+          example: "0000000000000x000000000000000000"
+        - name: breakdown
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: 
+                - model
+                - prompt
+          description: Array of breakdown types. Valid values: ["model"], ["prompt"], or ["model", "prompt"]
+          example: 
+            - "model"
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Start date in YYYY-MM-DD format. If not provided, defaults to 28 days before end_date
+          example: "2025-01-01"
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: End date in YYYY-MM-DD format. If not provided, defaults to the most recent report date
+          example: "2025-01-31"
+        - name: cache
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Whether to use cached results
       responses:
         '200':
           description: Successful response
