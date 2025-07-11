@@ -535,20 +535,20 @@ components:
             visibility: 85.50
             presence: 92.30
             models:
-              - model: "GPT-4"
+              - model: "OpenAI"
                 visibility: 88.20
                 presence: 94.10
-              - model: "Claude"
+              - model: "Anthropic"
                 visibility: 82.80
                 presence: 90.50
           - date: "2025-01-02"
             visibility: 87.20
             presence: 91.80
             models:
-              - model: "GPT-4"
+              - model: "OpenAI"
                 visibility: 89.10
                 presence: 93.50
-              - model: "Claude"
+              - model: "Anthropic"
                 visibility: 85.30
                 presence: 90.10
         errors: null
@@ -564,10 +564,10 @@ components:
             visibility: 85.50
             presence: 92.30
             models:
-              - model: "GPT-4"
+              - model: "OpenAI"
                 visibility: 88.20
                 presence: 94.10
-              - model: "Claude"
+              - model: "Anthropic"
                 visibility: 82.80
                 presence: 90.50
             prompts:
@@ -580,16 +580,16 @@ components:
                 presence: 89.40
                 prompt: "Compare top investment platforms"
             model_prompt_breakdown:
-              - model: "GPT-4"
+              - model: "OpenAI"
                 prompt: "What are the best financial services companies?"
                 rank: 3
-              - model: "GPT-4"
+              - model: "OpenAI"
                 prompt: "Compare top investment platforms"
                 rank: null
-              - model: "Claude"
+              - model: "Anthropic"
                 prompt: "What are the best financial services companies?"
                 rank: 5
-              - model: "Claude"
+              - model: "Anthropic"
                 prompt: "Compare top investment platforms"
                 rank: 2
         errors: null
