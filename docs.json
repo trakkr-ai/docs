@@ -58,13 +58,6 @@
           },
           {
             "group": "API Endpoints",
-            "pages": [
-              "api-reference/v1/get-scores",
-              "api-reference/v1/get-brands"
-            ]
-          },
-          {
-            "group": "API Endpoints2",
             "openapi": {
             "source": "openapi.yaml",
             "directory": "api"
