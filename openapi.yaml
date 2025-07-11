@@ -51,15 +51,19 @@ paths:
               enum: 
                 - model
                 - prompt
-            minItems: 1
+            minItems: 0
             maxItems: 2
             uniqueItems: true
           description: |
             Array of breakdown types. Valid values: 
+            - `[]` - Daily time-series data, not broken down
             - `["model"]` - Break down by AI model
             - `["prompt"]` - Break down by prompt
             - `["model", "prompt"]` - Break down by both
           examples:
+            top_level:
+              value: []
+              summary: Not broken down
             model_only:
               value: ["model"]
               summary: Model breakdown only
@@ -87,13 +91,6 @@ paths:
             pattern: '^\d{4}-\d{2}-\d{2}$'
           description: End date in YYYY-MM-DD format. If not provided, defaults to the most recent report date
           example: "2025-01-31"
-        - name: cache
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-          description: Whether to use cached results. Set to false to force fresh data retrieval
       responses:
         '200':
           description: Successful response
