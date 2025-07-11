@@ -34,12 +34,9 @@ paths:
             type: array
             items:
               type: string
-              enum: 
-                - model
-                - prompt
+              enum: [model, prompt]
           description: Array of breakdown types. Valid values: ["model"], ["prompt"], or ["model", "prompt"]
-          example: 
-            - "model"
+          example: ["model"]
         - name: start_date
           in: query
           required: false
@@ -89,8 +86,7 @@ paths:
                     description: The breakdown types that were requested
                     items:
                       type: string
-                    example: 
-                      - "model"
+                    example: ["model"]
                   data:
                     type: array
                     description: Array of daily report data
