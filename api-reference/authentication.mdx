@@ -1,0 +1,161 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate with the Trakkr API using API keys'
+---
+
+# Authentication
+
+The Trakkr API uses API key authentication to secure your requests. All API requests must include your API key in the Authorization header.
+
+## Getting Your API Key
+
+1. Visit [trakkr.ai/api](https://trakkr.ai/api)
+2. Sign in to your account
+3. Generate a new API key
+4. Copy the key and keep it secure
+
+<Warning>
+  **Keep your API key secure!** Never share your API key publicly or commit it to version control. If your key is compromised, regenerate it immediately.
+</Warning>
+
+## Using Your API Key
+
+Include your API key in the `Authorization` header of all requests using the Bearer token format:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Example Request
+
+<CodeGroup>
+
+```bash
+curl -X POST https://api.trakkr.ai/get-scores \
+  -H "Authorization: Bearer sk_live_1234567890abcdef" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "brand": "0000000000000x000000000000000000",
+    "breakdown": ["model"]
+  }'
+```
+
+```javascript
+const response = await fetch('https://api.trakkr.ai/get-scores', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sk_live_1234567890abcdef',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    brand: '0000000000000x000000000000000000',
+    breakdown: ['model']
+  })
+});
+```
+
+```python
+import requests
+
+response = requests.post(
+    'https://api.trakkr.ai/get-scores',
+    headers={
+        'Authorization': 'Bearer sk_live_1234567890abcdef',
+        'Content-Type': 'application/json'
+    },
+    json={
+        'brand': '0000000000000x000000000000000000',
+        'breakdown': ['model']
+    }
+)
+```
+
+</CodeGroup>
+
+## API Key Format
+
+Your API key should be a 32-character string in the format:
+
+```
+0000000000000x000000000000000000
+```
+
+## Team Access
+
+If you're part of a team, your API key will have access to:
+
+- **Your own brands**: Brands you've created or been given access to
+- **Team owner's brands**: If you're not the team owner, you'll also have access to brands owned by your team's owner
+
+<Note>
+  **Team members**: Your access is determined by your team role and the brands assigned to your team owner.
+</Note>
+
+## Error Responses
+
+If authentication fails, you'll receive one of these error responses:
+
+### Missing API Key
+
+```json
+{
+  "error": "Missing API key",
+  "errors": ["API key must be provided in the Authorization header as 'Bearer <api_key>'"]
+}
+```
+
+**Status Code:** `401 Unauthorized`
+
+### Invalid API Key
+
+```json
+{
+  "error": "Invalid API key",
+  "errors": ["No accounts found for this API key"]
+}
+```
+
+**Status Code:** `403 Forbidden`
+
+### Authentication Error
+
+```json
+{
+  "error": "Authentication error",
+  "errors": ["Could not validate API key against database"]
+}
+```
+
+**Status Code:** `500 Internal Server Error`
+
+## Security Best Practices
+
+1. **Use HTTPS**: Always make requests over HTTPS
+2. **Keep keys secure**: Store API keys in environment variables or secure key management systems
+3. **Rotate regularly**: Regenerate your API key periodically
+4. **Monitor usage**: Check your API usage regularly for any suspicious activity
+5. **Use different keys**: Consider using different API keys for different applications or environments
+
+## Environment Variables
+
+Store your API key in environment variables:
+
+```bash
+# .env file
+TRAKKR_API_KEY=sk_live_1234567890abcdef
+```
+
+```javascript
+// JavaScript
+const apiKey = process.env.TRAKKR_API_KEY;
+```
+
+```python
+# Python
+import os
+api_key = os.environ.get('TRAKKR_API_KEY')
+```
+
+<Note>
+  **Need to regenerate your key?** Visit your [API settings](https://trakkr.ai/api) to create a new key and invalidate the old one.
+</Note> 

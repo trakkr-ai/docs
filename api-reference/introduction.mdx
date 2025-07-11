@@ -1,33 +1,135 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Welcome to the Trakkr API - Monitor your brand visibility across AI models and prompts'
 ---
 
+# Welcome to Trakkr API
+
+Trakkr helps you monitor your brand's visibility and presence across different AI models and prompts. Our API provides historical data to track how your brand performs over time in AI-generated content.
+
+## What is Trakkr?
+
+Trakkr analyzes AI model outputs to track brand mentions, rankings, and visibility. We help you understand:
+
+- **Brand Visibility**: How often your brand appears in AI-generated content
+- **Brand Presence**: The quality and context of your brand mentions
+- **Model Performance**: How different AI models handle your brand
+- **Prompt Analysis**: Which prompts lead to better brand representation
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card
+    title="Historical Data"
+    icon="clock"
+    href="/guides/date-ranges"
+  >
+    Access up to 90 days of historical brand performance data with flexible date ranges.
+  </Card>
+  <Card
+    title="Multiple Breakdowns"
+    icon="layers"
+    href="/guides/breakdowns"
+  >
+    Analyze data by AI model, prompt, or both to understand what drives your brand visibility.
+  </Card>
+  <Card
+    title="Real-time Monitoring"
+    icon="activity"
+    href="/api-reference/get-scores"
+  >
+    Get current and historical scores to track trends and identify opportunities.
+  </Card>
+  <Card
+    title="Team Access"
+    icon="users"
+    href="/authentication"
+  >
+    Share access with team members while maintaining secure API key authentication.
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+1. **Get your API key** from [trakkr.ai/api](https://trakkr.ai/api)
+2. **Try the interactive playground** to test endpoints directly in the documentation
+3. **Make your first request** to get historical scores
+4. **Explore breakdowns** to understand your data better
+
+<CodeGroup>
+
+```bash
+curl -X POST https://api.trakkr.ai/get-scores \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "brand": "0000000000000x000000000000000000",
+    "breakdown": ["model"],
+    "start_date": "2024-01-01",
+    "end_date": "2024-01-31"
+  }'
+```
+
+```javascript
+const response = await fetch('https://api.trakkr.ai/get-scores', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    brand: '0000000000000x000000000000000000',
+    breakdown: ['model'],
+    start_date: '2024-01-01',
+    end_date: '2024-01-31'
+  })
+});
+
+const data = await response.json();
+```
+
+```python
+import requests
+
+response = requests.post(
+    'https://api.trakkr.ai/get-scores',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    json={
+        'brand': '0000000000000x000000000000000000',
+        'breakdown': ['model'],
+        'start_date': '2024-01-01',
+        'end_date': '2024-01-31'
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.trakkr.ai
+```
+
+## Data Format
+
+All requests and responses use JSON format with UTF-8 encoding. Dates are formatted as `YYYY-MM-DD` strings.
+
+## Rate Limits
+
+The API is designed to handle your monitoring needs efficiently. For optimal performance, we recommend reasonable request patterns and utilize the built-in caching for frequently accessed data.
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  **Try it live!** Use our interactive API playground to test endpoints directly in the documentation. Just click "Try it" on any endpoint page.
 </Note>
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
-
-## Authentication
-
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+<Note>
+  **Need help?** Check out our [authentication guide](/authentication) or [contact support](mailto:support@trakkr.ai) if you have questions.
+</Note> 
