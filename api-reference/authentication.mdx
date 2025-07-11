@@ -1,9 +1,7 @@
 ---
-title: 'Authentication'
-description: 'Learn how to authenticate with the Trakkr API using API keys'
+title: "Authentication"
+description: "Learn how to authenticate with the Trakkr API using API keys"
 ---
-
-# Authentication
 
 The Trakkr API uses API key authentication to secure your requests. All API requests must include your API key in the Authorization header.
 
@@ -15,7 +13,7 @@ The Trakkr API uses API key authentication to secure your requests. All API requ
 4. Copy the key and keep it secure
 
 <Warning>
-  **Keep your API key secure!** Never share your API key publicly or commit it to version control. If your key is compromised, regenerate it immediately.
+  **Keep your API key secure\!** Never share your API key publicly or commit it to version control.
 </Warning>
 
 ## Using Your API Key
@@ -40,6 +38,7 @@ curl -X POST https://api.trakkr.ai/get-scores \
   }'
 ```
 
+
 ```javascript
 const response = await fetch('https://api.trakkr.ai/get-scores', {
   method: 'POST',
@@ -53,6 +52,7 @@ const response = await fetch('https://api.trakkr.ai/get-scores', {
   })
 });
 ```
+
 
 ```python
 import requests
@@ -74,22 +74,11 @@ response = requests.post(
 
 ## API Key Format
 
-Your API key should be a 32-character string in the format:
+Your API key should be in the following format:
 
 ```
-0000000000000x000000000000000000
+sk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
-
-## Team Access
-
-If you're part of a team, your API key will have access to:
-
-- **Your own brands**: Brands you've created or been given access to
-- **Team owner's brands**: If you're not the team owner, you'll also have access to brands owned by your team's owner
-
-<Note>
-  **Team members**: Your access is determined by your team role and the brands assigned to your team owner.
-</Note>
 
 ## Error Responses
 
@@ -132,9 +121,6 @@ If authentication fails, you'll receive one of these error responses:
 
 1. **Use HTTPS**: Always make requests over HTTPS
 2. **Keep keys secure**: Store API keys in environment variables or secure key management systems
-3. **Rotate regularly**: Regenerate your API key periodically
-4. **Monitor usage**: Check your API usage regularly for any suspicious activity
-5. **Use different keys**: Consider using different API keys for different applications or environments
 
 ## Environment Variables
 
@@ -158,4 +144,4 @@ api_key = os.environ.get('TRAKKR_API_KEY')
 
 <Note>
   **Need to regenerate your key?** Visit your [API settings](https://trakkr.ai/api) to create a new key and invalidate the old one.
-</Note> 
+</Note>
