@@ -1,126 +1,132 @@
 {
- "$schema": "https://mintlify.com/docs.json",
- "theme": "mint",
- "name": "Trakkr Documentation",
- "colors": {
-   "primary": "#0E9373",
-   "light": "#10B981",
-   "dark": "#047857"
- },
- "favicon": "/favicon.png",
- "navigation": {
-   "tabs": [
-     {
-       "tab": "Guides",
-       "groups": [
-         {
-           "group": "Getting Started",
-           "pages": [
-             "getting-started",
-             "plans"
-           ]
-         },
-         {
-           "group": "Using Trakkr",
-           "pages": [
-             "understanding-scores",
-             "intelligence",
-             "reading-reports",
-             "working-with-prompts",
-             "troubleshooting"
-           ]
-         },
-         {
-           "group": "Advanced Features",
-           "pages": [
-             "sentiment-analysis",
-             "crawler-analytics",
-             "traffic-analytics",
-             "citations",
-             "teams"
-           ]
-         }
-       ]
-     },
-     {
-       "tab": "API",
-       "groups": [
-         {
-           "group": "Getting Started",
-           "pages": [
-             "introduction",
-             "authentication"
-           ]
-         },
-         {
-           "group": "API Reference",
-           "pages": [
-             "api-reference/get-scores"
-           ]
-         },
-         {
-           "group": "Guides",
-           "pages": [
-             "guides/breakdowns",
-             "guides/date-ranges",
-             "guides/response-formats"
-           ]
-         },
-         {
-           "group": "Errors",
-           "pages": [
-             "errors"
-           ]
-         }
-       ]
-     }
-   ],
-   "global": {
-     "anchors": [
-       {
-         "anchor": "Open Trakkr",
-         "href": "https://trakkr.ai/overview",
-         "icon": "chart-line"
-       },
-       {
-         "anchor": "Support",
-         "href": "mailto:mack@trakkr.ai",
-         "icon": "headset"
-       },
-       {
-         "anchor": "Feature Requests",
-         "href": "https://trakkr.featurebase.app/roadmap",
-         "icon": "lightbulb"
-       }
-     ]
-   }
- },
- "logo": {
-   "light": "/favicon.png",
-   "dark": "/favicon.png"
- },
- "navbar": {
-   "links": [
-     {
-       "label": "Contact Support",
-       "href": "mailto:mack@trakkr.ai"
-     }
-   ],
-   "primary": {
-     "type": "button",
-     "label": "Go to Dashboard",
-     "href": "https://trakkr.ai/overview"
-   }
- },
- "footer": {
-   "socials": {}
- },
- "search": {
-   "prompt": "Search Trakkr docs..."
- },
- "feedback": {
-   "thumbsRating": true,
-   "suggestEdit": true,
-   "raiseIssue": true
- }
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Trakkr Documentation",
+  "colors": {
+    "primary": "#0E9373",
+    "light": "#10B981",
+    "dark": "#047857"
+  },
+  "favicon": "/favicon.png",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "getting-started",
+              "plans"
+            ]
+          },
+          {
+            "group": "Using Trakkr",
+            "pages": [
+              "understanding-scores",
+              "intelligence",
+              "reading-reports",
+              "working-with-prompts",
+              "troubleshooting"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "sentiment-analysis",
+              "crawler-analytics",
+              "traffic-analytics",
+              "citations",
+              "teams"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": []
+          },
+          {
+            "group": "Errors",
+            "pages": [
+              "api-reference/errors"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Open Trakkr",
+          "href": "https://trakkr.ai/overview",
+          "icon": "chart-line"
+        },
+        {
+          "anchor": "Support",
+          "href": "mailto:mack@trakkr.ai",
+          "icon": "headset"
+        },
+        {
+          "anchor": "Feature Requests",
+          "href": "https://trakkr.featurebase.app/roadmap",
+          "icon": "lightbulb"
+        }
+      ]
+    }
+  },
+  "openapi": {
+    "spec": "openapi.yaml"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Contact Support",
+        "href": "mailto:mack@trakkr.ai"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Go to Dashboard",
+      "href": "https://trakkr.ai/overview"
+    }
+  },
+  "footer": {
+    "socials": {
+      "twitter": "https://twitter.com/trakkr_ai",
+      "github": "https://github.com/trakkr-ai"
+    }
+  },
+  "search": {
+    "prompt": "Search Trakkr docs..."
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "api": {
+    "playground": {
+      "display": "interactive",
+      "proxy": true
+    },
+    "examples": {
+      "languages": ["curl", "javascript", "python"],
+      "defaults": "required"
+    }
+  }
 }
