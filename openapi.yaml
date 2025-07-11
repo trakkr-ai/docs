@@ -181,6 +181,7 @@ components:
       type: object
       required:
         - brand_id
+        - brand_name
         - start_date
         - end_date
         - breakdown
@@ -191,6 +192,10 @@ components:
           pattern: '^[0-9a-fx]{32}$'
           description: The brand ID that was queried
           example: "0000000000000x000000000000000000"
+        brand_name:
+          type: string
+          description: The human-readable brand name
+          example: "Acme Corporation"
         start_date:
           type: string
           format: date
