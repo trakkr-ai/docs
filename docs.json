@@ -61,8 +61,7 @@
             "group": "API Endpoints",
             "expanded": true,
             "openapi": {
-              "source": "openapi.yaml",
-              "directory": "api"
+              "source": "openapi.yaml"
             }
           }
         ]

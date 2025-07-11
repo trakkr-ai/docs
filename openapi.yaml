@@ -122,7 +122,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /get-brands:
     get:
-      summary: Get accessible brands
+      summary: Get brands
       description: Retrieve list of brands accessible to your API key
       operationId: getBrands
       parameters:
