@@ -38,16 +38,22 @@
             "group": "Advanced Features",
             "pages": [
               "sentiment-analysis",
-              "crawler-analytics",
-              "traffic-analytics",
+              {
+                "group": "Trakkr Pixel",
+                "expanded": false,
+                "pages": [
+                  "traffic-analytics",
+                  "crawler-analytics"
+                ]
+              },
               "citations",
               "teams",
               {
                 "group": "Integrations",
                 "expanded": false,
                 "pages": [
-                  "integrations/api",
-                  "integrations/looker-studio"
+                  "api-reference/introduction",
+                  "looker-studio"
                 ]
               }
             ]
