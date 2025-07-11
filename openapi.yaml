@@ -94,13 +94,6 @@ paths:
             End date in YYYY-MM-DD format. If not provided, defaults to the most recent report date for the brand.
             The total date range cannot exceed 90 days.
           example: "2025-01-31"
-        - name: cache
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-          description: Whether to use cached results. Set to false to force fresh data retrieval
       responses:
         '200':
           description: Successful response
