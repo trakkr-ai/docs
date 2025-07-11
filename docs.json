@@ -41,7 +41,15 @@
               "crawler-analytics",
               "traffic-analytics",
               "citations",
-              "teams"
+              "teams",
+              {
+                "group": "Integrations",
+                "expanded": false,
+                "pages": [
+                  "integrations/api",
+                  "integrations/looker-studio"
+                ]
+              }
             ]
           }
         ]

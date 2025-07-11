@@ -1,0 +1,256 @@
+---
+title: "Looker Studio"
+description: "Connect Trakkr data to Looker Studio for advanced brand visibility analytics and reporting"
+---
+
+Connect your Trakkr brand visibility data directly to Looker Studio (formerly Google Data Studio) to create powerful dashboards and reports. This community connector allows you to visualize your brand's presence across AI models and prompts in real-time.
+
+## Overview
+
+The Trakkr Looker Studio Connector provides access to:
+
+- **Brand Scores**: Time-series data showing visibility and presence metrics
+- **Brand List**: Complete list of brands accessible with your API key
+- **Breakdown Options**: Filter data by AI model, prompt, or both
+- **Historical Data**: Up to 90 days of historical brand performance
+
+## Prerequisites
+
+Before setting up the connector, you'll need:
+
+1. [**Trakkr API Key**](https://trakkr.ai/api): A valid API key starting with `sk_live_`
+2. [**Brand ID**](https://learn.trakkr.ai/api-reference/authentication): 32-character hexadecimal brand identifier
+3. **Looker Studio Account**: Access to Google Looker Studio
+
+## Setup Instructions
+
+### Step 1: Get Your API Credentials
+
+1. **Find your API Key**:
+   - Log into your Trakkr [API section](https://trakkr.ai/api)
+   - Copy your key (starts with `sk_live_`)
+2. **Get your Brand ID**:
+   - Use the `/get-brands` [API endpoint](https://learn.trakkr.ai/api-reference/get-brands) to list all accessible brands
+   - Or find it in your [Trakkr API dashboard](https://trakkr.ai/api)
+   - Brand IDs are 32-character hexadecimal strings
+
+### Step 2: Add the Connector to Looker Studio
+
+1. Open [this link](https://datastudio.google.com/datasources/create?connectorId=AKfycbynACMXPwOHl9DT0TX_pauLBIgXpYTn0n1_XMyPi6nKigN2lAixrRTWG_vGz5L-cpWRww&authuser=0) to add Trakkr as a custom data source
+2. Fill in the configuration parameters:
+
+| Parameter             | Description                   | Example                                      |
+| --------------------- | ----------------------------- | -------------------------------------------- |
+| **API Key**           | Your Trakkr API key           | `sk_live_1234567890abcdef...`                |
+| **Brand ID**          | 32-character brand identifier | `0000000000000x000000000000000000`           |
+| **Data Type**         | Choose data to fetch          | `Brand Scores (Time Series)` or `Brand List` |
+| **Breakdown Options** | Optional filtering            | `By Model`, `By Prompt`, or both             |
+| **Date Range**        | Days to look back (max 90)    | `30`                                         |
+
+And then click **"Connect".**\
+Data Types
+
+### Brand Scores (Time Series)
+
+Returns daily visibility and presence metrics for your brand.
+
+**Available Fields:**
+
+- `Date` - Report date (YYYYMMDD format)
+- `Brand ID` - Your brand identifier
+- `Brand Name` - Human-readable brand name
+- `Visibility Score` - Brand visibility metric (0-100)
+- `Presence Score` - Brand presence percentage (0-100%)
+
+**Breakdown Options:**
+
+- **By Model**: Adds AI model-specific metrics
+- **By Prompt**: Adds prompt-specific metrics
+- **Both**: Combines model and prompt breakdowns
+
+### Brand List
+
+Returns all brands accessible with your API key.
+
+**Available Fields:**
+
+- `Brand ID` - Brand identifier
+- `Brand Name` - Human-readable brand name
+
+## Configuration Examples
+
+### Basic Brand Scores Dashboard
+
+```json
+{
+  "apiKey": "sk_live_your_api_key_here",
+  "brandId": "0000000000000x000000000000000000",
+  "dataType": "scores",
+  "breakdown": [],
+  "dateRange": "30"
+}
+```
+
+### Model Breakdown Analysis
+
+```json
+{
+  "apiKey": "sk_live_your_api_key_here",
+  "brandId": "0000000000000x000000000000000000",
+  "dataType": "scores",
+  "breakdown": ["model"],
+  "dateRange": "90"
+}
+```
+
+### Full Breakdown (Model \+ Prompt)
+
+```json
+{
+  "apiKey": "sk_live_your_api_key_here",
+  "brandId": "0000000000000x000000000000000000",
+  "dataType": "scores",
+  "breakdown": ["model", "prompt"],
+  "dateRange": "7"
+}
+```
+
+## Data Field Reference
+
+### Core Metrics
+
+| Field        | Type    | Description               | Range  |
+| ------------ | ------- | ------------------------- | ------ |
+| `visibility` | Number  | Brand visibility score    | 0-100  |
+| `presence`   | Percent | Brand presence percentage | 0-100% |
+
+### Model Breakdown Fields
+
+| Field              | Type    | Description                                 |
+| ------------------ | ------- | ------------------------------------------- |
+| `model`            | String  | AI model name (e.g., "OpenAI", "Anthropic") |
+| `model_visibility` | Number  | Model-specific visibility score             |
+| `model_presence`   | Percent | Model-specific presence percentage          |
+
+### Prompt Breakdown Fields
+
+| Field               | Type    | Description                         |
+| ------------------- | ------- | ----------------------------------- |
+| `prompt_id`         | String  | Unique prompt identifier            |
+| `prompt_text`       | String  | Actual prompt text                  |
+| `prompt_visibility` | Number  | Prompt-specific visibility score    |
+| `prompt_presence`   | Percent | Prompt-specific presence percentage |
+
+### Combined Breakdown Fields
+
+| Field               | Type   | Description                                       |
+| ------------------- | ------ | ------------------------------------------------- |
+| `model`             | String | AI model name                                     |
+| `prompt_text`       | String | Prompt text                                       |
+| `model_prompt_rank` | Number | Average rank in responses (null if not mentioned) |
+
+## Troubleshooting
+
+### Common Issues
+
+**"API Key is required"**
+
+- Ensure your API key is correctly copied
+- Check that the key starts with `sk_live_`
+- Verify the key is active in your Trakkr dashboard
+
+**"Brand ID is required"**
+
+- Use the `/get-brands` endpoint to find your brand ID
+- Ensure the brand ID is exactly 32 characters
+- Verify you have access to the specified brand
+
+**"Date range cannot exceed 90 days"**
+
+- Reduce the date range to 90 days or less
+- Consider using multiple data sources for longer periods
+
+**"API error" responses**
+
+- Check your API key permissions
+- Verify the brand ID is correct
+- Ensure your account has active data for the date range
+
+### Data Quality Issues
+
+**Missing Data Points**
+
+- Some dates may not have data if no reports were generated
+- Check your Trakkr dashboard for data availability
+- Verify the date range contains active data
+
+**Inconsistent Scores**
+
+- Scores may vary between models and prompts
+- Use breakdowns to understand the differences
+- Consider the context of each prompt type
+
+## Frequently Asked Questions
+
+### Why is my visibility/presence over 100?
+
+This typically occurs when you've selected a breakdown option but the data is being aggregated. When you break down by model or prompt, the connector may aggregate scores across multiple data points, which can result in values exceeding 100. To get accurate individual scores:
+
+- Use specific breakdowns (model OR prompt, not both)
+- Check that you're not accidentally aggregating across multiple dimensions
+- Verify your date range isn't too broad
+
+### Why don't I have visibility/presence score with model prompt breakdown?
+
+The model-prompt breakdown doesn't include visibility and presence scores because these are aggregate metrics that don't make sense at the individual query level. For each specific model-prompt combination:
+
+- **Presence** would always be either 100% (if mentioned) or 0% (if not mentioned)
+- **Visibility** is an aggregate metric across multiple queries
+
+Instead, the model-prompt breakdown provides the `model_prompt_rank` field, which shows your brand's average position in responses for that specific combination.
+
+### Where do I find my brand ID?
+
+You can find your brand ID in several ways:
+
+1. **Using the API directly**:
+
+   ```python
+   curl -H "Authorization: Bearer YOUR_API_KEY" \
+        https://api.trakkr.ai/get-brands
+   ```
+2. **In your Trakkr dashboard**:
+   - Navigate to the [API section](https://trakkr.ai/api) of your Trakkr dashboard
+   - Your brand IDs will be listed there
+3. **From the API documentation**:
+   - Visit [trakkr.ai/api](https://trakkr.ai/api)
+   - Use the `/get-brands` endpoint to list all accessible brands
+
+Brand IDs are 32-character hexadecimal strings that uniquely identify each brand in the Trakkr system.
+
+### How often does the data refresh?
+
+The connector fetches data in real-time, but Trakkr implements caching on the back-end. This means that your data may be up to 180 minutes old. Trakkr implements caching to ensure that your dashboards load as quickly as possible.
+
+### Can I use multiple brands in one dashboard?
+
+Currently, the connector is designed to work with one brand per data source. To create a multi-brand dashboard:
+
+1. Create separate data sources for each brand
+2. Use the same connector configuration but with different brand IDs
+3. Combine the data sources in your Looker Studio report
+
+### What's the difference between visibility and presence scores?
+
+- **Visibility Score**: Measures how often your brand is mentioned across AI responses (0-100 scale)
+- **Presence Score**: Measures the quality and context of those mentions (0-100% scale)
+
+A high visibility score means your brand is frequently mentioned, while a high presence score indicates those mentions are in positive or relevant contexts.
+
+## Support
+
+If you encounter issues with the Looker Studio connector:
+
+1. **Check the FAQs** above for common solutions
+2. **Review your configuration** for typos or incorrect values
+3. **Contact Support**: [mack@trakkr.ai](mailto:mack@trakkr.ai)
