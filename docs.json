@@ -58,9 +58,10 @@
           },
           {
             "group": "API Endpoints",
-            "openapi": {
-              "source": "openapi.yaml"
-            }
+            "pages": [
+              "api-reference/v1/get-scores",
+              "api-reference/v1/get-brands"
+            ]
           },
           {
             "group": "Errors",
