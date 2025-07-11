@@ -52,7 +52,6 @@
                 "group": "Integrations",
                 "expanded": false,
                 "pages": [
-                  "api-reference/introduction",
                   "looker-studio"
                 ]
               }
