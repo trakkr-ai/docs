@@ -219,20 +219,6 @@ components:
           description: Array of non-critical error messages (null if no errors)
           items:
             type: string
-        metadata:
-          type: object
-          nullable: true
-          description: Additional metadata about the response (may not be present in all responses)
-          properties:
-            total_days:
-              type: integer
-              description: Total number of days in the response
-            cache_hit:
-              type: boolean
-              description: Whether the response was served from cache
-            processing_time_ms:
-              type: integer
-              description: Processing time in milliseconds
     DailyReport:
       type: object
       required:
@@ -284,7 +270,7 @@ components:
         model:
           type: string
           description: The AI model name
-          example: "GPT-4"
+          example: "OpenAI"
         visibility:
           type: number
           format: float
@@ -338,7 +324,7 @@ components:
         model:
           type: string
           description: The AI model name
-          example: "GPT-4"
+          example: "OpenAI"
         prompt:
           type: string
           description: The prompt text
