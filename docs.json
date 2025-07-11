@@ -51,6 +51,7 @@
         "groups": [
           {
             "group": "Getting Started",
+            "expanded": true,
             "pages": [
               "api-reference/introduction",
               "api-reference/authentication",
