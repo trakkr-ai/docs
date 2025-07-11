@@ -1,0 +1,321 @@
+---
+title: "Get Scores"
+description: "Retrieve historical brand visibility and presence scores"
+api: "https://api.trakkr.ai/get-scores"
+method: "GET"
+openapi: "3.1.0"
+openapiPath: "./openapi.yaml"
+---
+
+## Endpoint
+
+```
+GET https://api.trakkr.ai/get-scores
+```
+
+## Headers
+
+| Header          | Type   | Required | Description                                          |
+| --------------- | ------ | -------- | ---------------------------------------------------- |
+| `Authorization` | string | Yes      | Your API key in Bearer format: `Bearer YOUR_API_KEY` |
+| `Content-Type`  | string | Yes      | Must be `application/json`                           |
+
+## Query Parameters
+
+| Parameter    | Type   | Required | Description                                                                                                |
+| ------------ | ------ | -------- | ---------------------------------------------------------------------------------------------------------- |
+| `brand`      | string | Yes      | The brand ID (32-character string in format: `0000000000000x000000000000000000`)                           |
+| `breakdown`  | array  | No       | Array of breakdown types. Valid values: `["model"]`, `["prompt"]`, or `["model", "prompt"]`. Default: `[]` |
+| `start_date` | string | No       | Start date in YYYY-MM-DD format. If not provided, defaults to 28 days before end_date                      |
+| `end_date`   | string | No       | End date in YYYY-MM-DD format. If not provided, defaults to the most recent report date                    |
+
+## Request Examples
+
+### Basic Request (No Breakdown)
+
+<CodeGroup>
+
+```bash Copy
+curl -X GET "https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+
+```javascript Copy
+const response = await fetch('https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+});
+
+const data = await response.json();
+```
+
+
+```python Copy
+import requests
+
+response = requests.get(
+    'https://api.trakkr.ai/get-scores',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY'
+    },
+    params={
+        'brand': '0000000000000x000000000000000000'
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+### Request with Model Breakdown
+
+<CodeGroup>
+
+```bash
+curl -X GET "https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000&breakdown=%5B%22model%22%5D&start_date=2025-01-01&end_date=2025-01-31" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+
+```javascript
+const response = await fetch('https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000&breakdown=%5B%22model%22%5D&start_date=2025-01-01&end_date=2025-01-31', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+});
+
+const data = await response.json();
+```
+
+
+```python
+import requests
+
+response = requests.get(
+    'https://api.trakkr.ai/get-scores',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY'
+    },
+    params={
+        'brand': '0000000000000x000000000000000000',
+        'breakdown': ['model'],
+        'start_date': '2025-01-01',
+        'end_date': '2025-01-31'
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+### Request with Model and Prompt Breakdown
+
+<CodeGroup>
+
+```bash
+curl -X GET "https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000&breakdown=%5B%22model%22%2C%22prompt%22%5D&start_date=2025-01-01&end_date=2025-01-31" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+
+```javascript
+const response = await fetch('https://api.trakkr.ai/get-scores?brand=0000000000000x000000000000000000&breakdown=%5B%22model%22%2C%22prompt%22%5D&start_date=2025-01-01&end_date=2025-01-31', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+});
+
+const data = await response.json();
+```
+
+
+```python
+import requests
+
+response = requests.get(
+    'https://api.trakkr.ai/get-scores',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY'
+    },
+    params={
+        'brand': '0000000000000x000000000000000000',
+        'breakdown': ['model', 'prompt'],
+        'start_date': '2025-01-01',
+        'end_date': '2025-01-31'
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+## Response Format
+
+The response is a JSON object containing:
+
+| Field        | Type   | Description                                    |
+| ------------ | ------ | ---------------------------------------------- |
+| `brand_id`   | string | The brand ID that was queried                  |
+| `start_date` | string | The start date used for the query (YYYY-MM-DD) |
+| `end_date`   | string | The end date used for the query (YYYY-MM-DD)   |
+| `breakdown`  | array  | The breakdown types that were requested        |
+| `data`       | array  | Array of daily report data                     |
+| `errors`     | array  | Array of error messages (if any)               |
+
+### Data Array Structure
+
+Each item in the `data` array represents a daily report with:
+
+| Field                    | Type   | Description                                        |
+| ------------------------ | ------ | -------------------------------------------------- |
+| `date`                   | string | The report date (YYYY-MM-DD)                       |
+| `visibility`             | number | Brand visibility score (0.00 to 100.00)            |
+| `presence`               | number | Brand presence score (0.00 to 100.00)              |
+| `models`                 | array  | Model breakdown data (if `"model"` in breakdown)   |
+| `prompts`                | array  | Prompt breakdown data (if `"prompt"` in breakdown) |
+| `model_prompt_breakdown` | array  | Combined model/prompt data (if both in breakdown)  |
+
+## Response Examples
+
+### Basic Response (No Breakdown)
+
+```json
+{
+  "brand_id": "0000000000000x000000000000000000",
+  "start_date": "2024-01-01",
+  "end_date": "2024-01-31",
+  "breakdown": [],
+  "data": [
+    {
+      "date": "2024-01-01",
+      "visibility": 85.50,
+      "presence": 92.30
+    },
+    {
+      "date": "2024-01-02",
+      "visibility": 87.20,
+      "presence": 91.80
+    }
+  ],
+  "errors": null
+}
+```
+
+### Response with Model Breakdown
+
+```json
+{
+  "brand_id": "0000000000000x000000000000000000",
+  "start_date": "2024-01-01",
+  "end_date": "2024-01-31",
+  "breakdown": ["model"],
+  "data": [
+    {
+      "date": "2024-01-01",
+      "visibility": 85.50,
+      "presence": 92.30,
+      "models": [
+        {
+          "model": "GPT-4",
+          "visibility": 88.20,
+          "presence": 94.10
+        },
+        {
+          "model": "Claude",
+          "visibility": 82.80,
+          "presence": 90.50
+        }
+      ]
+    }
+  ],
+  "errors": null
+}
+```
+
+### Response with Prompt Breakdown
+
+```json
+{
+  "brand_id": "0000000000000x000000000000000000",
+  "start_date": "2024-01-01",
+  "end_date": "2024-01-31",
+  "breakdown": ["prompt"],
+  "data": [
+    {
+      "date": "2024-01-01",
+      "visibility": 85.50,
+      "presence": 92.30,
+      "prompts": [
+        {
+          "id": "prompt_001",
+          "visibility": 89.30,
+          "presence": 95.20,
+          "prompt": "What are the best financial services companies?"
+        },
+        {
+          "id": "prompt_002",
+          "visibility": 81.70,
+          "presence": 89.40,
+          "prompt": "List top investment platforms"
+        }
+      ]
+    }
+  ],
+  "errors": null
+}
+```
+
+### Response with Model and Prompt Breakdown
+
+```json
+{
+  "brand_id": "0000000000000x000000000000000000",
+  "start_date": "2024-01-01",
+  "end_date": "2024-01-31",
+  "breakdown": ["model", "prompt"],
+  "data": [
+    {
+      "date": "2024-01-01",
+      "visibility": 85.50,
+      "presence": 92.30,
+      "model_prompt_breakdown": [
+        {
+          "model": "GPT-4",
+          "prompt": "What are the best financial services companies?",
+          "rank": 3
+        },
+        {
+          "model": "Claude",
+          "prompt": "List top investment platforms",
+          "rank": 7
+        },
+        {
+          "model": "GPT-4",
+          "prompt": "List top investment platforms",
+          "rank": null
+        }
+      ]
+    }
+  ],
+  "errors": null
+}
+```
+
+## Error Responses
+
+See the [Errors](/errors) page for detailed error response formats and status codes.
+
+## Notes
+
+- **Date Range**: Maximum 90 days between start_date and end_date
+- **Default Date Range**: If no dates provided, defaults to the last 28 days ending on the most recent report date
+- **Access**: Your API key must have access to the specified brand
+- **Rank Values**: In model/prompt breakdown, rank can be `null` if the brand doesn't appear in that specific combination
