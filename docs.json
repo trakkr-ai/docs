@@ -90,7 +90,7 @@
     }
   },
   "openapi": {
-    "spec": "api-reference/openapi.yaml"
+    "spec": "openapi.yaml"
   },
   "navbar": {
     "links": [
