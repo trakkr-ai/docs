@@ -1,5 +1,46 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Get Scores"
+description: "Retrieve historical brand visibility and presence scores with optional breakdowns by AI model and/or prompt"
+openapi: "openapi.yaml POST /get-scores"
 ---
 
+## Overview
+
+The Get Scores endpoint allows you to retrieve historical brand visibility and presence data. You can optionally break down the results by AI model, prompt, or both to understand what drives your brand's performance.
+
+## Key Features
+
+- **Historical Data**: Access up to 90 days of historical performance data
+- **Flexible Date Ranges**: Specify custom date ranges or use defaults
+- **Multiple Breakdowns**: Analyze by model, prompt, or both
+- **Caching**: Use cached results for faster responses
+
+## Use Cases
+
+- **Trend Analysis**: Track how your brand visibility changes over time
+- **Model Comparison**: See how different AI models handle your brand
+- **Prompt Optimization**: Identify which prompts lead to better brand representation
+- **Competitive Analysis**: Compare your performance against competitors
+
+## Response Data
+
+Each response includes:
+
+- **Visibility Score**: How often your brand appears in AI-generated content (0-100)
+- **Presence Score**: The quality and context of your brand mentions (0-100)
+- **Daily Data**: Historical scores for each day in your date range
+- **Breakdown Data**: Model-specific or prompt-specific performance (if requested)
+
+## Examples
+
+### Basic Request (No Breakdown)
+Get overall brand scores for the last 28 days.
+
+### Model Breakdown
+See how different AI models (GPT-4, Claude, etc.) handle your brand.
+
+### Prompt Breakdown
+Identify which prompts lead to better brand visibility.
+
+### Combined Breakdown
+Get detailed model-prompt combinations with ranking information. 
