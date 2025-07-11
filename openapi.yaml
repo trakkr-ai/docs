@@ -54,15 +54,19 @@ paths:
               enum: 
                 - model
                 - prompt
-            minItems: 1
+            minItems: 0
             maxItems: 2
             uniqueItems: true
           description: |
             Array of breakdown types. Valid values: 
+            - `[]` or omitted - No breakdown, returns only time series data
             - `["model"]` - Break down by AI model
             - `["prompt"]` - Break down by prompt
             - `["model", "prompt"]` - Break down by both
           examples:
+            no_breakdown:
+              value: []
+              summary: No breakdown - time series only
             model_only:
               value: ["model"]
               summary: Model breakdown only
