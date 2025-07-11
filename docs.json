@@ -64,6 +64,13 @@
             ]
           },
           {
+            "group": "API Endpoints2",
+            "openapi": {
+            "source": "openapi.yaml",
+            "directory": "api"
+          }
+          },
+          {
             "group": "Errors",
             "pages": [
               "api-reference/errors"
