@@ -73,7 +73,7 @@
       "anchors": [
         {
           "anchor": "Open Trakkr",
-          "href": "https://trakkr.ai/overview",
+          "href": "https://trakkr.ai/dashboard",
           "icon": "chart-line"
         },
         {
@@ -102,7 +102,7 @@
     "primary": {
       "type": "button",
       "label": "Go to Dashboard",
-      "href": "https://trakkr.ai/overview"
+      "href": "https://trakkr.ai/dashboard"
     }
   },
   "footer": {
@@ -112,7 +112,7 @@
     }
   },
   "search": {
-    "prompt": "Search Trakkr docs..."
+    "prompt": "Search Trakkr's docs..."
   },
   "feedback": {
     "thumbsRating": true,
