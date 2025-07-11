@@ -25,7 +25,7 @@ tags:
 paths:
   /get-scores:
     get:
-      summary: Get historical brand scores
+      summary: Get scores
       description: Retrieve historical brand visibility and presence scores with optional breakdowns by AI model and/or prompt.
       operationId: getScores
       parameters:
