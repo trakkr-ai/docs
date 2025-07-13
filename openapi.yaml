@@ -213,9 +213,9 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /get-citations:
     get:
-      summary: Get all citations for a brand
+      summary: Get citations
       description: |
-        Returns all citations for the specified brand. Requires a valid API key and brand access. Results are cached for up to 3 hours.
+        Returns all citations for the specified brand. Requires a valid API key and brand access.
       operationId: getCitations
       security:
         - bearerAuth: []
