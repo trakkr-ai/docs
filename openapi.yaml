@@ -5,23 +5,16 @@ info:
   version: 1.0.0
   contact:
     name: Trakkr Support
-    email: support@trakkr.ai
-    url: https://trakkr.ai/support
+    email: mack@trakkr.ai
+    url: https://learn.trakkr.ai
   license:
     name: Proprietary
-    url: https://trakkr.ai/license
+    url: https://trakkr.ai/
 servers:
   - url: https://api.trakkr.ai
     description: Production server
-  - url: https://staging-api.trakkr.ai
-    description: Staging server
 security:
   - bearerAuth: []
-tags:
-  - name: Brand Analytics
-    description: Operations related to brand score analytics
-  - name: Brand Management
-    description: Operations related to brand management
 paths:
   /get-scores:
     get:
@@ -165,6 +158,98 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '429':
           $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /get-competitor-data:
+    get:
+      summary: Get competitor data
+      description: |
+        Retrieve comprehensive competitor analysis data including brand performance summaries, 
+        daily visibility data, top spot ownership, co-occurrence analysis, opportunity prompts, 
+        and LLM-specific performance overviews.
+        
+        This endpoint provides detailed competitive intelligence for the last 90 days.
+      operationId: getCompetitorData
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-fx]{32}$'
+            minLength: 32
+            maxLength: 32
+          description: The brand ID (32-character hexadecimal string)
+          example: "0000000000000x000000000000000000"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitorDataResponse'
+              examples:
+                competitor_data_response:
+                  $ref: '#/components/examples/CompetitorDataResponse'
+        '400':
+          description: Bad Request - Missing or invalid brand
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Brand not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /get-citations:
+    get:
+      summary: Get all citations for a brand
+      description: |
+        Returns all citations for the specified brand. Requires a valid API key and brand access. Results are cached for up to 3 hours.
+      operationId: getCitations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-fx]{32}$'
+            minLength: 32
+            maxLength: 32
+          description: The brand ID (32-character hexadecimal string)
+          example: "0000000000000x000000000000000000"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitationsResponse'
+              examples:
+                citations_example:
+                  $ref: '#/components/examples/CitationsExample'
+        '400':
+          description: Bad Request - Missing or invalid brand
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -366,6 +451,351 @@ components:
           type: string
           description: Brand name
           example: "Acme Corporation"
+    CompetitorDataResponse:
+      type: object
+      required:
+        - brand_performance_summary
+        - daily_visibility_data
+        - top_spot_ownership
+        - primary_brand_cooccurrences
+        - opportunity_prompts
+        - llm_performance_overview
+      properties:
+        brand_performance_summary:
+          type: array
+          description: Summary of performance for all brands (primary + competitors)
+          items:
+            $ref: '#/components/schemas/BrandPerformanceSummary'
+        daily_visibility_data:
+          type: array
+          description: Daily visibility data organized by date and prompt
+          items:
+            $ref: '#/components/schemas/DailyVisibilityData'
+        top_spot_ownership:
+          type: array
+          description: Analysis of which brands own the top spot for each prompt
+          items:
+            $ref: '#/components/schemas/TopSpotOwnership'
+        primary_brand_cooccurrences:
+          type: array
+          description: Co-occurrence analysis between primary brand and competitors
+          items:
+            $ref: '#/components/schemas/CooccurrenceData'
+        opportunity_prompts:
+          type: array
+          description: Prompts where competitors rank highly but primary brand doesn't
+          items:
+            $ref: '#/components/schemas/OpportunityPrompt'
+        llm_performance_overview:
+          type: array
+          description: Performance comparison across different LLMs
+          items:
+            $ref: '#/components/schemas/LLMPerformanceOverview'
+    BrandPerformanceSummary:
+      type: object
+      required:
+        - brand_name
+        - total_mentions_overall
+        - overall_avg_score
+        - overall_avg_rank
+        - overall_rank_distribution
+        - llm_specific_performance_list
+      properties:
+        brand_name:
+          type: string
+          description: Name of the brand
+          example: "Acme Corporation"
+        total_mentions_overall:
+          type: integer
+          description: Total number of mentions across all data
+          example: 150
+        overall_avg_score:
+          type: number
+          format: float
+          description: Average visibility score across all data
+          example: 85.5
+        overall_avg_rank:
+          type: string
+          description: Average rank across all data (empty string if no rankings)
+          example: "2.3"
+        overall_rank_distribution:
+          type: array
+          description: Distribution of rankings across different buckets
+          items:
+            $ref: '#/components/schemas/RankDistribution'
+        llm_specific_performance_list:
+          type: array
+          description: Performance breakdown by LLM
+          items:
+            $ref: '#/components/schemas/LLMSpecificPerformance'
+    RankDistribution:
+      type: object
+      required:
+        - bucket
+        - percentage
+        - count
+      properties:
+        bucket:
+          type: string
+          description: Rank bucket name
+          example: "Rank 1"
+        percentage:
+          type: number
+          format: float
+          description: Percentage of appearances in this bucket
+          example: 25.5
+        count:
+          type: integer
+          description: Number of appearances in this bucket
+          example: 45
+    LLMSpecificPerformance:
+      type: object
+      required:
+        - llm_name
+        - total_mentions
+        - avg_score
+        - avg_rank
+        - rank_distribution
+      properties:
+        llm_name:
+          type: string
+          description: Name of the LLM
+          example: "OpenAI"
+        total_mentions:
+          type: integer
+          description: Total mentions for this LLM
+          example: 75
+        avg_score:
+          type: number
+          format: float
+          description: Average visibility score for this LLM
+          example: 88.2
+        avg_rank:
+          type: string
+          description: Average rank for this LLM (empty string if no rankings)
+          example: "1.8"
+        rank_distribution:
+          type: array
+          description: Rank distribution for this LLM
+          items:
+            $ref: '#/components/schemas/RankDistribution'
+    DailyVisibilityData:
+      type: object
+      required:
+        - date
+        - prompts_data
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date for this data
+          example: "2025-01-15"
+        prompts_data:
+          type: array
+          description: Data organized by prompt
+          items:
+            $ref: '#/components/schemas/PromptData'
+    PromptData:
+      type: object
+      required:
+        - prompt_text
+        - llm_breakdown
+      properties:
+        prompt_text:
+          type: string
+          description: The prompt text
+          example: "What are the best CRM platforms?"
+        llm_breakdown:
+          type: array
+          description: Data broken down by LLM
+          items:
+            $ref: '#/components/schemas/LLMBreakdown'
+    LLMBreakdown:
+      type: object
+      required:
+        - llm_name
+        - visibility_scores
+      properties:
+        llm_name:
+          type: string
+          description: Name of the LLM
+          example: "OpenAI"
+        visibility_scores:
+          type: array
+          description: Visibility scores for each brand
+          items:
+            $ref: '#/components/schemas/VisibilityScore'
+    VisibilityScore:
+      type: object
+      required:
+        - brand_name
+        - avg_score
+        - avg_rank
+        - mention_count
+        - date
+      properties:
+        brand_name:
+          type: string
+          description: Name of the brand
+          example: "Acme Corporation"
+        avg_score:
+          type: number
+          format: float
+          description: Average visibility score
+          example: 85.5
+        avg_rank:
+          type: string
+          description: Average rank (empty string if no rankings)
+          example: "2.3"
+        mention_count:
+          type: integer
+          description: Number of mentions
+          example: 15
+        date:
+          type: string
+          format: date
+          description: The date
+          example: "2025-01-15"
+    TopSpotOwnership:
+      type: object
+      required:
+        - prompt_text
+        - top_brand
+        - count_of_rank_1_for_top_brand
+        - all_rank_1_counts_list
+      properties:
+        prompt_text:
+          type: string
+          description: The prompt text
+          example: "What are the best CRM platforms?"
+        top_brand:
+          type: string
+          description: Brand that owns the top spot most often
+          example: "Salesforce"
+        count_of_rank_1_for_top_brand:
+          type: integer
+          description: Number of times the top brand ranked #1
+          example: 25
+        all_rank_1_counts_list:
+          type: array
+          description: Count of rank 1 appearances for all brands
+          items:
+            $ref: '#/components/schemas/BrandCount'
+    BrandCount:
+      type: object
+      required:
+        - brand_name
+        - count
+      properties:
+        brand_name:
+          type: string
+          description: Name of the brand
+          example: "Salesforce"
+        count:
+          type: integer
+          description: Number of rank 1 appearances
+          example: 25
+    CooccurrenceData:
+      type: object
+      required:
+        - competitor_name
+        - cooccurrence_count
+        - cooccurrence_rate_percent
+        - primary_brand_position_above_rate_percent
+      properties:
+        competitor_name:
+          type: string
+          description: Name of the competitor
+          example: "HubSpot"
+        cooccurrence_count:
+          type: integer
+          description: Number of times both brands appeared together
+          example: 45
+        cooccurrence_rate_percent:
+          type: number
+          format: float
+          description: Percentage of primary brand appearances where competitor also appeared
+          example: 75.5
+        primary_brand_position_above_rate_percent:
+          type: number
+          format: float
+          description: Percentage of co-occurrences where primary brand ranked higher
+          example: 60.0
+    OpportunityPrompt:
+      type: object
+      required:
+        - prompt_text
+        - primary_brand_rank_info
+        - highly_ranked_competitors
+      properties:
+        prompt_text:
+          type: string
+          description: The prompt text
+          example: "What are the best CRM platforms?"
+        primary_brand_rank_info:
+          type: string
+          description: Primary brand's rank or "Not Ranked"
+          example: "Not Ranked"
+        highly_ranked_competitors:
+          type: array
+          description: List of competitors that ranked in top 3
+          items:
+            type: string
+          example: ["Salesforce", "HubSpot"]
+    LLMPerformanceOverview:
+      type: object
+      required:
+        - llm_name
+        - primary_brand_metrics
+        - competitor_metrics
+      properties:
+        llm_name:
+          type: string
+          description: Name of the LLM
+          example: "OpenAI"
+        primary_brand_metrics:
+          $ref: '#/components/schemas/BrandMetrics'
+        competitor_metrics:
+          type: array
+          description: Metrics for all competitors
+          items:
+            $ref: '#/components/schemas/BrandMetrics'
+    BrandMetrics:
+      type: object
+      required:
+        - brand_name
+        - avg_rank
+        - avg_score
+        - total_mentions
+      properties:
+        brand_name:
+          type: string
+          description: Name of the brand
+          example: "Acme Corporation"
+        avg_rank:
+          type: string
+          description: Average rank (empty string if no rankings)
+          example: "2.3"
+        avg_score:
+          type: number
+          format: float
+          description: Average visibility score
+          example: 85.5
+        total_mentions:
+          type: integer
+          description: Total number of mentions
+          example: 150
+    CitationsResponse:
+      type: object
+      required:
+        - citations
+      properties:
+        citations:
+          type: array
+          description: Array of citation objects for the brand
+          items:
+            type: object
+            description: Citation object (structure may vary)
     Error:
       type: object
       required:
@@ -594,3 +1024,94 @@ components:
             name: "TechStart Inc"
           - id: "0000000000000x000000000000000002"
             name: "Global Finance Co"
+    CompetitorDataResponse:
+      summary: Comprehensive competitor analysis data
+      value:
+        brand_performance_summary:
+          - brand_name: "Acme Corporation"
+            total_mentions_overall: 150
+            overall_avg_score: 85.5
+            overall_avg_rank: "2.3"
+            overall_rank_distribution:
+              - bucket: "Rank 1"
+                percentage: 25.5
+                count: 45
+              - bucket: "Ranks 2-3"
+                percentage: 35.2
+                count: 62
+            llm_specific_performance_list:
+              - llm_name: "OpenAI"
+                total_mentions: 75
+                avg_score: 88.2
+                avg_rank: "1.8"
+                rank_distribution:
+                  - bucket: "Rank 1"
+                    percentage: 30.0
+                    count: 25
+          - brand_name: "Competitor A"
+            total_mentions_overall: 120
+            overall_avg_score: 78.3
+            overall_avg_rank: "3.1"
+            overall_rank_distribution:
+              - bucket: "Rank 1"
+                percentage: 15.0
+                count: 18
+            llm_specific_performance_list:
+              - llm_name: "OpenAI"
+                total_mentions: 60
+                avg_score: 82.1
+                avg_rank: "2.5"
+        daily_visibility_data:
+          - date: "2025-01-15"
+            prompts_data:
+              - prompt_text: "What are the best CRM platforms?"
+                llm_breakdown:
+                  - llm_name: "OpenAI"
+                    visibility_scores:
+                      - brand_name: "Acme Corporation"
+                        avg_score: 88.5
+                        avg_rank: "1.8"
+                        mention_count: 15
+                        date: "2025-01-15"
+        top_spot_ownership:
+          - prompt_text: "What are the best CRM platforms?"
+            top_brand: "Acme Corporation"
+            count_of_rank_1_for_top_brand: 25
+            all_rank_1_counts_list:
+              - brand_name: "Acme Corporation"
+                count: 25
+              - brand_name: "Competitor A"
+                count: 18
+        primary_brand_cooccurrences:
+          - competitor_name: "Competitor A"
+            cooccurrence_count: 45
+            cooccurrence_rate_percent: 75.5
+            primary_brand_position_above_rate_percent: 60.0
+        opportunity_prompts:
+          - prompt_text: "What are the best email marketing tools?"
+            primary_brand_rank_info: "Not Ranked"
+            highly_ranked_competitors: ["Mailchimp", "Constant Contact"]
+        llm_performance_overview:
+          - llm_name: "OpenAI"
+            primary_brand_metrics:
+              brand_name: "Acme Corporation"
+              avg_rank: "1.8"
+              avg_score: 88.2
+              total_mentions: 75
+            competitor_metrics:
+              - brand_name: "Competitor A"
+                avg_rank: "2.5"
+                avg_score: 82.1
+                total_mentions: 60
+    CitationsExample:
+      summary: Example citations response
+      value:
+        citations:
+          - id: "cit_001"
+            text: "Acme was mentioned in the 2025 CRM report."
+            date: "2025-01-15"
+            source: "AI Model"
+          - id: "cit_002"
+            text: "Acme cited as a top brand in email marketing."
+            date: "2025-01-16"
+            source: "Anthropic"
