@@ -1,0 +1,138 @@
+---
+title: "Trakkr Prism"
+description: "An introduction to the Trakkr Prism beta, and what it involves."
+icon: "prism"
+---
+
+<Note>
+  **Limited Beta** - We're accepting a small number of sites to ensure quality support for each participant.
+</Note>
+
+Trakkr Prism is a glimpse at what the future of websites will look like.
+
+It allows sites to serve hyper-structured, machine-friendly versions of your sites to AI crawlers. This makes your site more intelligible to them, helping them understand your brand, and cite it in AI conversations.
+
+## How It Works
+
+<Steps>
+  <Step title="Request Interception">
+    Prism operates at the edge, intercepting requests to your DNS/domain
+  </Step>
+  <Step title="Crawler Detection">
+    Identifies requests from known AI crawlers (GPTBot, Claude-Web, ChatGPT, etc.)
+  </Step>
+  <Step title="Content Optimization">
+    Serves modified HTML optimized for AI understanding
+  </Step>
+</Steps>
+
+## Configuration Options
+
+<CardGroup cols={2}>
+  <Card title="JSON-LD Schema" icon="code" color="#0d9373">
+    Inject hyper-relevant, dynamically generated JSON schema into your webpage. This structured data helps AI systems understand your content's context, relationships, and meaning.
+  </Card>
+  <Card title="HTML Rewriter" icon="file-code" color="#0d9373">
+    Return a semantically identical but restructured version of your webpage to crawlers, following AI visibility best practices, in order to improve crawler understanding
+  </Card>
+</CardGroup>
+
+## Why Join the Beta?
+
+As AI systems increasingly shape how people discover and interact with information online, ensuring your content is properly understood by these systems becomes critical.
+
+Early beta participants receive exclusive benefits:
+
+- Shape Development - Your feedback directly influences Prism's features and roadmap 
+- AI Analytics Access - See how AI crawlers understand and interact with your content 
+- Dedicated Support - Direct access to our engineering team for implementation 
+- Free Beta Access - Full access to all features at no cost during beta
+
+<Tip>
+  Trakkr aims to run the Prism beta for the remainder of 2025, and will guarantee free access during that period.
+</Tip>
+
+## What's Involved
+
+<AccordionGroup>
+  <Accordion title="Technical Requirements" icon="server">
+    - Site must be proxied through Cloudflare (orange cloud mode)
+    - Grant Cloudflare access to Trakkr team
+    - Schedule a brief maintenance window for Trakkr to implement Prism
+  </Accordion>
+  <Accordion title="Participation Commitments" icon="handshake">
+    - Provide regular feedback on your experience
+    - Agree to be featured in public case studies
+    - Understand and accept beta software risks
+  </Accordion>
+  <Accordion title="Setup Process" icon="rocket">
+    - **Total time**: 30-60 minutes including maintenance
+    - **Support**: Implementation handled by the Trakkr team if Cloudflare access provided; or guided support if not
+    - **Testing**: Verification of crawler detection and schema injection
+  </Accordion>
+</AccordionGroup>
+
+## Beta Risks & Considerations
+
+<Warning>
+  This is beta software with inherent risks to your site's visibility. Please review all considerations carefully.
+</Warning>
+
+<AccordionGroup>
+  <Accordion title="Performance Impact" icon="gauge">
+    While designed to be minimal, edge processing adds 5-50ms latency to crawler requests. We'll monitor this closely with you.
+  </Accordion>
+  <Accordion title="Schema Accuracy" icon="brain">
+    AI-generated schemas may occasionally misinterpret content. Beta participants help us refine these models.
+  </Accordion>
+  <Accordion title="Crawler Detection" icon="robot">
+    Our crawler identification patterns are continuously updated, but new crawlers may be missed initially.
+  </Accordion>
+  <Accordion title="Your Site's Visibility" icon="flask">
+    Trakkr Prism is a first-of-its-kind system, and comes with inherent risks to your site's visibility for all crawlers, be it AI or traditional SEO crawlers. Prism aims to mitigate any risk to traditional SEO visibility by serving semantically identical content, but risks here must be acknowledge upon joining the beta.
+  </Accordion>
+</AccordionGroup>
+
+## How Prism Transforms Your Site
+
+<CodeGroup>
+
+```html Original HTML
+<div class="blog-post">
+  <h1>Understanding AI Visibility</h1>
+  <p>Your content here...</p>
+</div>
+```
+
+
+```html With Prism
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Understanding AI Visibility",
+  "author": {
+    "@type": "Organization",
+    "name": "Your Company"
+  },
+  "datePublished": "2024-01-15",
+  "description": "AI-optimized summary..."
+}
+</script>
+<article class="blog-post" itemscope itemtype="https://schema.org/BlogPosting">
+  <h1 itemprop="headline">Understanding AI Visibility</h1>
+  <p itemprop="articleBody">Your content here...</p>
+</article>
+```
+
+</CodeGroup>
+
+## Ready to Shape the Future?
+
+<Card title="Apply for Beta Access" icon="rocket" href="/beta-apply">
+  If you're comfortable with the beta nature of Prism and excited about making your site more visible to AI systems, we'd love to have you join us.
+
+  <Info>
+    Please email [mack@trakkr.ai](mailto:mack@trakkr.ai) to apply to join the beta, or reply to the email which led you here.
+  </Info>
+</Card>
