@@ -266,8 +266,8 @@ export default {
     }
 
     if (url.pathname === '/debug-cache') {
-      if (!env.AI_REWRITER_KV) {
-        return new Response('AI_REWRITER_KV not configured', {
+      if (!env.TRAKKR_KV) {
+        return new Response('TRAKKR_KV not configured', {
           headers: { 'content-type': 'text/plain' },
           status: 500
         });
@@ -275,7 +275,7 @@ export default {
       
       const testKey = `ai_optimized:${url.hostname}${url.pathname}`;
       try {
-        const data = await env.AI_REWRITER_KV.get(testKey);
+        const data = await env.TRAKKR_KV.get(testKey);
         return new Response(JSON.stringify({
           kv_configured: true,
           cache_key: testKey,
@@ -352,9 +352,9 @@ export default {
       const cacheKey = `ai_optimized:${url.hostname}${url.pathname}`;
       let aiOptimizedHTML = null;
       
-      if (env.AI_REWRITER_KV) {
+      if (env.TRAKKR_KV) {
         try {
-          const cached = await env.AI_REWRITER_KV.get(cacheKey);
+          const cached = await env.TRAKKR_KV.get(cacheKey);
           if (cached) {
             const cachedData = JSON.parse(cached);
             
@@ -443,8 +443,8 @@ function getMatchedPattern(userAgent) {
 
 // Log crawler visits for analytics
 async function logCrawlerVisit(env, visitData) {
-  if (!env.CRAWLER_ANALYTICS_KV) {
-    console.log('CRAWLER_ANALYTICS_KV not configured, skipping analytics');
+  if (!env.ANALYTICS_KV) {
+    console.log('ANALYTICS_KV not configured, skipping analytics');
     return;
   }
 
@@ -459,24 +459,24 @@ async function logCrawlerVisit(env, visitData) {
   
   // Overall stats
   const overallKey = `stats:overall:${crawlerType}`;
-  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, overallKey, 0));
+  updates.push(updateCounter(env.ANALYTICS_KV, overallKey, 0));
   
   // Daily stats
   const dailyKey = `stats:daily:${dateKey}:${crawlerType}`;
-  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, dailyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
+  updates.push(updateCounter(env.ANALYTICS_KV, dailyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
   
   // Weekly stats
   const weeklyKey = `stats:weekly:${weekKey}:${crawlerType}`;
-  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, weeklyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
+  updates.push(updateCounter(env.ANALYTICS_KV, weeklyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
   
   // Monthly stats
   const monthlyKey = `stats:monthly:${monthKey}:${crawlerType}`;
-  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, monthlyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 30));
+  updates.push(updateCounter(env.ANALYTICS_KV, monthlyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 30));
   
   // Last seen info
   const lastSeenKey = `last_seen:${crawlerType}`;
   updates.push(
-    env.CRAWLER_ANALYTICS_KV.put(lastSeenKey, JSON.stringify({
+    env.ANALYTICS_KV.put(lastSeenKey, JSON.stringify({
       timestamp,
       pathname,
       hostname,
@@ -492,7 +492,7 @@ async function logCrawlerVisit(env, visitData) {
   if (Math.random() < ANALYTICS_CONFIG.SAMPLE_RATE) {
     const sampleKey = `sample:${crawlerType}:${Date.now()}`;
     updates.push(
-      env.CRAWLER_ANALYTICS_KV.put(sampleKey, JSON.stringify(visitData), {
+      env.ANALYTICS_KV.put(sampleKey, JSON.stringify(visitData), {
         expirationTtl: 7 * 24 * 60 * 60
       })
     );
@@ -529,8 +529,8 @@ async function updateCounter(kv, key, ttlDays = 30) {
 
 // Get crawler analytics
 async function getCrawlerAnalytics(env, periodDays = 30, includeRaw = false) {
-  if (!env.CRAWLER_ANALYTICS_KV) {
-    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  if (!env.ANALYTICS_KV) {
+    return { error: 'ANALYTICS_KV not configured' };
   }
 
   const analytics = {
@@ -558,7 +558,7 @@ async function getCrawlerAnalytics(env, periodDays = 30, includeRaw = false) {
       
       for (const crawler of crawlerTypes) {
         const key = `stats:daily:${dateKey}:${crawler}`;
-        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        const count = await env.ANALYTICS_KV.get(key);
         if (count) {
           dailyData[dateKey][crawler] = parseInt(count);
         }
@@ -587,7 +587,7 @@ async function getCrawlerAnalytics(env, periodDays = 30, includeRaw = false) {
     const overallStats = {};
     for (const crawler of crawlerTypes) {
       const key = `stats:overall:${crawler}`;
-      const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+      const count = await env.ANALYTICS_KV.get(key);
       if (count) {
         overallStats[crawler] = parseInt(count);
       }
@@ -615,7 +615,7 @@ async function getCrawlerAnalytics(env, periodDays = 30, includeRaw = false) {
     // Last seen info
     for (const pattern of AI_CRAWLER_PATTERNS) {
       const lastSeenKey = `last_seen:${pattern}`;
-      const data = await env.CRAWLER_ANALYTICS_KV.get(lastSeenKey);
+      const data = await env.ANALYTICS_KV.get(lastSeenKey);
       if (data) {
         const parsed = JSON.parse(data);
         analytics.lastSeen[pattern] = {
@@ -709,8 +709,8 @@ function calculateLinearTrend(data) {
 
 // Get crawler trends over specified period
 async function getCrawlerTrends(env, crawlerType = 'all', days = 180) {
-  if (!env.CRAWLER_ANALYTICS_KV) {
-    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  if (!env.ANALYTICS_KV) {
+    return { error: 'ANALYTICS_KV not configured' };
   }
   
   const trends = {
@@ -735,7 +735,7 @@ async function getCrawlerTrends(env, crawlerType = 'all', days = 180) {
       
       for (const crawler of crawlers) {
         const key = `stats:daily:${dateKey}:${crawler}`;
-        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        const count = await env.ANALYTICS_KV.get(key);
         if (count) {
           dayTotal += parseInt(count);
         }
@@ -884,8 +884,8 @@ function detectAnomalies(data) {
 
 // Comparative analysis between crawlers
 async function getCrawlerComparison(env) {
-  if (!env.CRAWLER_ANALYTICS_KV) {
-    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  if (!env.ANALYTICS_KV) {
+    return { error: 'ANALYTICS_KV not configured' };
   }
   
   const comparison = {
@@ -906,7 +906,7 @@ async function getCrawlerComparison(env) {
       for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         const dateKey = d.toISOString().split('T')[0];
         const key = `stats:daily:${dateKey}:${crawler}`;
-        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        const count = await env.ANALYTICS_KV.get(key);
         
         dailyData[crawler].push({
           date: dateKey,
@@ -1079,7 +1079,7 @@ async function optimizeForAI(url, originalHTML, env) {
   
   try {
     console.log('Starting AI optimization for:', url.href);
-    console.log('KV namespace available?', !!env.AI_REWRITER_KV);
+    console.log('KV namespace available?', !!env.TRAKKR_KV);
     
     // Internal API endpoint - do not modify
     const apiUrl = 'https://prism-html-essaygenius-830752870576.us-east1.run.app';
@@ -1117,8 +1117,8 @@ async function optimizeForAI(url, originalHTML, env) {
       return;
     }
 
-    if (!env.AI_REWRITER_KV) {
-      console.error('CRITICAL: KV namespace AI_REWRITER_KV is not bound!');
+    if (!env.TRAKKR_KV) {
+      console.error('CRITICAL: KV namespace TRAKKR_KV is not bound!');
       console.error('Make sure your wrangler.toml has the KV namespace binding');
       return;
     }
@@ -1134,7 +1134,7 @@ async function optimizeForAI(url, originalHTML, env) {
     console.log('Attempting KV put operation...');
     
     try {
-      await env.AI_REWRITER_KV.put(cacheKey, JSON.stringify(cacheData), {
+      await env.TRAKKR_KV.put(cacheKey, JSON.stringify(cacheData), {
         expirationTtl: 7 * 24 * 60 * 60 // 7 days TTL
       });
       
@@ -1143,7 +1143,7 @@ async function optimizeForAI(url, originalHTML, env) {
       console.log('  Data size:', JSON.stringify(cacheData).length, 'bytes');
       
       // Verify the write worked
-      const verify = await env.AI_REWRITER_KV.get(cacheKey);
+      const verify = await env.TRAKKR_KV.get(cacheKey);
       console.log('  Verification: KV contains data?', !!verify);
       
     } catch (kvError) {
