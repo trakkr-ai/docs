@@ -17,13 +17,13 @@ description: "This page gives instructions on how to set up Trakkr Prism for you
 This guide will:
 
 <Steps>
-  <Step title="Create a KV namespace">
-    This is a small, lightning fast database that lives in Cloudflare)
+  <Step title="Create KV namespaces">
+    These are small, lightning fast databases that live in Cloudflare
   </Step>
   <Step title="Create a Cloudflare worker">
     We'll then create a Cloudflare worker, which is a piece of code which handles incoming requests and either responds as normal (if human) or generates/serves an AI optimised version of the page (if from a crawler).
   </Step>
-  <Step title="Bind the namespace to the worker">
+  <Step title="Bind the namespaces to the worker">
     We'll connect the two together, so that the worker can store cached versions of AI-optimised pages for future retrieval.
   </Step>
   <Step title="Add a worker route">
@@ -66,11 +66,11 @@ The good part about how Cloudflare subscriptions work is that they're at an acco
 
 There can be additional fees on top of the \$5/mo, but these are incredibly small unless you're serving millions of hits each month, and should still then likely be only a couple of dollars.
 
-### 2. Creating a KV namespace
+### 2. Creating KV namespaces
 
 We'll first go into Cloudflare and create something called a KV namespace, which will act as our cache for our pages. Put simply, this is a really simple and really fast database. It's called 'KV' because it takes simply a Key and a Value. The keys will be our page URLs, and the values will be our cached page HTML.
 
-Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers/kv/namespaces), and create a namespace/instance called TRAKKR_KV.
+Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers/kv/namespaces), and create a namespace/instance called **TRAKKR_KV**.
 
 <img
   src="/images/image.png"
@@ -79,6 +79,8 @@ Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers
   className="mx-auto"
   style={{ width:"66%" }}
 />
+
+We will then do this again and create another namespace called **ANALYTICS_KV**, which will store crawler analytics (so we can see the impact our changes are having on crawler behaviour).
 
 ### 3. Creating a Cloudflare worker
 
@@ -115,11 +117,11 @@ Click Edit Code in the top right.
 This should take you to a code editor, where you'll paste in the code below.
 
 - **Required**\
-  You must change the allowed domains in step 1 to match your domains. We recommend including both the root and www. domain for safety.
+  You must change the allowed domains in step 1 to match your domains. We recommend including both the root and [www](http://www). domain for safety.
 - **Optional**\
   You can configure allowed crawlers, and debugging endpoints in the steps below. We recommend not changing these, though you may want to visit the endpoints below step 3 once you've finished this guide.
 
-``` expandable
+```expandable
 // ============================================================================
 // CONFIGURATION SECTION - Customize these settings for your installation
 // ============================================================================
@@ -1162,3 +1164,29 @@ async function optimizeForAI(url, originalHTML, env) {
   }
 }
 ```
+
+Once you've pasted the code above and edited Step 1, click Deploy in the top right.
+
+### Binding the KV namespace to the worker
+
+Go back to your worker's main page, and click Bindings along the top.
+
+Once inside, click Add Binding, and select KV Namespace.
+
+<img
+  src="/images/chrome_TAp1tACUQu.png"
+  alt="chrome_TAp1tACUQu.png"
+  title="chrome_TAp1tACUQu.png"
+  className="mx-auto"
+  style={{ width:"80%" }}
+/>
+
+Enter TRAKKR_KV for both values, and click Add Binding.
+
+<img
+  src="/images/image.png"
+  alt="image.png"
+  title="image.png"
+  className="mx-auto"
+  style={{ width:"81%" }}
+/>
