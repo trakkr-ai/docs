@@ -1,0 +1,1164 @@
+---
+title: "Trakkr Prism Setup Guide"
+description: "This page gives instructions on how to set up Trakkr Prism for your site, allowing you to serve an AI-optimised version of your pages to crawlers."
+---
+
+## At a glance
+
+### What you'll need
+
+- A Cloudflare-proxied domain\
+  A domain that you want to run Prism on, and which is routed through Cloudflare in Orange/Proxy mode. This domain cannot be pointing to another service which uses its own Cloudflare (Webflow, Shopify are some good examples of services to which this applies, and need advanced configuration).
+- Cloudflare Workers Paid (\$5/mo)\
+  You can enable this on your Cloudflare account [here](https://www.cloudflare.com/en-gb/plans/developer-platform/).
+
+### What we'll do
+
+This guide will:
+
+<Steps>
+  <Step title="Create a KV namespace">
+    This is a small, lightning fast database that lives in Cloudflare)
+  </Step>
+  <Step title="Create a Cloudflare worker">
+    We'll then create a Cloudflare worker, which is a piece of code which handles incoming requests and either responds as normal (if human) or generates/serves an AI optimised version of the page (if from a crawler).
+  </Step>
+  <Step title="Bind the namespace to the worker">
+    We'll connect the two together, so that the worker can store cached versions of AI-optimised pages for future retrieval.
+  </Step>
+  <Step title="Add a worker route">
+    This will tell Cloudflare where the worker should run (typically on all requests to your domain).
+  </Step>
+</Steps>
+
+### What we'll end up with
+
+We'll end up with a system which receives all incoming requests, and responds as follows.
+
+<Tabs>
+  <Tab title="If the request is from an AI crawler">
+    If the request is from an AI crawler, the Cloudflare worker will first check its cache (the KV namespace) to see if there's a pre-existing AI-optimised version of the page it can serve.
+
+    If there isn't a cached version, it'll return the regular page, and asynchronously generate an AI-optimised version, which it will save for future.
+
+    If there is a cached version, it'll retrieve that from the KV namespace, and immediately return it to the crawler.
+
+    The cache will persist for 30 days during the beta, which means this beta may not be suitable for sites with frequently changing content (ecommerce).
+
+    This process adds around 10-20 milliseconds onto a regular request response.
+  </Tab>
+  <Tab title="If the request is from anything else">
+    The Cloudflare worker will respond as if it wasn't there, serving the regular page content.
+
+    This process adds around 10-20 milliseconds onto a regular request response.
+  </Tab>
+</Tabs>
+
+## Installation guide
+
+If you're reading this, it's likely that you're plannning to self-install. It should be cautioned that Cloudlfare is an advanced tool. While mistakes can be easily fixed, they may have an impact temporarily on your site's DNS, and so you should proceed with caution.
+
+### 1. Upgrading to Cloudflare Workers Paid
+
+If you haven't already, please head to [this link](https://www.cloudflare.com/en-gb/plans/developer-platform/) and upgrade to the paid version of Cloudflare workers for \$5/mo.
+
+The good part about how Cloudflare subscriptions work is that they're at an account-level rather than a domain level, meaning if you want to add more domains in future, you won't need to pay another \$5/mo, provided they're in the same account.
+
+There can be additional fees on top of the \$5/mo, but these are incredibly small unless you're serving millions of hits each month, and should still then likely be only a couple of dollars.
+
+### 2. Creating a KV namespace
+
+We'll first go into Cloudflare and create something called a KV namespace, which will act as our cache for our pages. Put simply, this is a really simple and really fast database. It's called 'KV' because it takes simply a Key and a Value. The keys will be our page URLs, and the values will be our cached page HTML.
+
+Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers/kv/namespaces), and create a namespace/instance called TRAKKR_KV.
+
+<img
+  src="/images/image.png"
+  alt="image.png"
+  title="image.png"
+  className="mx-auto"
+  style={{ width:"66%" }}
+/>
+
+### 3. Creating a Cloudflare worker
+
+Head to [workers & pages](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers-and-pages), click _Create_, then _Start with Hello World_.
+
+<img
+  src="/images/chrome_j0TOExyMRf.png"
+  alt="Chrome J0to Exy M Rf Pn"
+  title="Chrome J0to Exy M Rf Pn"
+  className="mx-auto"
+  style={{ width:"64%" }}
+/>
+
+Name your worker _trakkr-prism_ and click Deploy.
+
+<img
+  src="/images/chrome_5bMoPJ5rfU.png"
+  alt="chrome_5bMoPJ5rfU.png"
+  title="chrome_5bMoPJ5rfU.png"
+  className="mx-auto"
+  style={{ width:"61%" }}
+/>
+
+Click Edit Code in the top right.
+
+<img
+  src="/images/chrome_eCTEExLTja.png"
+  alt="chrome_eCTEExLTja.png"
+  title="chrome_eCTEExLTja.png"
+  className="mx-auto"
+  style={{ width:"58%" }}
+/>
+
+This should take you to a code editor, where you'll paste in the code below.
+
+- **Required**\
+  You must change the allowed domains in step 1 to match your domains. We recommend including both the root and www. domain for safety.
+- **Optional**\
+  You can configure allowed crawlers, and debugging endpoints in the steps below. We recommend not changing these, though you may want to visit the endpoints below step 3 once you've finished this guide.
+
+``` expandable
+// ============================================================================
+// CONFIGURATION SECTION - Customize these settings for your installation
+// ============================================================================
+
+// STEP 1: Add your domain(s) here
+// Include both www and non-www versions if you use both
+const ALLOWED_DOMAINS = [
+  'yourdomain.com',
+  'www.yourdomain.com'
+];
+
+// STEP 2: Configure AI crawler detection
+// These patterns identify AI crawlers in user-agent strings
+// Add or remove patterns based on which AI systems you want to detect
+const AI_CRAWLER_PATTERNS = [
+  'gptbot',              // OpenAI GPT crawler
+  'chatgpt-user',        // ChatGPT when browsing
+  'claude-web',          // Anthropic Claude
+  'anthropic-ai',        
+  'perplexitybot',       // Perplexity AI
+  'youbot',              // You.com
+  'ccbot',               // Common Crawl (used by many AI)
+  'diffbot',             // Diffbot
+  'ia_archiver',         // Internet Archive
+  'baiduspider',         // Baidu
+  'facebookexternalhit', // Meta AI
+  'meta-externalagent',  
+  'cohere-ai',           // Cohere
+  'ai2bot',              // Allen Institute
+  'google-extended',     // Google AI products
+  'bytespider',          // ByteDance
+  // Add more patterns here if needed
+];
+
+// STEP 3: Configure analytics settings
+// Adjust these based on your data retention and analysis needs
+const ANALYTICS_CONFIG = {
+  RETENTION_DAYS: 180,    // How long to keep detailed daily data
+  SAMPLE_RATE: 0.1,       // Sample 10% of requests for detailed analysis (0.1 = 10%, 1.0 = 100%)
+  TREND_PERIODS: [7, 14, 30, 60, 90, 180], // Periods for trend calculation
+};
+
+// ============================================================================
+// AVAILABLE ENDPOINTS FOR TESTING & ANALYTICS
+// ============================================================================
+// 
+// Testing Endpoints:
+// - /test-worker                  - Check if worker is active
+// - /debug-ai-detection          - Test AI crawler detection with current user-agent
+// - /debug-cache                 - Check cache status for current URL
+// 
+// Analytics Endpoints:
+// - /ai-crawler-analytics        - View AI crawler analytics dashboard
+//   Query params: period=30 (days), raw=true (include raw data)
+//   
+// - /ai-crawler-trends           - View trends over time
+//   Query params: crawler=all|gptbot|etc, days=180
+//   
+// - /ai-crawler-comparison       - Compare different AI crawlers
+//   No query params needed
+//
+// Testing AI Optimization:
+// - Add ?test_ai_optimize=true to any URL to force AI optimization
+// 
+// ============================================================================
+
+// ============================================================================
+// MAIN WORKER CODE - No changes needed below unless customizing functionality
+// ============================================================================
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    
+    // BYPASS CHECK - for rewriting service to fetch original content
+    const bypassHeader = request.headers.get('x-ai-rewriter-bypass');
+    const bypassParam = url.searchParams.get('ai_rewriter_bypass');
+    
+    if (bypassHeader === 'true' || bypassParam === 'true') {
+      console.log('Bypassing worker for rewriter service request');
+      if (bypassParam) {
+        url.searchParams.delete('ai_rewriter_bypass');
+        const newRequest = new Request(url.toString(), {
+          method: request.method,
+          headers: request.headers,
+          body: request.body,
+          redirect: request.redirect
+        });
+        return fetch(newRequest);
+      }
+      return fetch(request);
+    }
+
+    // Test/debug routes
+    if (url.pathname === '/test-worker') {
+      return new Response('AI Rewriter Worker is active!', {
+        headers: { 'content-type': 'text/plain' }
+      });
+    }
+    
+    if (url.pathname === '/debug-ai-detection') {
+      const ua = request.headers.get('user-agent') || '';
+      const isAI = detectAICrawler(ua);
+      return new Response(JSON.stringify({
+        user_agent: ua,
+        is_ai_crawler: isAI,
+        matched_pattern: getMatchedPattern(ua)
+      }, null, 2), {
+        headers: { 'content-type': 'application/json' }
+      });
+    }
+
+    // Analytics dashboard endpoint
+    if (url.pathname === '/ai-crawler-analytics') {
+      const period = url.searchParams.get('period') || '30';
+      const includeRaw = url.searchParams.get('raw') === 'true';
+      const analytics = await getCrawlerAnalytics(env, parseInt(period), includeRaw);
+      return new Response(JSON.stringify(analytics, null, 2), {
+        headers: { 
+          'content-type': 'application/json',
+          'cache-control': 'no-cache, no-store, must-revalidate'
+        }
+      });
+    }
+
+    // Trend analysis endpoint
+    if (url.pathname === '/ai-crawler-trends') {
+      const crawlerType = url.searchParams.get('crawler') || 'all';
+      const days = parseInt(url.searchParams.get('days') || '180');
+      const trends = await getCrawlerTrends(env, crawlerType, days);
+      return new Response(JSON.stringify(trends, null, 2), {
+        headers: { 
+          'content-type': 'application/json',
+          'cache-control': 'no-cache, no-store, must-revalidate'
+        }
+      });
+    }
+
+    // Comparative analysis endpoint
+    if (url.pathname === '/ai-crawler-comparison') {
+      const comparison = await getCrawlerComparison(env);
+      return new Response(JSON.stringify(comparison, null, 2), {
+        headers: { 
+          'content-type': 'application/json',
+          'cache-control': 'no-cache, no-store, must-revalidate'
+        }
+      });
+    }
+
+    if (url.pathname === '/debug-cache') {
+      if (!env.AI_REWRITER_KV) {
+        return new Response('AI_REWRITER_KV not configured', {
+          headers: { 'content-type': 'text/plain' },
+          status: 500
+        });
+      }
+      
+      const testKey = `ai_optimized:${url.hostname}${url.pathname}`;
+      try {
+        const data = await env.AI_REWRITER_KV.get(testKey);
+        return new Response(JSON.stringify({
+          kv_configured: true,
+          cache_key: testKey,
+          has_cached_content: !!data,
+          cache_size_bytes: data ? data.length : 0
+        }, null, 2), {
+          headers: { 'content-type': 'application/json' }
+        });
+      } catch (e) {
+        return new Response(JSON.stringify({
+          error: e.message
+        }, null, 2), {
+          headers: { 'content-type': 'application/json' },
+          status: 500
+        });
+      }
+    }
+
+    // Check if request is for configured domains
+    const isOwnDomain = ALLOWED_DOMAINS.some(domain => 
+      url.hostname === domain || url.hostname.endsWith('.' + domain)
+    );
+    
+    if (!isOwnDomain) {
+      return fetch(request);
+    }
+
+    // Prevent infinite loops
+    if (request.headers.get('x-worker-processed') === 'true') {
+      return fetch(request);
+    }
+
+    try {
+      // Check if this is an AI crawler
+      const ua = request.headers.get('user-agent') || '';
+      const isAICrawler = detectAICrawler(ua);
+      const matchedPattern = getMatchedPattern(ua);
+      
+      // Log AI crawler visits for analytics
+      if (isAICrawler) {
+        ctx.waitUntil(
+          logCrawlerVisit(env, {
+            crawlerType: matchedPattern,
+            userAgent: ua,
+            pathname: url.pathname,
+            hostname: url.hostname,
+            timestamp: Date.now(),
+            referer: request.headers.get('referer'),
+            country: request.cf?.country || 'unknown'
+          }).catch(err => console.error('Failed to log AI crawler visit:', err))
+        );
+      }
+      
+      // Don't serve modified content to users coming from AI sources
+      const hasAIUTM = url.searchParams.has('utm_source') && 
+                       ['chatgpt', 'openai', 'claude', 'anthropic', 'perplexity', 'you', 'bing', 'copilot', 'bard', 'gemini', 'ai'].some(
+                         ai => url.searchParams.get('utm_source').toLowerCase().includes(ai)
+                       );
+      
+      // Force testing with parameter
+      const forceTesting = url.searchParams.get('test_ai_optimize') === 'true';
+      
+      // Only rewrite for actual AI crawlers
+      const shouldRewrite = (isAICrawler && !hasAIUTM) || forceTesting;
+      
+      if (!shouldRewrite) {
+        return fetch(request);
+      }
+      
+      console.log(`AI Crawler detected: ${ua.substring(0, 100)}`);
+      console.log(`Matched pattern: ${matchedPattern}`);
+
+      // Check cache for rewritten content
+      const cacheKey = `ai_optimized:${url.hostname}${url.pathname}`;
+      let aiOptimizedHTML = null;
+      
+      if (env.AI_REWRITER_KV) {
+        try {
+          const cached = await env.AI_REWRITER_KV.get(cacheKey);
+          if (cached) {
+            const cachedData = JSON.parse(cached);
+            
+            if (cachedData.expires && Date.now() < cachedData.expires) {
+              console.log('Serving cached AI-optimized content');
+              aiOptimizedHTML = cachedData.html;
+            }
+          }
+        } catch (e) {
+          console.error('Cache read error:', e);
+        }
+      }
+      
+      if (aiOptimizedHTML) {
+        return new Response(aiOptimizedHTML, {
+          status: 200,
+          headers: {
+            'content-type': 'text/html; charset=utf-8',
+            'x-ai-optimized': 'true',
+            'x-cache': 'HIT',
+            'cache-control': 'public, max-age=3600'
+          }
+        });
+      }
+
+      // No cache - fetch original and trigger background optimization
+      console.log('No cached AI content, fetching original and scheduling optimization');
+      
+      const originalResponse = await fetch(request, {
+        cf: {
+          cacheEverything: false,
+          cacheTtl: -1
+        },
+        headers: {
+          ...Object.fromEntries(request.headers),
+          'x-worker-processed': 'true'
+        }
+      });
+      
+      // Only process HTML
+      const contentType = originalResponse.headers.get('content-type') || '';
+      if (!contentType.includes('text/html')) {
+        return originalResponse;
+      }
+
+      const originalHTML = await originalResponse.text();
+      
+      // Schedule background AI optimization
+      ctx.waitUntil(
+        optimizeForAI(url, originalHTML, env).catch(err => 
+          console.error('Background AI optimization failed:', err)
+        )
+      );
+      
+      // Return original with header indicating optimization is pending
+      const headers = new Headers(originalResponse.headers);
+      headers.set('x-ai-optimization', 'pending');
+      
+      return new Response(originalHTML, {
+        status: originalResponse.status,
+        statusText: originalResponse.statusText,
+        headers: headers
+      });
+      
+    } catch (error) {
+      console.error('Worker error:', error);
+      return fetch(request);
+    }
+  }
+};
+
+function detectAICrawler(userAgent) {
+  const ua = userAgent.toLowerCase();
+  return AI_CRAWLER_PATTERNS.some(pattern => ua.includes(pattern));
+}
+
+function getMatchedPattern(userAgent) {
+  const ua = userAgent.toLowerCase();
+  for (const pattern of AI_CRAWLER_PATTERNS) {
+    if (ua.includes(pattern)) {
+      return pattern;
+    }
+  }
+  return null;
+}
+
+// Log crawler visits for analytics
+async function logCrawlerVisit(env, visitData) {
+  if (!env.CRAWLER_ANALYTICS_KV) {
+    console.log('CRAWLER_ANALYTICS_KV not configured, skipping analytics');
+    return;
+  }
+
+  const { crawlerType, pathname, hostname, timestamp, userAgent, referer, country } = visitData;
+  
+  const date = new Date(timestamp);
+  const dateKey = date.toISOString().split('T')[0];
+  const weekKey = getWeekKey(date);
+  const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+  
+  const updates = [];
+  
+  // Overall stats
+  const overallKey = `stats:overall:${crawlerType}`;
+  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, overallKey, 0));
+  
+  // Daily stats
+  const dailyKey = `stats:daily:${dateKey}:${crawlerType}`;
+  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, dailyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
+  
+  // Weekly stats
+  const weeklyKey = `stats:weekly:${weekKey}:${crawlerType}`;
+  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, weeklyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 10));
+  
+  // Monthly stats
+  const monthlyKey = `stats:monthly:${monthKey}:${crawlerType}`;
+  updates.push(updateCounter(env.CRAWLER_ANALYTICS_KV, monthlyKey, ANALYTICS_CONFIG.RETENTION_DAYS + 30));
+  
+  // Last seen info
+  const lastSeenKey = `last_seen:${crawlerType}`;
+  updates.push(
+    env.CRAWLER_ANALYTICS_KV.put(lastSeenKey, JSON.stringify({
+      timestamp,
+      pathname,
+      hostname,
+      userAgent: userAgent.substring(0, 200),
+      referer,
+      country
+    }), {
+      expirationTtl: 30 * 24 * 60 * 60
+    })
+  );
+  
+  // Store sample for analysis
+  if (Math.random() < ANALYTICS_CONFIG.SAMPLE_RATE) {
+    const sampleKey = `sample:${crawlerType}:${Date.now()}`;
+    updates.push(
+      env.CRAWLER_ANALYTICS_KV.put(sampleKey, JSON.stringify(visitData), {
+        expirationTtl: 7 * 24 * 60 * 60
+      })
+    );
+  }
+  
+  await Promise.all(updates);
+  
+  console.log(`Logged AI crawler visit: ${crawlerType} at ${pathname}`);
+}
+
+// Helper to get ISO week number
+function getWeekKey(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  const weekNum = 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  return `${d.getFullYear()}-W${weekNum.toString().padStart(2, '0')}`;
+}
+
+// Update counter with TTL
+async function updateCounter(kv, key, ttlDays = 30) {
+  try {
+    const current = await kv.get(key);
+    const count = current ? parseInt(current) : 0;
+    const options = ttlDays > 0 ? {
+      expirationTtl: ttlDays * 24 * 60 * 60
+    } : {};
+    await kv.put(key, (count + 1).toString(), options);
+  } catch (e) {
+    console.error(`Failed to update counter ${key}:`, e);
+  }
+}
+
+// Get crawler analytics
+async function getCrawlerAnalytics(env, periodDays = 30, includeRaw = false) {
+  if (!env.CRAWLER_ANALYTICS_KV) {
+    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  }
+
+  const analytics = {
+    period: `${periodDays} days`,
+    generated: new Date().toISOString(),
+    summary: {},
+    trends: {},
+    distribution: {},
+    lastSeen: {},
+    growth: {},
+    raw: includeRaw ? {} : undefined
+  };
+
+  try {
+    const endDate = new Date();
+    const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
+    
+    // Collect daily data
+    const dailyData = {};
+    const crawlerTypes = [...AI_CRAWLER_PATTERNS];
+    
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const dateKey = d.toISOString().split('T')[0];
+      dailyData[dateKey] = {};
+      
+      for (const crawler of crawlerTypes) {
+        const key = `stats:daily:${dateKey}:${crawler}`;
+        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        if (count) {
+          dailyData[dateKey][crawler] = parseInt(count);
+        }
+      }
+    }
+    
+    if (includeRaw) {
+      analytics.raw.dailyData = dailyData;
+    }
+    
+    // Calculate trends for each crawler type
+    for (const crawler of crawlerTypes) {
+      const crawlerData = Object.entries(dailyData)
+        .map(([date, data]) => ({
+          date,
+          count: data[crawler] || 0
+        }))
+        .filter(d => d.count > 0);
+      
+      if (crawlerData.length > 0) {
+        analytics.trends[crawler] = calculateTrends(crawlerData, periodDays);
+      }
+    }
+    
+    // Calculate overall statistics
+    const overallStats = {};
+    for (const crawler of crawlerTypes) {
+      const key = `stats:overall:${crawler}`;
+      const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+      if (count) {
+        overallStats[crawler] = parseInt(count);
+      }
+    }
+    
+    // Summary statistics
+    const totalAI = Object.values(overallStats).reduce((sum, val) => sum + val, 0);
+    
+    const periodTotalAI = Object.values(dailyData)
+      .reduce((sum, day) => {
+        return sum + Object.values(day).reduce((s, val) => s + val, 0);
+      }, 0);
+    
+    analytics.summary = {
+      totalAICrawlersAllTime: totalAI,
+      periodAICrawlers: periodTotalAI,
+      averageDailyAI: Math.round(periodTotalAI / periodDays),
+      mostActiveCrawler: getMostActive(overallStats),
+      uniqueCrawlersDetected: Object.keys(overallStats).length
+    };
+    
+    // Distribution analysis
+    analytics.distribution = calculateDistribution(dailyData);
+    
+    // Last seen info
+    for (const pattern of AI_CRAWLER_PATTERNS) {
+      const lastSeenKey = `last_seen:${pattern}`;
+      const data = await env.CRAWLER_ANALYTICS_KV.get(lastSeenKey);
+      if (data) {
+        const parsed = JSON.parse(data);
+        analytics.lastSeen[pattern] = {
+          ...parsed,
+          timeAgo: getTimeAgo(parsed.timestamp)
+        };
+      }
+    }
+    
+    // Growth metrics
+    analytics.growth = calculateGrowthMetrics(dailyData, periodDays);
+    
+  } catch (e) {
+    console.error('Failed to get analytics:', e);
+    analytics.error = e.message;
+  }
+
+  return analytics;
+}
+
+// Calculate detailed trends
+function calculateTrends(data, periodDays) {
+  if (data.length === 0) return null;
+  
+  const sorted = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const counts = sorted.map(d => d.count);
+  
+  // Calculate various trend metrics
+  const trends = {
+    total: counts.reduce((a, b) => a + b, 0),
+    average: (counts.reduce((a, b) => a + b, 0) / counts.length).toFixed(2),
+    median: calculateMedian(counts),
+    min: Math.min(...counts),
+    max: Math.max(...counts),
+    standardDeviation: calculateStdDev(counts).toFixed(2),
+    trend: calculateLinearTrend(sorted),
+    movingAverages: {}
+  };
+  
+  // Calculate moving averages for different periods
+  [7, 14, 30].forEach(period => {
+    if (data.length >= period) {
+      trends.movingAverages[`${period}day`] = calculateMovingAverage(counts, period);
+    }
+  });
+  
+  // Calculate growth rate
+  if (sorted.length >= 2) {
+    const firstWeek = counts.slice(0, Math.min(7, Math.floor(counts.length / 4)));
+    const lastWeek = counts.slice(-Math.min(7, Math.floor(counts.length / 4)));
+    const firstAvg = firstWeek.reduce((a, b) => a + b, 0) / firstWeek.length;
+    const lastAvg = lastWeek.reduce((a, b) => a + b, 0) / lastWeek.length;
+    
+    trends.growthRate = firstAvg > 0 ? 
+      ((lastAvg - firstAvg) / firstAvg * 100).toFixed(2) + '%' : 'N/A';
+  }
+  
+  // Volatility (coefficient of variation)
+  const avg = parseFloat(trends.average);
+  const stdDev = parseFloat(trends.standardDeviation);
+  trends.volatility = avg > 0 ? (stdDev / avg).toFixed(3) : 'N/A';
+  
+  return trends;
+}
+
+// Calculate linear trend (slope of best fit line)
+function calculateLinearTrend(data) {
+  if (data.length < 2) return 'insufficient data';
+  
+  const n = data.length;
+  let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+  
+  data.forEach((point, i) => {
+    sumX += i;
+    sumY += point.count;
+    sumXY += i * point.count;
+    sumX2 += i * i;
+  });
+  
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const direction = slope > 0.1 ? 'increasing' : slope < -0.1 ? 'decreasing' : 'stable';
+  
+  return {
+    slope: slope.toFixed(4),
+    direction,
+    dailyChange: slope.toFixed(2),
+    weeklyChange: (slope * 7).toFixed(2),
+    monthlyChange: (slope * 30).toFixed(2)
+  };
+}
+
+// Get crawler trends over specified period
+async function getCrawlerTrends(env, crawlerType = 'all', days = 180) {
+  if (!env.CRAWLER_ANALYTICS_KV) {
+    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  }
+  
+  const trends = {
+    crawler: crawlerType,
+    period: days,
+    daily: [],
+    weekly: [],
+    monthly: [],
+    analysis: {}
+  };
+  
+  try {
+    const endDate = new Date();
+    const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    
+    // Collect daily data
+    const crawlers = crawlerType === 'all' ? AI_CRAWLER_PATTERNS : [crawlerType];
+    
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const dateKey = d.toISOString().split('T')[0];
+      let dayTotal = 0;
+      
+      for (const crawler of crawlers) {
+        const key = `stats:daily:${dateKey}:${crawler}`;
+        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        if (count) {
+          dayTotal += parseInt(count);
+        }
+      }
+      
+      if (dayTotal > 0) {
+        trends.daily.push({ date: dateKey, count: dayTotal });
+      }
+    }
+    
+    // Aggregate to weekly
+    const weeks = {};
+    trends.daily.forEach(day => {
+      const weekKey = getWeekKey(new Date(day.date));
+      weeks[weekKey] = (weeks[weekKey] || 0) + day.count;
+    });
+    trends.weekly = Object.entries(weeks)
+      .map(([week, count]) => ({ week, count }))
+      .sort((a, b) => a.week.localeCompare(b.week));
+    
+    // Aggregate to monthly
+    const months = {};
+    trends.daily.forEach(day => {
+      const d = new Date(day.date);
+      const monthKey = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}`;
+      months[monthKey] = (months[monthKey] || 0) + day.count;
+    });
+    trends.monthly = Object.entries(months)
+      .map(([month, count]) => ({ month, count }))
+      .sort((a, b) => a.month.localeCompare(b.month));
+    
+    // Perform trend analysis
+    if (trends.daily.length > 0) {
+      trends.analysis = {
+        daily: calculateTrends(trends.daily, days),
+        seasonality: detectSeasonality(trends.daily),
+        forecast: generateForecast(trends.daily),
+        anomalies: detectAnomalies(trends.daily)
+      };
+    }
+    
+  } catch (e) {
+    console.error('Failed to get trends:', e);
+    trends.error = e.message;
+  }
+  
+  return trends;
+}
+
+// Detect seasonal patterns
+function detectSeasonality(data) {
+  if (data.length < 14) return { detected: false, reason: 'insufficient data' };
+  
+  // Calculate day-of-week averages
+  const dayOfWeek = Array(7).fill(0);
+  const dayCounts = Array(7).fill(0);
+  
+  data.forEach(point => {
+    const day = new Date(point.date).getDay();
+    dayOfWeek[day] += point.count;
+    dayCounts[day]++;
+  });
+  
+  const dayAverages = dayOfWeek.map((sum, i) => 
+    dayCounts[i] > 0 ? sum / dayCounts[i] : 0
+  );
+  
+  const overallAvg = data.reduce((sum, d) => sum + d.count, 0) / data.length;
+  const weekdayAvg = (dayAverages[1] + dayAverages[2] + dayAverages[3] + 
+                      dayAverages[4] + dayAverages[5]) / 5;
+  const weekendAvg = (dayAverages[0] + dayAverages[6]) / 2;
+  
+  return {
+    detected: Math.abs(weekdayAvg - weekendAvg) > overallAvg * 0.2,
+    dayOfWeekPattern: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, i) => ({
+      day,
+      average: dayAverages[i].toFixed(2),
+      indexVsAverage: overallAvg > 0 ? (dayAverages[i] / overallAvg * 100).toFixed(0) + '%' : 'N/A'
+    })),
+    weekdayAverage: weekdayAvg.toFixed(2),
+    weekendAverage: weekendAvg.toFixed(2),
+    weekdayVsWeekend: weekdayAvg > 0 ? (weekendAvg / weekdayAvg * 100).toFixed(0) + '%' : 'N/A'
+  };
+}
+
+// Simple forecast using linear regression
+function generateForecast(data, forecastDays = 7) {
+  if (data.length < 7) return null;
+  
+  const trend = calculateLinearTrend(data);
+  const lastValue = data[data.length - 1].count;
+  const avgValue = data.reduce((sum, d) => sum + d.count, 0) / data.length;
+  
+  const forecast = [];
+  const lastDate = new Date(data[data.length - 1].date);
+  
+  for (let i = 1; i <= forecastDays; i++) {
+    const forecastDate = new Date(lastDate);
+    forecastDate.setDate(forecastDate.getDate() + i);
+    
+    // Simple linear projection with some bounds
+    const projectedValue = Math.max(0, 
+      lastValue + (parseFloat(trend.slope) * i)
+    );
+    
+    forecast.push({
+      date: forecastDate.toISOString().split('T')[0],
+      predicted: Math.round(projectedValue),
+      confidence: 'low' // Simple model, low confidence
+    });
+  }
+  
+  return {
+    nextWeek: forecast,
+    trend: trend.direction,
+    estimatedGrowth: `${(parseFloat(trend.weeklyChange) / avgValue * 100).toFixed(1)}% per week`
+  };
+}
+
+// Detect anomalies using simple statistical methods
+function detectAnomalies(data) {
+  if (data.length < 7) return [];
+  
+  const counts = data.map(d => d.count);
+  const mean = counts.reduce((a, b) => a + b, 0) / counts.length;
+  const stdDev = calculateStdDev(counts);
+  
+  const anomalies = [];
+  const threshold = 2; // 2 standard deviations
+  
+  data.forEach(point => {
+    const zScore = Math.abs((point.count - mean) / stdDev);
+    if (zScore > threshold) {
+      anomalies.push({
+        date: point.date,
+        count: point.count,
+        zScore: zScore.toFixed(2),
+        type: point.count > mean ? 'spike' : 'drop',
+        severity: zScore > 3 ? 'high' : 'moderate'
+      });
+    }
+  });
+  
+  return anomalies.sort((a, b) => parseFloat(b.zScore) - parseFloat(a.zScore));
+}
+
+// Comparative analysis between crawlers
+async function getCrawlerComparison(env) {
+  if (!env.CRAWLER_ANALYTICS_KV) {
+    return { error: 'CRAWLER_ANALYTICS_KV not configured' };
+  }
+  
+  const comparison = {
+    generated: new Date().toISOString(),
+    crawlers: {},
+    rankings: {}
+  };
+  
+  try {
+    // Get last 30 days of data for all AI crawlers
+    const endDate = new Date();
+    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const dailyData = {};
+    
+    for (const crawler of AI_CRAWLER_PATTERNS) {
+      dailyData[crawler] = [];
+      
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateKey = d.toISOString().split('T')[0];
+        const key = `stats:daily:${dateKey}:${crawler}`;
+        const count = await env.CRAWLER_ANALYTICS_KV.get(key);
+        
+        dailyData[crawler].push({
+          date: dateKey,
+          count: count ? parseInt(count) : 0
+        });
+      }
+      
+      // Calculate metrics for each crawler
+      const counts = dailyData[crawler].map(d => d.count);
+      const total = counts.reduce((a, b) => a + b, 0);
+      
+      if (total > 0) {
+        comparison.crawlers[crawler] = {
+          total30Days: total,
+          dailyAverage: (total / 30).toFixed(2),
+          maxDay: Math.max(...counts),
+          activeDays: counts.filter(c => c > 0).length,
+          trend: calculateLinearTrend(dailyData[crawler].filter(d => d.count > 0))
+        };
+      }
+    }
+    
+    // Create rankings
+    const crawlerStats = Object.entries(comparison.crawlers);
+    
+    comparison.rankings = {
+      byVolume: crawlerStats
+        .sort((a, b) => b[1].total30Days - a[1].total30Days)
+        .map(([name, stats], i) => ({
+          rank: i + 1,
+          crawler: name,
+          total: stats.total30Days,
+          share: ((stats.total30Days / crawlerStats.reduce((sum, [, s]) => sum + s.total30Days, 0)) * 100).toFixed(1) + '%'
+        })),
+      byGrowth: crawlerStats
+        .filter(([, stats]) => stats.trend && stats.trend.slope)
+        .sort((a, b) => parseFloat(b[1].trend.slope) - parseFloat(a[1].trend.slope))
+        .map(([name, stats], i) => ({
+          rank: i + 1,
+          crawler: name,
+          growthRate: stats.trend.slope,
+          direction: stats.trend.direction
+        })),
+      byConsistency: crawlerStats
+        .sort((a, b) => b[1].activeDays - a[1].activeDays)
+        .map(([name, stats], i) => ({
+          rank: i + 1,
+          crawler: name,
+          activeDays: stats.activeDays,
+          consistency: ((stats.activeDays / 30) * 100).toFixed(0) + '%'
+        }))
+    };
+    
+  } catch (e) {
+    console.error('Failed to get comparison:', e);
+    comparison.error = e.message;
+  }
+  
+  return comparison;
+}
+
+// Helper functions
+function calculateMedian(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+function calculateStdDev(values) {
+  const mean = values.reduce((a, b) => a + b, 0) / values.length;
+  const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
+  const variance = squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
+  return Math.sqrt(variance);
+}
+
+function calculateMovingAverage(values, period) {
+  const result = [];
+  for (let i = period - 1; i < values.length; i++) {
+    const sum = values.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0);
+    result.push((sum / period).toFixed(2));
+  }
+  return result;
+}
+
+function calculateDistribution(dailyData) {
+  const distribution = {
+    crawlerShare: {}
+  };
+  
+  // Calculate crawler share
+  const totals = {};
+  Object.values(dailyData).forEach(day => {
+    Object.entries(day).forEach(([crawler, count]) => {
+      totals[crawler] = (totals[crawler] || 0) + count;
+    });
+  });
+  
+  const grandTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+  Object.entries(totals).forEach(([crawler, total]) => {
+    distribution.crawlerShare[crawler] = {
+      total,
+      percentage: grandTotal > 0 ? ((total / grandTotal) * 100).toFixed(2) + '%' : '0%'
+    };
+  });
+  
+  return distribution;
+}
+
+function calculateGrowthMetrics(dailyData, periodDays) {
+  const dates = Object.keys(dailyData).sort();
+  if (dates.length < 2) return null;
+  
+  const periods = [7, 14, 30, 60, 90, 180].filter(p => p <= periodDays);
+  const growth = {};
+  
+  periods.forEach(period => {
+    if (dates.length >= period) {
+      const recentDates = dates.slice(-period);
+      const halfPoint = Math.floor(period / 2);
+      
+      const firstHalf = recentDates.slice(0, halfPoint);
+      const secondHalf = recentDates.slice(halfPoint);
+      
+      const firstHalfTotal = firstHalf.reduce((sum, date) => {
+        return sum + Object.values(dailyData[date]).reduce((a, b) => a + b, 0);
+      }, 0);
+      
+      const secondHalfTotal = secondHalf.reduce((sum, date) => {
+        return sum + Object.values(dailyData[date]).reduce((a, b) => a + b, 0);
+      }, 0);
+      
+      const growthRate = firstHalfTotal > 0 ? 
+        ((secondHalfTotal - firstHalfTotal) / firstHalfTotal * 100) : 0;
+      
+      growth[`${period}day`] = {
+        firstHalfAvg: (firstHalfTotal / firstHalf.length).toFixed(2),
+        secondHalfAvg: (secondHalfTotal / secondHalf.length).toFixed(2),
+        growthRate: growthRate.toFixed(2) + '%',
+        trend: growthRate > 10 ? 'strong growth' : 
+               growthRate > 0 ? 'moderate growth' :
+               growthRate > -10 ? 'stable' : 'decline'
+      };
+    }
+  });
+  
+  return growth;
+}
+
+function getMostActive(stats) {
+  const entries = Object.entries(stats);
+  if (entries.length === 0) return 'none';
+  return entries.sort((a, b) => b[1] - a[1])[0][0];
+}
+
+function getTimeAgo(timestamp) {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  
+  if (seconds < 60) return `${seconds} seconds ago`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} minutes ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hours ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} days ago`;
+}
+
+// AI optimization function - calls external API
+async function optimizeForAI(url, originalHTML, env) {
+  const cacheKey = `ai_optimized:${url.hostname}${url.pathname}`;
+  
+  try {
+    console.log('Starting AI optimization for:', url.href);
+    console.log('KV namespace available?', !!env.AI_REWRITER_KV);
+    
+    // Internal API endpoint - do not modify
+    const apiUrl = 'https://prism-html-essaygenius-830752870576.us-east1.run.app';
+    
+    const apiResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: url.href,
+        pathname: url.pathname,
+        hostname: url.hostname,
+        html: originalHTML.substring(0, 50000)
+      }),
+      signal: AbortSignal.timeout(120000)
+    });
+
+    console.log('API Response received, status:', apiResponse.status);
+
+    if (!apiResponse.ok) {
+      const errorText = await apiResponse.text();
+      console.error('API error:', apiResponse.status, errorText.substring(0, 500));
+      return;
+    }
+
+    const data = await apiResponse.json();
+    console.log('API response parsed successfully');
+    console.log('Response has optimizedHTML?', !!data.optimizedHTML);
+    console.log('Response model:', data.model);
+    console.log('Response debug:', data.debug);
+    
+    if (!data.optimizedHTML) {
+      console.error('No optimizedHTML in response');
+      return;
+    }
+
+    if (!env.AI_REWRITER_KV) {
+      console.error('CRITICAL: KV namespace AI_REWRITER_KV is not bound!');
+      console.error('Make sure your wrangler.toml has the KV namespace binding');
+      return;
+    }
+
+    // Cache the optimized content
+    const cacheData = {
+      html: data.optimizedHTML,
+      expires: Date.now() + (7 * 24 * 60 * 60 * 1000), // 7 days
+      generated: new Date().toISOString(),
+      model: data.model || 'gpt-4'
+    };
+    
+    console.log('Attempting KV put operation...');
+    
+    try {
+      await env.AI_REWRITER_KV.put(cacheKey, JSON.stringify(cacheData), {
+        expirationTtl: 7 * 24 * 60 * 60 // 7 days TTL
+      });
+      
+      console.log('✓ Successfully cached AI-optimized content');
+      console.log('  Cache key:', cacheKey);
+      console.log('  Data size:', JSON.stringify(cacheData).length, 'bytes');
+      
+      // Verify the write worked
+      const verify = await env.AI_REWRITER_KV.get(cacheKey);
+      console.log('  Verification: KV contains data?', !!verify);
+      
+    } catch (kvError) {
+      console.error('KV PUT ERROR:', kvError.message);
+      console.error('Full error:', kvError);
+    }
+    
+  } catch (error) {
+    console.error('AI optimization error:', error.message);
+    console.error('Error type:', error.constructor.name);
+    console.error('Stack:', error.stack);
+  }
+}
+```
