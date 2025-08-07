@@ -70,15 +70,9 @@ There can be additional fees on top of the \$5/mo, but these are incredibly smal
 
 We'll first go into Cloudflare and create something called a KV namespace, which will act as our cache for our pages. Put simply, this is a really simple and really fast database. It's called 'KV' because it takes simply a Key and a Value. The keys will be our page URLs, and the values will be our cached page HTML.
 
-Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers/kv/namespaces), and create a namespace/instance called **TRAKKR_KV**.
+Head [here](https://dash.cloudflare.com/bdcc83ce4fc5e1e3d0e0167d1e385329/workers/kv/namespaces), (it may redirect you) and create a namespace/instance called **TRAKKR_KV**.
 
-<img
-  src="/images/image.png"
-  alt="image.png"
-  title="image.png"
-  className="mx-auto"
-  style={{ width:"66%" }}
-/>
+![image.png](/images/image.png)
 
 We will then do this again and create another namespace called **ANALYTICS_KV**, which will store crawler analytics (so we can see the impact our changes are having on crawler behaviour).
 
@@ -1181,21 +1175,13 @@ Once inside, click Add Binding, and select KV Namespace.
   style={{ width:"80%" }}
 />
 
-Enter **TRAKKR_KV **for both values, and click Add Binding.
+Enter **TRAKKR_KV** for both values, and click Add Binding.
 
-<img
-  src="/images/image.png"
-  alt="image.png"
-  title="image.png"
-  className="mx-auto"
-  style={{ width:"81%" }}
-/>
-
-We will then add our second binding, which is exactly the same except for **ANALYTICS_KV **binding to **ANALYTICS_KV.**
+We will then add our second binding, which is exactly the same except for **ANALYTICS_KV** binding to **ANALYTICS_KV.**
 
 You should then see something like the below:
 
-![image.png](/images/image.png)
+![chrome_KlPU1IFXhJ.png](/images/chrome_KlPU1IFXhJ.png)
 
 ### 5. Setting the worker live
 
@@ -1244,4 +1230,4 @@ After this, you should all be good to go, and Prism should be serving AI optimiz
 // ============================================================================
 ```
 
-For all other questions, please contact **mack@trakkr.ai**
+For all other questions, please contact [**mack@trakkr.ai**](mailto:mack@trakkr.ai)
