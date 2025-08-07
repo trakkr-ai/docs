@@ -121,7 +121,7 @@ This should take you to a code editor, where you'll paste in the code below.
 - **Optional**\
   You can configure allowed crawlers, and debugging endpoints in the steps below. We recommend not changing these, though you may want to visit the endpoints below step 3 once you've finished this guide.
 
-```expandable
+```expandable expandable
 // ============================================================================
 // CONFIGURATION SECTION - Customize these settings for your installation
 // ============================================================================
@@ -1167,7 +1167,7 @@ async function optimizeForAI(url, originalHTML, env) {
 
 Once you've pasted the code above and edited Step 1, click Deploy in the top right.
 
-### Binding the KV namespace to the worker
+### 4. Binding the KV namespaces to the worker
 
 Go back to your worker's main page, and click Bindings along the top.
 
@@ -1181,7 +1181,7 @@ Once inside, click Add Binding, and select KV Namespace.
   style={{ width:"80%" }}
 />
 
-Enter TRAKKR_KV for both values, and click Add Binding.
+Enter **TRAKKR_KV **for both values, and click Add Binding.
 
 <img
   src="/images/image.png"
@@ -1190,3 +1190,58 @@ Enter TRAKKR_KV for both values, and click Add Binding.
   className="mx-auto"
   style={{ width:"81%" }}
 />
+
+We will then add our second binding, which is exactly the same except for **ANALYTICS_KV **binding to **ANALYTICS_KV.**
+
+You should then see something like the below:
+
+![image.png](/images/image.png)
+
+### 5. Setting the worker live
+
+Finally, head into your domain settings, and click Workers Routes on the left sidebar.
+
+Click Add Route, and add a route from your domain to the worker, as shown in the image below.
+
+**Note that the /\* after your domain is mandatory to allower the worker to work on all requests across your site.**
+
+![chrome_3suGDAIKvK.png](/images/chrome_3suGDAIKvK.png)
+
+After this, you should all be good to go, and Prism should be serving AI optimized pages to crawlers that hit your site\!
+
+## Debugging
+
+- First off, check that your site is live\!\
+  When modifying parts of your site like we've done with Cloudflare workers, it's good to routinely clear your cache/go incongnito, and check all is well on your site.
+- Simulate a crawler request\
+  Follow [these steps](https://claude.ai/share/ad8324d7-c852-42fd-8048-e526526d8362), to see your site as a crawler would.
+- Test your debugging endpoints\
+  The code block below shows endpoints appended to your domain name that you can visit to test/view certain functionality
+
+```
+// ============================================================================
+// AVAILABLE ENDPOINTS FOR TESTING & ANALYTICS
+// ============================================================================
+// 
+// Testing Endpoints:
+// - /test-worker                  - Check if worker is active
+// - /debug-ai-detection          - Test AI crawler detection with current user-agent
+// - /debug-cache                 - Check cache status for current URL
+// 
+// Analytics Endpoints:
+// - /ai-crawler-analytics        - View AI crawler analytics dashboard
+//   Query params: period=30 (days), raw=true (include raw data)
+//   
+// - /ai-crawler-trends           - View trends over time
+//   Query params: crawler=all|gptbot|etc, days=180
+//   
+// - /ai-crawler-comparison       - Compare different AI crawlers
+//   No query params needed
+//
+// Testing AI Optimization:
+// - Add ?test_ai_optimize=true to any URL to force AI optimization
+// 
+// ============================================================================
+```
+
+For all other questions, please contact **mack@trakkr.ai**
