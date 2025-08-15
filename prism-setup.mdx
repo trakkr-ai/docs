@@ -1082,7 +1082,7 @@ async function optimizeForAI(url, originalHTML, env) {
     console.log('KV namespace available?', !!env.TRAKKR_KV);
     
     // Internal API endpoint - do not modify
-    const apiUrl = 'https://prism-html-830752870576.us-east1.run.app';
+    const apiUrl = 'https://api.trakkr.ai/prism';
     
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
