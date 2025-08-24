@@ -1093,7 +1093,7 @@ async function optimizeForAI(url, originalHTML, env) {
         url: url.href,
         pathname: url.pathname,
         hostname: url.hostname,
-        html: originalHTML.substring(0, 50000)
+        html: originalHTML
       }),
       signal: AbortSignal.timeout(120000)
     });
