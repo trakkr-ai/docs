@@ -1,0 +1,17 @@
+---
+title: "Site-Specific Installation Guides"
+---
+
+This is a work-in-progress page showing additional guidelines on how to implement Prism on specific site stacks and CMSs.
+
+Have questions about yours? Email mack@trakkr.ai.
+
+## Webflow
+
+Webflow is easy to get set up on Prism with, however it requires one additional step.
+
+If you are using Cloudflare already, and pointing your DNS records to Webflow, you'll likely have your main CNAME record pointing to **proxy-ssl.webflow.com**. 
+
+This can cause issues as it routes your traffic through Webflow's Cloudlfare setup, which overwrites your own (and invalidates your own Cloudflare workers).
+
+To fix this, simply change your main CNAME to point to **proxy.webflow.com**. If you have a www CNAME record set up, make the same modification here too.
