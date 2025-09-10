@@ -7,8 +7,10 @@ All upgraded Trakkr accounts allow you to access Prism, and include 10,000 crawl
 
 If you own a larger site that's receiving more than 10,000 crawler requests per month, you can enable overage billing. This is billed at \$5 per additional thousand crawler requests, and is added onto your subscription at the end of each calendar month.
 
-To enable overage billing, you must also set a spend cap. This spend cap increases your limit from the base 10,000 crawler requests per month. So for example, if your spend cap is \$100, your new request limit will be 30,000 crawler requests per month. This is because you get 10,000 requests for free, and $100/\$5 gives 20, or an extra 20,000 requests (10,000 \+ 20,000 = 30,000 total request limit).
+To enable overage billing, you must also set a spend cap. This spend cap increases your limit from the base 10,000 crawler requests per month. 
+
+So for example, if your spend cap is \$100, your new request limit will be 30,000 crawler requests per month. This is because you get 10,000 requests for free, and $100 divided by $5 gives 20, or an extra 20,000 requests (10,000 \+ 20,000 = 30,000 total request limit).
 
 <Frame>
-  Request Limit = 10,000 \+ (Spend Cap / 0.005)
+  Request Limit = 10,000 \+ ( ( Spend Cap / 5 ) \* 1,000 )
 </Frame>
