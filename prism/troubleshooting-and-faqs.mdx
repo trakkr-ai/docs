@@ -1,0 +1,134 @@
+---
+title: "Troubleshooting & FAQs"
+description: "How to fix common issues and confusions with Prism"
+---
+
+This page lists some of the common issues that you may run into when installing and running Prism, and also frequently asked questions about the product.
+
+Please read this page as a first port-of-call, and contact [mack@trakkr.ai](mailto:mack@trakkr.ai) as a backup if your question is not answered.
+
+## **Troubleshooting**
+
+### I can’t see the changes on my site
+
+To see Prism in action on your browser, you need to simulate a crawler request. The [Prism dashboard](https://trakkr.ai/prism) contains instructions on how to do this for all major browsers. You'll want to follow these instructions using a user-agent such as GPTBot/1.0 (or any crawler that you have enabled in Prism), and hard refresh your page.
+
+Note that the page may render differently to normal, and certain styling may be misplaced. This makes no difference to crawlers, as they neither render nor visualise your page. They simply look at the raw HTML (which you can see by inspecting page source) and so this is what you should look at to see Prism's adjustments.
+
+If you still can't see any Prism changes, please check:
+
+1. That your dashboard shows data
+2. That you Cloudflare worker exists (and you can see data in its logs)
+3. That your Cloudflare worker's route is configured
+4. That you have upgraded to a Cloudflare workers paid plan
+
+If you are sure that all of these points are correct, and still can't see data, contact [mack@trakkr.ai](mailto:mack@trakkr.ai) with as much detail as possible. The chance of resolving the issue will be much higher if you're willing to grant Cloudflare access alongside this.
+
+### I’ve edited my Prism set up but nothing’s changed
+
+Editing your Prism set up requires editing your Cloudflare worker script. The edit flow in the Trakkr dashboard is essentially designed to give you your new Cloudflare worker script. Make sure that, when editing your Prism setup, your new Cloudflare worker script is not only pasted into the worker's code section, but also that you've clicked the Deploy button.
+
+### 404 pages are appearing in my crawler logs
+
+Crawlers _really_ like visiting 404 pages.
+
+Prism accounts for this by caching a smart lightweight 404 page whenever a crawler visits an invalid URL. The first time this happens, Prism counts it as a crawler request, however for each subsequent request, no usage is incurred.
+
+You will still see crawl requests to 404 pages appear in your Prism dashboard's crawler log, but rest assured that these won't count towards usage (aside from the first request to that page).
+
+### Changes to my site aren't reflected in the optimized version
+
+Prism currently saves a 7 day cached version of each page that an AI crawler visits. This means it can take up to 7 days for changes to a page to filter through to Prism's live version.
+
+The reasons for this are partly performance (to be able to serve content as quickly as possible to crawlers) but also economical (the majority of Prism's running costs come from caching and optimising pages). If you're a large site and would like to discuss custom Prism setups with shorter cache lifespans, please feel free to contact [mack@trakkr.ai](mailto:mack@trakkr.ai).
+
+## Frequently asked questions
+
+### How hard is this to set up?
+
+Fairy easy, and only a little more complex than installing something like a Google Analytics script, or Google Tag Manager.
+
+We understand that Cloudflare may be a little less familiar to most site owners though, so have full step-by-step instructions available. All that's really required is copy and pasting a script into something called a Cloudflare worker - that you can think of as acting a bit like a marketing tag - and setting it live.
+
+### What’s the point of optimising for AI crawlers?
+
+As AI tools like ChatGPT, Gemini, and Perplexity become primary ways people discover information, ensuring your content appears in their responses is crucial for visibility. Without optimization, AI crawlers miss significant portions of your site because they can't render JavaScript - meaning your content might be completely invisible when users ask AI about your products, services, or expertise.
+
+Prism ensures AI systems can fully access and understand your content by pre-rendering JavaScript, removing unnecessary code that slows crawlers down, and injecting fact-dense meta content directly into your page header. This includes structured data, key facts, automated FAQs, and AI summaries that help crawlers immediately grasp what your page is about.
+
+The result? Your content gets properly indexed and referenced by AI platforms, increasing the likelihood that these tools will cite your site when users ask relevant questions. In an AI-driven future, this optimization could be as important as traditional SEO is today.
+
+### What exactly does Prism do to my pages?
+
+At it's core, Prism does two main things to all pages that it's enabled on:
+
+- Renders Javascript
+  Lots of modern web pages have content that doesn't exist in the raw HTML, but that gets rendered by javascript running in your browser. https://trakkr.ai is a great example of this, if you want to take a look. Prism makes this content visible to AI crawlers by rendering the Javascript on its own server, and inserting that back into the page as raw HTML.
+- Compresses the page
+  Prism removes all the page elements that crawlers ignore. This includes the Javascript from the step above that crawlers can't render (and is now unnecessary), and lots of other things like tracking tags and CSS styles. These slow the crawler down, and don't add anything  to (or may even hinder) its understanding.
+
+Prism also allows you to implement more specific features, all of which are configurable. We'd recommend running Prism with all enabled, but you could equally disable them all to just take advantage of the two points above.
+
+The above features only modify meta content in your page _head_. They do not modify the body content of your page. Feature usage does not affect pricing or billing.
+
+### What is the pricing for this?
+
+All upgraded accounts include 10k crawler requests per month, with the option to enable overage billing at \$5 per additional 1k crawler requests. You'll be required to set a spend cap, ensuring you never spend more than intended.
+
+You can see more details [here](https://learn.trakkr.ai/prism/usage).
+
+### Will Prism affect my SEO/is this 'cloaking'?
+
+We've taken considerable steps to mitigate any risk to sites' SEO. These are:
+
+- **Prism doesn't touch SEO crawlers**
+  Prism doesn't allow you to enable it on any traditional SEO crawlers, only crawlers related to AI products like ChatGPT, Gemini, and others. Insofar as _cloaking_ is defined as showing different content to SEO crawlers versus human visitors, Prism doesn't cloak as it treats SEO crawlers the same as humans. There is no evidence that AI crawlers would look negatively at brands for implementing a system like Prism.
+- **Prism doesn't modify semantic content**
+  The concern around _cloaking_ is specifically showing content that's semantically different to crawlers versus other visitors. Prism doesn't modify semantic page content. It simply pre-renders Javascript (which modern SEO crawlers do anyway, but AI crawlers don't for economic reasons) and adds meta content to the page head.
+
+We believe that the steps above mitigate concerns of cloaking, or of other impact to site SEO performance. That said, Prism is a first-of-its-kind system, and while we've been running a range of sites in beta without noticing any adverse affects to SEO, usage of Prism is at your own liability. Trakkr accepts no responsibility for changes in SEO performance (positive or negative) while using Prism.
+
+There is a related consideration, which is whether _AI platforms_ (as opposed to SEO/search platforms) would ever penalise a site for using a service like Prism. This is incredibly unlikely given that there are no genuine economic or reputational reasons for crawler companies to do so, but also because the majority of sites are essentially already _cloaked_. This is because AI crawlers can't render Javascript, and so AI crawlers already parse pages that are fundamentally different to what users see. It's very unlikely therefore that AI crawlers would ever penalise usage of a system like Prism.
+
+### Will Prism slow my site down?
+
+Short answer: No.
+
+Longer answer: Barely\! Prism should add a few milliseconds of latency (around 0.005 seconds at most) to non-AI requests. Prism uses this time to check the request type, verify that it's from a human or traditional SEO crawler, and route it through to your server.
+
+In the case of AI crawlers, Prism is more likely to speed up your site than slow it down. That's because Prism serves cached versions of your site from a globally distributed CDN. This means that AI crawlers get a compressed, lightweight version of your page, served from a server that's close to them.
+
+### Can I exclude certain pages or sections of my site from Prism?
+
+Currently this isn't directly possible through the Prism interface. If you're comfortable modifying your Cloudflare worker script, this should be relatively easy however. You can modify the script directly, or pass it into an LLM and ask it to modify the script (without changing anything else) to exclude a certain path (e.g. example.com/patients) from Prism optimisation.
+
+### Will this affect human visitors?
+
+No. Within milliseconds of a human visitor requesting your site, Prism will realise that the request is from a human and route them through to your server, without any optimisations or modifications.
+
+### Can I preview what AI crawlers see before going live?
+
+Yes, you can use [this page](https://trakkr.ai/prism-testing).
+
+Note that this enables all features by default - if you disable any in your Prism setup flow then they will not be added to your live Prism pages.
+
+### Why are my crawler logs showing 404s?
+
+If you monitor your Prism logs, you may notice 404 URLs (i.e. URLs where no content exists) appearing frequently. The truth is that AI crawlers often send a high volume of request to pages that don't exist, likely in an attempt to speculatively discover pages within your site.
+
+The first time Prism gets a request to a specific 404 page, it will attempt to render and prepare a cached version of it. When it realises that the page returns a 404 error, Prism will cache an extremely lightweight, crawler-friendly 404 page, and serve this for all future requests to this URL.
+
+The first visit will count as usage in your Prism usage section (we need to attempt to render the page to see that it's a 404 page), but future requests from crawlers to that page will not count towards your usage. These requests will still appear in your crawler logs however.
+
+### Why do I need to be on Cloudflare?
+
+There's two ways to answer this, so let's look at each:
+
+- **Why do I need to be on a CDN (Content Delivery Network)?**
+  In short, it's the only way to do this sort of optimisation that accommodates how AI crawlers work. You might see other tools out there that promise to achieve similar results using a Javascript snippet, however the AI crawlers that power tools like ChatGPT don't render Javascript, meaning these tools are useless. Prism gets around this by using a CDN (content delivery network), modifying and caching the page content before it's even served, giving crawlers the content in a format that they can actually read.
+- **Why does this CDN need to be Cloudflare?**
+  Prism is launching on Cloudflare due to its wide usage, as well as the fact that the base product is free (with a \$5/mo upgrade to enable access to Cloudflare paid workers). Cloudflare is also the easiest option for implementing the sort of code that Prism requires to work.
+
+### What if I’m on a CDN that isn’t Cloudflare?
+
+If you're currently on an alternative CDN, willing to provide user access to that CDN, and willing to partner with Trakkr for an initial custom installation, please contact [mack@trakkr.ai](mailto:mack@trakkr.ai).

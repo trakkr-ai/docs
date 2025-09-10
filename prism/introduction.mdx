@@ -1,0 +1,65 @@
+---
+title: "Introduction"
+description: "So, what's this all about then?"
+---
+
+Welcome to the documentation for Trakkr's Prism feature. Prism is a state-of-the-art system that shows optimised pages to AI crawlers that visit your site, all while keeping it untouched for human visitors and regular SEO crawlers.
+
+<Info>
+  Prism is available to users on all plans. Head to the [plans page](/plans) to learn more.
+</Info>
+
+### How does Prism optimise my site?
+
+So, what makes Prism's pages optimised? Well, there are a couple of key components to this.
+
+**Pre-rendering**
+Lots of modern websites use Javascript to render important information. This means that text isn't visible in the HTML itself, and your browser has to run the site's Javascript in order to see the site's text. While this isn't a problem for SEO (SEO crawlers render Javascript) it's a big problem for AI crawlers like those used by ChatGPT, Perplexity and Anthropic. Their crawlers don't execute Javascript, meaning that significant portions of you site may be invisible to them.
+
+Prism fixed this by pre-rendering your Javascript, and saving the output into the page itself. That way, AI crawlers can see all of the information on your site, rather than just a blank page.
+
+**Compression**
+Prism strips out all of the unnecessary code from your site before serving it to crawlers. Like we just said, AI crawlers can't render javascript, and they certainly aren't going to load your tracking pixels, and so by stripping all of this out Prism is able to deliver a more fact-dense version of your page with no unnecessary text.
+
+**Header injection**
+Crawlers prioritise information contained near the top of the page, and especially in a site's header. Prism takes advantage of this by storing fact-dense meta content in your page header, to give crawlers an instant understanding of your page.
+
+Prism allows you to toggle five optional header features:
+
+- **Structured data injection**
+  Automatically detects your page type, and key features from its content, and builds JSON-LD schema around this.
+- **Key facts extraction**
+  Prism understands and highlights the key facts from your content, and puts these in an immediately parseable form for crawlers to reference.
+- **Automated FAQ injection**
+  Prism contextually understands the question-answer pairs that AI crawlers are most likely to pull from your pages, and puts them in FAQ format in your metadata.
+- **AI summary block**
+  Prism concisely summarises your page content and takeaways, and places this in the page header for crawlers to reference.
+- **Entity recognition**
+  Prism extracts the key entities (brands, products, people) referenced in your page, and lists them in an easily parseable format.
+
+All of these features work together to deliver AI crawlers an easily understandable version of your page content, as soon as they request it.
+
+### How does Prism work?
+
+Prism is currently only available to users who have sites routed through [Cloudflare](https://cloudlflare.com). Cloudflare is a  popular CDN (content delivery network) that many sites use to manage their traffic. Cloudflare allows you to insert small pieces of code that handle incoming requests, a feature known as a _Cloudflare Worker_.
+
+Prism essentially works by asking you to install a Cloudflare Worker script on your domain. The worker script looks at all incoming requests and:
+
+- _If they're from an AI crawler_
+  They get routed to Prism's servers which serve a cached, compressed version of the page, typically in under 100 milliseconds.
+- _If they're from anything else (e.g. human, SEO crawler, etc)_
+  They get handled as usual, and routed through to your site, adding less than 10 milliseconds extra latency.
+
+The first time an AI crawler visits a page, they actually receive the page as normal. Prism schedules a task in the background to go and crawl that page itself, produce an optimised version, ready to serve for all future AI crawler visits to that page.
+
+This is a basic understanding of how Prism works, but you can find more information on the Technical Details page.
+
+### Are there any risks to using Prism?
+
+Prism has been designed with risk mitigation in mind.
+
+Prism will never serve different content to traditional SEO crawlers, mitigating risk of SEO issues arising. Additionally, you can customise the crawlers that Prism runs on during your installation, and toggle features independently of one another.
+
+That said, Prism is a first-of-its-kind technology. This comes with a significant first-mover advantage, but also inevitably some level of risk. Prism has been running for extended periods on a number of sites involved in its beta, however you should only proceed with using Prism if you feel comfortable that you understand how it works, and with any possible risk involved.
+
+If you have any questions in this regard, please contact [mack@trakkr.ai](mailto:mack@trakkr.ai).

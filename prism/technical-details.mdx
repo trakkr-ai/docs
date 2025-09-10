@@ -1,0 +1,46 @@
+---
+title: "Technical Details"
+description: "A lower-level look at how Prism actually works"
+---
+
+This is a detailed guide exploring Trakkr Prism's technical details. It's not necessary to read for most users, but may be of interest for developers or more technical users that want to understand exactly how Prism is operating on their site.
+
+### The fundamentals
+
+Trakkr Prism is currently available for sites routed through [Cloudflare](https://cloudflare.com), as it relies on Cloudflare workers to handle and respond to incoming requests.
+
+Installation essentially involves installing a roughly hundred-line Cloudflare worker script that responds to all incoming requests by either passing them through to the origin server (if they're from a human, or traditional SEO crawler) or handing them over to Trakkr's Prism server in the case that they're from an AI crawler.
+
+AI crawlers are identified by their user-agent. The Cloudflare worker script contains a hardcoded list of user-agent patterns which are matched against in order to know which crawlers are routed to Prism, and to handle this routing as quickly as possible.
+
+Once a crawler request is routed to Prism, Prism will do one of two things:
+
+- **If it's the first time that page has been visited**
+  Prism will serve the crawler the page just as usual. It will also trigger an asynchronous job which renders the page, removes all the elements that crawlers can't execute/parse, and injects all enabled features into the page's head. This page is then cached for 7 days, ready to be served to the next crawler that visits that page.
+- **If that page has been visited by a crawler before**
+  Then a cached version will exist (provided it's 7 day cache expiry has not passed) and the crawler will received the cached, optimised version of that page. If the cache has expired, then the bullet-point above will apply.
+
+Prism's gateway server is designed to add minimal latency, and cached page versions are stored in a globally distributed CDN, meaning that Prism typically responds to crawler requests in under 100 milliseconds. You can track response times in your Prism dashboard.
+
+### 404 pages
+
+If you monitor your Prism logs, you may notice 404 URLs (i.e. URLs where no content exists) appearing frequently. The truth is that AI crawlers often send a high volume of request to pages that don't exist, likely in an attempt to speculatively discover pages within your site.
+
+The first time Prism gets a request to a specific 404 page, it will attempt to render and prepare a cached version of it. When it realises that the page returns a 404 error, Prism will cache an extremely lightweight, crawler-friendly 404 page, and serve this for all future requests to this URL.
+
+The first visit will count as usage in your Prism usage section (we need to attempt to render the page to see that it's a 404 page), but future requests from crawlers to that page will not count towards your usage. These requests will still appear in your crawler logs however.
+
+### Custom implementations
+
+The fact that Prism installation essentially involves placing Prism's code onto a Cloudflare Worker means that there is scope for custom implementations. If you're confident working with edge compute/Cloudflare workers, you can modify the code yourself to achieve things like:
+
+- **Page/path specific implementations**
+  Rather than having Prism run on your whole site, have it run on specific subsections.
+- **Custom crawler selection**
+  While the Prism UI offers options to customise the crawlers that Prism runs on, you may wish to go beyond the preconfigured options and write your own logic here.
+
+Options such as these should only be attempted if you're technically comfortable with the modifications required. If you're running a high-volume site, on the Trakkr Scale plan, and looking to discuss custom implementations, please contact [mack@trakkr.ai](mailto:mack@trakkr.ai). Unfortunately we're not able to offer custom implementation support for Growth plan accounts.
+
+### My site is on a CDN, but not Cloudflare
+
+If your site is on a CDN with edge compute functionality equivalent to Cloudflare workers (Fastly, Akamai, AWS Cloudfront), please get in touch with [mack@trakkr.ai](mailto:mack@trakkr.ai). We can't promise implementation support, but may be able to work with you to bring Prism to your CDN.

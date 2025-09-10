@@ -37,6 +37,17 @@
           {
             "group": "Advanced Features",
             "pages": [
+              {
+                "group": "Prism",
+                "expanded": false,
+                "pages": [
+                  "prism/introduction",
+                  "prism/installation",
+                  "prism/usage",
+                  "prism/technical-details",
+                  "prism/troubleshooting-and-faqs"
+                ]
+              },
               "sentiment-analysis",
               "citations",
               {
