@@ -62,9 +62,9 @@ The result? Your content gets properly indexed and referenced by AI platforms, i
 
 At it's core, Prism does two main things to all pages that it's enabled on:
 
-- Renders Javascript
+- **Renders Javascript**\
   Lots of modern web pages have content that doesn't exist in the raw HTML, but that gets rendered by javascript running in your browser. https://trakkr.ai is a great example of this, if you want to take a look. Prism makes this content visible to AI crawlers by rendering the Javascript on its own server, and inserting that back into the page as raw HTML.
-- Compresses the page
+- **Compresses the page**\
   Prism removes all the page elements that crawlers ignore. This includes the Javascript from the step above that crawlers can't render (and is now unnecessary), and lots of other things like tracking tags and CSS styles. These slow the crawler down, and don't add anything  to (or may even hinder) its understanding.
 
 Prism also allows you to implement more specific features, all of which are configurable. We'd recommend running Prism with all enabled, but you could equally disable them all to just take advantage of the two points above.
@@ -81,9 +81,9 @@ You can see more details [here](https://learn.trakkr.ai/prism/usage).
 
 We've taken considerable steps to mitigate any risk to sites' SEO. These are:
 
-- **Prism doesn't touch SEO crawlers**
+- **Prism doesn't touch SEO crawlers**\
   Prism doesn't allow you to enable it on any traditional SEO crawlers, only crawlers related to AI products like ChatGPT, Gemini, and others. Insofar as _cloaking_ is defined as showing different content to SEO crawlers versus human visitors, Prism doesn't cloak as it treats SEO crawlers the same as humans. There is no evidence that AI crawlers would look negatively at brands for implementing a system like Prism.
-- **Prism doesn't modify semantic content**
+- **Prism doesn't modify semantic content**\
   The concern around _cloaking_ is specifically showing content that's semantically different to crawlers versus other visitors. Prism doesn't modify semantic page content. It simply pre-renders Javascript (which modern SEO crawlers do anyway, but AI crawlers don't for economic reasons) and adds meta content to the page head.
 
 We believe that the steps above mitigate concerns of cloaking, or of other impact to site SEO performance. That said, Prism is a first-of-its-kind system, and while we've been running a range of sites in beta without noticing any adverse affects to SEO, usage of Prism is at your own liability. Trakkr accepts no responsibility for changes in SEO performance (positive or negative) while using Prism.

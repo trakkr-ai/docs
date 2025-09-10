@@ -15,9 +15,9 @@ AI crawlers are identified by their user-agent. The Cloudflare worker script con
 
 Once a crawler request is routed to Prism, Prism will do one of two things:
 
-- **If it's the first time that page has been visited**
+- **If it's the first time that page has been visited**\
   Prism will serve the crawler the page just as usual. It will also trigger an asynchronous job which renders the page, removes all the elements that crawlers can't execute/parse, and injects all enabled features into the page's head. This page is then cached for 7 days, ready to be served to the next crawler that visits that page.
-- **If that page has been visited by a crawler before**
+- **If that page has been visited by a crawler before**\
   Then a cached version will exist (provided it's 7 day cache expiry has not passed) and the crawler will received the cached, optimised version of that page. If the cache has expired, then the bullet-point above will apply.
 
 Prism's gateway server is designed to add minimal latency, and cached page versions are stored in a globally distributed CDN, meaning that Prism typically responds to crawler requests in under 100 milliseconds. You can track response times in your Prism dashboard.
@@ -34,9 +34,9 @@ The first visit will count as usage in your Prism usage section (we need to atte
 
 The fact that Prism installation essentially involves placing Prism's code onto a Cloudflare Worker means that there is scope for custom implementations. If you're confident working with edge compute/Cloudflare workers, you can modify the code yourself to achieve things like:
 
-- **Page/path specific implementations**
+- **Page/path specific implementations** \
   Rather than having Prism run on your whole site, have it run on specific subsections.
-- **Custom crawler selection**
+- **Custom crawler selection**\
   While the Prism UI offers options to customise the crawlers that Prism runs on, you may wish to go beyond the preconfigured options and write your own logic here.
 
 Options such as these should only be attempted if you're technically comfortable with the modifications required. If you're running a high-volume site, on the Trakkr Scale plan, and looking to discuss custom implementations, please contact [mack@trakkr.ai](mailto:mack@trakkr.ai). Unfortunately we're not able to offer custom implementation support for Growth plan accounts.

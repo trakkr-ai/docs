@@ -29,15 +29,15 @@ Crawlers prioritise information contained near the top of the page, and especial
 
 Prism allows you to toggle five optional header features:
 
-- **Structured data injection:**\
+- **Structured data injection**\
   Automatically detects your page type, and key features from its content, and builds JSON-LD schema around this.
-- **Key facts extraction**
+- **Key facts extraction**\
   Prism understands and highlights the key facts from your content, and puts these in an immediately parseable form for crawlers to reference.
-- **Automated FAQ injection**
+- **Automated FAQ injection**\
   Prism contextually understands the question-answer pairs that AI crawlers are most likely to pull from your pages, and puts them in FAQ format in your metadata.
-- **AI summary block**
+- **AI summary block**\
   Prism concisely summarises your page content and takeaways, and places this in the page header for crawlers to reference.
-- **Entity recognition**
+- **Entity recognition**\
   Prism extracts the key entities (brands, products, people) referenced in your page, and lists them in an easily parseable format.
 
 All of these features work together to deliver AI crawlers an easily understandable version of your page content, as soon as they request it.
@@ -48,9 +48,9 @@ Prism is currently only available to users who have sites routed through [Cloudf
 
 Prism essentially works by asking you to install a Cloudflare Worker script on your domain. The worker script looks at all incoming requests and:
 
-- _If they're from an AI crawler_
+- _If they're from an AI crawler_\
   They get routed to Prism's servers which serve a cached, compressed version of the page, typically in under 100 milliseconds.
-- _If they're from anything else (e.g. human, SEO crawler, etc)_
+- _If they're from anything else (e.g. human, SEO crawler, etc)_\
   They get handled as usual, and routed through to your site, adding less than 10 milliseconds extra latency.
 
 The first time an AI crawler visits a page, they actually receive the page as normal. Prism schedules a task in the background to go and crawl that page itself, produce an optimised version, ready to serve for all future AI crawler visits to that page.
