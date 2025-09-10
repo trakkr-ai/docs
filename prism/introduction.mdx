@@ -14,19 +14,22 @@ Welcome to the documentation for Trakkr's Prism feature. Prism is a state-of-the
 So, what makes Prism's pages optimised? Well, there are a couple of key components to this.
 
 **Pre-rendering**
+
 Lots of modern websites use Javascript to render important information. This means that text isn't visible in the HTML itself, and your browser has to run the site's Javascript in order to see the site's text. While this isn't a problem for SEO (SEO crawlers render Javascript) it's a big problem for AI crawlers like those used by ChatGPT, Perplexity and Anthropic. Their crawlers don't execute Javascript, meaning that significant portions of you site may be invisible to them.
 
 Prism fixed this by pre-rendering your Javascript, and saving the output into the page itself. That way, AI crawlers can see all of the information on your site, rather than just a blank page.
 
 **Compression**
+
 Prism strips out all of the unnecessary code from your site before serving it to crawlers. Like we just said, AI crawlers can't render javascript, and they certainly aren't going to load your tracking pixels, and so by stripping all of this out Prism is able to deliver a more fact-dense version of your page with no unnecessary text.
 
 **Header injection**
+
 Crawlers prioritise information contained near the top of the page, and especially in a site's header. Prism takes advantage of this by storing fact-dense meta content in your page header, to give crawlers an instant understanding of your page.
 
 Prism allows you to toggle five optional header features:
 
-- **Structured data injection**
+- **Structured data injection:**\
   Automatically detects your page type, and key features from its content, and builds JSON-LD schema around this.
 - **Key facts extraction**
   Prism understands and highlights the key facts from your content, and puts these in an immediately parseable form for crawlers to reference.
