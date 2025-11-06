@@ -20,12 +20,12 @@
           {
             "group": "Intro",
             "pages": [
-              "quickstart",
+              "introduction",
               {
                 "group": "How Trakkr Works",
                 "expanded": false,
                 "pages": [
-                  "introduction",
+                  "quickstart",
                   "understanding-scores",
                   "reading-reports"
                 ]
