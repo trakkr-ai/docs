@@ -1,0 +1,265 @@
+---
+title: 'Agency Features'
+description: 'Manage multiple client brands and create custom demo dashboards for pitching new clients'
+---
+
+<Info>
+  Agency features are available exclusively on the Scale plan and require [Teams](/teams) to be set up. [Upgrade to access](/plans)
+</Info>
+
+## Overview
+
+Agency features are designed for marketing agencies managing multiple client brands. These tools help you compare performance across your portfolio and create compelling demo dashboards when pitching to prospective clients.
+
+<Warning>
+  Only enable agency features if you're actually working in an agency. These tools add UI elements specifically for multi-client workflows that may be unnecessary for single-brand users.
+</Warning>
+
+## Enabling Agency Features
+
+<Steps>
+  <Step title="Set up your team">
+    Ensure you're on the Scale plan and have created your team. See the [Teams documentation](/teams) for details.
+  </Step>
+
+  <Step title="Navigate to the Team tab">
+    Go to **My Account** and select the **Team** tab.
+
+    [image]
+  </Step>
+
+  <Step title="Enable agency features">
+    Click **Enable agency features**. This adds an "Agency" section to your sidebar with Brand Comparison and My Demos tools.
+
+    [image]
+  </Step>
+</Steps>
+
+Once enabled, you'll see a new **Agency** section at the bottom of your left sidebar with two features:
+- **Brand Comparison**
+- **My Demos**
+
+## Brand Comparison
+
+View and compare key metrics across all brands your team manages in a single, comprehensive table.
+
+[image]
+
+### What's Included
+
+The Brand Comparison table shows:
+
+- **Brand**: Brand name and logo
+- **Prompts**: Number of active prompts being tracked
+- **Research**: Status of Prompt Research (or number of prompts found)
+- **Visibility**: Current Visibility score
+- **Technical Score**: Technical audit score
+- **Content Score**: Content optimization score
+- **Competitors**: Competitive ranking and total competitors tracked
+
+### Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Portfolio Overview" icon="grid" color="#0e9373">
+    Get a birds-eye view of all client performance at a glance
+  </Card>
+  <Card title="Identify Priorities" icon="flag" color="#0e9373">
+    Spot which clients need immediate attention based on scores
+  </Card>
+  <Card title="Client Reporting" icon="file-chart-column" color="#0e9373">
+    Pull comparative data for multi-client reports and presentations
+  </Card>
+  <Card title="Strategic Planning" icon="chess" color="#0e9373">
+    Understand which clients are succeeding and why
+  </Card>
+</CardGroup>
+
+The table displays all brands your team has access to. Use this to quickly scan for:
+- Brands with low Visibility or Technical scores that need optimization
+- Clients ready for Prompt Research
+- Opportunities to run Technical Audits or Content Optimization
+- Competitive positioning across your portfolio
+
+## My Demos
+
+Create realistic mock Trakkr dashboards to show prospective clients what their AI visibility could look like with your services.
+
+### Creating a Demo Dashboard
+
+<Steps>
+  <Step title="Navigate to My Demos">
+    Click **Agency** in your sidebar, then select **My Demos**.
+
+    [image]
+  </Step>
+
+  <Step title="Enter main brand details">
+    Fill in:
+    - **Main brand name**: The prospect you're pitching (e.g., "Nike")
+    - **Main brand URL**: Their website URL (e.g., "nike.com")
+    - **Visibility**: Set their mock Visibility score (0-100)
+    
+    The brand's favicon will automatically appear once you enter a valid URL.
+  </Step>
+
+  <Step title="Add competitors">
+    Add up to 2 competitors:
+    - **Competitor name**: Competitor brand name
+    - **Competitor URL**: Their website
+    - **Visibility**: Set their mock score relative to the main brand
+    
+    Use these scores strategically to show the prospect where they stand vs. competitors.
+  </Step>
+
+  <Step title="Add example prompts">
+    Enter 3 sample prompts relevant to the prospect's industry. These appear in the demo dashboard to make it look realistic.
+  </Step>
+
+  <Step title="Create demo">
+    Click **Create Demo**. The demo dashboard generates with simulated data based on the visibility scores you set.
+  </Step>
+</Steps>
+
+[image]
+
+### Demo Dashboard Features
+
+The generated demo dashboard includes:
+
+- **Realistic Visibility scores** based on your input
+- **Mock daily reports** showing simulated tracking
+- **Competitor comparisons** with the visibility scores you configured
+- **Example prompts** you provided
+- **Simulated metrics** across all Trakkr features
+
+<Note>
+  **All data in demo dashboards is simulated**. It's designed to look realistic for pitching but doesn't reflect actual AI tracking data.
+</Note>
+
+### Managing Saved Demos
+
+All created demos appear in the **Saved demos** section below the creation form.
+
+[image]
+
+For each saved demo, you can:
+- **View demo**: Open the full demo dashboard
+- **Delete**: Permanently remove the demo
+
+<Warning>
+  Demos cannot be edited after creation. If you need to change visibility scores, competitors, or other details, delete the demo and create a new one.
+</Warning>
+
+### Demo Strategy Tips
+
+**Adjust visibility scores strategically:**
+- Show the prospect slightly behind competitors to demonstrate opportunity
+- Set their score too low to create urgency
+- Or show them leading to validate their current efforts and upsell optimization
+
+**Choose relevant competitors:**
+- Use their actual market competitors for credibility
+- Select competitors they're actively trying to beat
+- Include industry leaders to show aspirational positioning
+
+**Write realistic prompts:**
+- Use questions their target customers would actually ask
+- Focus on their core products or services
+- Make prompts specific to their industry
+
+**Present professionally:**
+- Walk prospects through the demo dashboard live
+- Explain what each metric means for their business
+- Use the demo as a conversation starter, not just a visual aid
+
+## Permissions
+
+| Action | Owner | Admin | Viewer |
+|--------|-------|-------|--------|
+| Enable/disable agency features | ✓ | ✓ | ✗ |
+| View Brand Comparison | ✓ | ✓ | ✗ |
+| Create demos | ✓ | ✓ | ✗ |
+| View demos | ✓ | ✓ | ✗ |
+| Delete demos | ✓ | ✓ | ✗ |
+
+<Note>
+  Only team owners and admins can create and manage demos. Viewers cannot access agency features.
+</Note>
+
+## Disabling Agency Features
+
+If you no longer need agency features:
+
+1. Go to **My Account** → **Team** tab
+2. Click **Disable agency features**
+3. Confirm the action
+
+When disabled:
+- The Agency section disappears from your sidebar
+- Saved demos are preserved but inaccessible
+- Brand Comparison is unavailable
+- You can re-enable at any time to restore access
+
+<Tip>
+  Disabling agency features doesn't delete your saved demos. Re-enable the features later to access them again.
+</Tip>
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion title="New Client Pitches">
+    Create a demo showing the prospect's current estimated AI visibility vs. competitors. Use realistic scores (slightly low) to demonstrate the opportunity your services provide. Walk them through what Trakkr tracking would look like for their brand.
+  </Accordion>
+
+  <Accordion title="Upsell Existing Clients">
+    For clients not yet on Trakkr, create demos using their real competitors and industry-specific prompts. Show them what visibility insights they're missing and how it could inform their content strategy.
+  </Accordion>
+
+  <Accordion title="Portfolio Reporting">
+    Use Brand Comparison to create monthly portfolio reports for your agency leadership. Quickly identify which clients are improving, which need attention, and where to allocate resources.
+  </Accordion>
+
+  <Accordion title="Team Onboarding">
+    When onboarding new team members, use demos to teach them how Trakkr works without risking changes to real client data. Create practice scenarios for training purposes.
+  </Accordion>
+
+  <Accordion title="Proposal Development">
+    Include demo screenshots in proposals to help prospects visualize what AI visibility tracking looks like. Customize demos to match each prospect's specific competitive landscape.
+  </Accordion>
+</AccordionGroup>
+
+## Limits
+
+- **Demo creation**: Unlimited demos on Scale plan
+- **Brands in comparison**: Shows all brands your team manages
+- **Demo storage**: Demos persist indefinitely until deleted
+- **Competitor count**: Up to 2 competitors per demo
+- **Prompt count**: 3 example prompts per demo
+
+## Best Practices
+
+### Brand Comparison
+
+1. **Regular reviews**: Check Brand Comparison weekly to spot trends across clients
+2. **Set benchmarks**: Establish target scores for your clients and track progress
+3. **Prioritize actions**: Focus on clients with the biggest gaps or urgent needs
+4. **Report insights**: Share comparative data with your team in planning sessions
+
+### Demo Creation
+
+1. **Research first**: Look up the prospect's actual competitors and industry before creating
+2. **Be conservative**: Use realistic, slightly pessimistic scores to avoid overselling
+3. **Update regularly**: Delete outdated demos and create fresh ones for active pitches
+4. **Organize naming**: Use consistent naming conventions for easy identification
+5. **Practice delivery**: Run through the demo yourself before presenting to prospects
+
+## Related Features
+
+<CardGroup cols={2}>
+  <Card title="Teams" icon="users" href="/teams" color="#0e9373">
+    Learn how to set up and manage your agency team
+  </Card>
+  <Card title="Plans" icon="credit-card" href="/plans" color="#0e9373">
+    See Scale plan pricing and features
+  </Card>
+</CardGroup>

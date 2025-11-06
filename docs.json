@@ -18,25 +18,32 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Intro",
             "pages": [
-              "getting-started",
-              "plans"
-            ]
-          },
-          {
-            "group": "Using Trakkr",
-            "pages": [
-              "understanding-scores",
-              "competitors",
-              "reading-reports",
-              "working-with-prompts",
+              "quickstart",
+              {
+                "group": "How Trakkr Works",
+                "expanded": false,
+                "pages": [
+                  "introduction",
+                  "understanding-scores",
+                  "reading-reports"
+                ]
+              },
+              "plans",
               "troubleshooting"
             ]
           },
           {
-            "group": "Advanced Features",
+            "group": "Features",
             "pages": [
+              "working-with-prompts",
+              "prompt-research",
+              "competitors",
+              "citations",
+              "outreach",
+              "technical-audit",
+              "optimize-content",
               {
                 "group": "Prism",
                 "expanded": false,
@@ -49,23 +56,33 @@
                 ]
               },
               "sentiment-analysis",
-              "citations",
               {
-                "group": "Trakkr Pixel",
+                "group": "Tracking",
                 "expanded": false,
                 "pages": [
-                  "traffic-analytics",
-                  "crawler-analytics"
+                  "google-analytics",
+                  "crawler-analytics",
+                  "traffic-analytics"
                 ]
-              },
-              "teams",
+              }
+            ]
+          },
+          {
+            "group": "My Account",
+            "pages": [
+              "enterprise",
               {
                 "group": "Integrations",
                 "expanded": false,
                 "pages": [
+                  "api",
+                  "csv-exports",
+                  "google-sheets",
                   "looker-studio"
                 ]
-              }
+              },
+              "teams",
+              "agency-features"
             ]
           }
         ]

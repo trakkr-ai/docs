@@ -3,9 +3,9 @@ title: "Traffic Analytics"
 description: "Track real user traffic referred to your website from AI models. See which pages LLMs are recommending to users and optimize your content strategy based on actual AI-driven traffic patterns."
 ---
 
-<Info>
-  Traffic analytics is available to users on all plans. Head to the [plans page](/plans) to learn more.
-</Info>
+<Warning>
+  **Traffic Analytics is deprecated.** This feature is only available on older accounts. New users should use [Google Analytics integration](/google-analytics) instead, which provides more comprehensive traffic tracking from AI sources.
+</Warning>
 
 Traffic analytics reveals the real business impact of AI model recommendations by tracking actual user sessions that arrive at your website from LLM platforms. While other metrics show you mentions and sentiment, traffic analytics shows you the bottom line: which of your pages are generating real visitors when AI models recommend them to users.
 
@@ -206,10 +206,24 @@ Maintain consistent tracking implementation across all pages to ensure accurate 
 
 ---
 
-<Card title="Crawler Analytics" icon="globe" href="/crawler-analytics">
-  Learn how to track AI training crawler activity on your website
-</Card>
+## Migrate to Google Analytics
 
-<Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores">
-  Discover how Visibility and Presence scores complement traffic insights
-</Card>
+For new users, we recommend using the Google Analytics integration instead:
+
+<CardGroup cols={2}>
+  <Card title="Google Analytics" icon="chart-line" href="/google-analytics" color="#0e9373">
+    **Recommended**: More comprehensive traffic tracking with GA4 integration
+  </Card>
+
+  <Card title="Crawler Analytics" icon="spider" href="/crawler-analytics" color="#0e9373">
+    Monitor AI crawlers visiting your site to train their models
+  </Card>
+
+  <Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores" color="#0e9373">
+    See how traffic correlates with Visibility and Presence scores
+  </Card>
+
+  <Card title="Working with Prompts" icon="message-question" href="/working-with-prompts" color="#0e9373">
+    Track which prompts drive the traffic patterns you observe
+  </Card>
+</CardGroup>

@@ -1,0 +1,265 @@
+---
+title: 'Google Sheets'
+description: 'Sync your Trakkr data to Google Sheets automatically each day for easy analysis and reporting'
+---
+
+<Info>
+  Google Sheets sync is available on all paid plans (Growth and Scale). [Upgrade to access](/plans)
+</Info>
+
+## Overview
+
+Google Sheets sync automatically exports your Trakkr data to a Google Sheet each morning, keeping your data fresh without manual exports. Perfect for building custom dashboards, client reports, or collaborative analysis.
+
+### When to Use Google Sheets Sync
+
+Google Sheets sync is ideal for:
+
+- **Daily updates** - Automated data refresh every morning
+- **Team collaboration** - Share live data with colleagues without Trakkr access
+- **Simple dashboards** - Build charts and reports in familiar spreadsheet tools
+- **Client reporting** - Keep client-facing sheets always current
+- **No-code analysis** - Use spreadsheet formulas without programming
+
+### Consider These Alternatives
+
+<CardGroup cols={2}>
+  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+    **Better for**: One-time downloads, offline analysis, custom date ranges
+  </Card>
+  
+  <Card title="API" icon="code" href="/api" color="#0e9373">
+    **Better for**: Custom integrations, real-time data, automated workflows
+  </Card>
+  
+  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+    **Better for**: Advanced visualizations, executive dashboards, no-code BI
+  </Card>
+</CardGroup>
+
+## How It Works
+
+Once configured, Trakkr syncs your data to Google Sheets automatically:
+
+- **Daily sync**: Every morning after your Trakkr data updates
+- **Three tabs**: One for each export format (Top-Level, Detailed, Raw Data)
+- **Automatic refresh**: Data overwrites each day to stay current
+- **Initial dump**: Immediate sync when you first set up the integration
+
+## Setting Up Google Sheets Sync
+
+<Steps>
+  <Step title="Create a Google Sheet">
+    Create a new, empty Google Sheet for your Trakkr data.
+  </Step>
+
+  <Step title="Share with Trakkr">
+    Share your sheet (with editor permissions) with:
+    
+    **google-sheets@trakkr-ai.iam.gserviceaccount.com**
+
+    This service account needs access to write data to your sheet.
+
+    [image]
+  </Step>
+
+  <Step title="Navigate to Google Sheets integration">
+    Go to **Integrations** → **Google Sheets** in Trakkr.
+  </Step>
+
+  <Step title="Paste your sheet URL">
+    Copy your Google Sheet URL and paste it into the field. Click **Set up Sync**.
+
+    [image]
+  </Step>
+
+  <Step title="Wait for initial sync">
+    Trakkr verifies permissions and performs an initial data dump. This takes about 1 minute to complete.
+  </Step>
+</Steps>
+
+<Note>
+  Trakkr checks that the service account has the correct sharing permissions before setting up the sync. If permissions are incorrect, you'll see an error message.
+</Note>
+
+## What Gets Synced
+
+Your Google Sheet will contain three tabs, each with different data views:
+
+### Tab 1: Top-Level
+
+High-level performance metrics over time.
+
+**Columns**:
+- Date
+- Brand
+- Visibility
+- Presence
+
+**Best for**: Executive dashboards, trend charts, performance overviews
+
+### Tab 2: Detailed
+
+Prompt-level performance for in-depth analysis.
+
+**Columns**:
+- Date
+- Prompt
+- Tag
+- Model
+- Rank
+
+**Best for**: Content optimization, prompt analysis, model-specific insights
+
+### Tab 3: Raw Data
+
+Complete competitive intelligence with full rankings.
+
+**Columns**:
+- Date
+- Prompt
+- Tag
+- Model
+- Rank1 through Rank10
+
+**Best for**: Competitive analysis, market research, comprehensive data projects
+
+## Managing Your Sync
+
+### Viewing Sync Status
+
+Once configured, the Google Sheets integration page shows:
+- Your connected sheet URL
+- **View Sheet**: Opens your Google Sheet in a new tab
+- **Delete Sync**: Disconnects the integration
+
+[image]
+
+### Updating Your Sheet
+
+To change which sheet receives data:
+1. Click **Delete Sync**
+2. Set up a new sync with a different sheet URL
+
+<Warning>
+  Deleting the sync stops automatic daily updates. Your Google Sheet will retain existing data, but no new data will be synced.
+</Warning>
+
+## Sync Timing
+
+- **Daily sync**: Occurs each morning, immediately after Trakkr updates your data
+- **Initial sync**: Runs within 1 minute of setup
+- **Data refresh**: Overwrites existing data to ensure accuracy
+
+<Tip>
+  The sync happens automatically—no need to manually refresh or trigger updates.
+</Tip>
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion title="Client Reporting">
+    Build custom client reports with Google Sheets formulas and charts. Data automatically updates each day without manual exports.
+  </Accordion>
+
+  <Accordion title="Team Collaboration">
+    Share your synced Google Sheet with team members or stakeholders. Everyone sees the latest data without needing Trakkr access.
+  </Accordion>
+
+  <Accordion title="Custom Dashboards">
+    Create personalized dashboards using Google Sheets charts, pivot tables, and conditional formatting. Data stays current automatically.
+  </Accordion>
+
+  <Accordion title="Data Analysis">
+    Use Google Sheets formulas and functions to analyze trends, calculate growth rates, or identify patterns in your AI visibility data.
+  </Accordion>
+
+  <Accordion title="Automated Workflows">
+    Connect your synced sheet to other tools via Zapier, Google Apps Script, or other automation platforms for advanced workflows.
+  </Accordion>
+</AccordionGroup>
+
+## Permissions & Security
+
+### Required Permissions
+
+The Trakkr service account needs **Editor** access to:
+- Write data to your sheet
+- Create and update tabs
+- Overwrite data during daily syncs
+
+### Data Security
+
+- **Service account**: Uses Google's secure service account authentication
+- **Access control**: You control who can view your Google Sheet
+- **Data privacy**: Only your Trakkr data is synced—no access to other sheets
+
+<Note>
+  The service account only has access to sheets you explicitly share with it. It cannot access any other files in your Google Drive.
+</Note>
+
+## Troubleshooting
+
+### Sync Setup Fails
+
+If you see an error during setup:
+
+1. **Verify sharing**: Ensure you shared the sheet with `google-sheets@trakkr-ai.iam.gserviceaccount.com`
+2. **Check permissions**: The service account needs **Editor** access, not just Viewer
+3. **Confirm URL**: Make sure you copied the full Google Sheet URL
+4. **Try again**: Delete the sync attempt and start over
+
+### Data Not Updating
+
+If your data isn't syncing:
+
+1. **Check sync status**: Verify the sync is still active in the integration page
+2. **Confirm timing**: Syncs happen in the morning—wait until after your Trakkr data updates
+3. **Verify permissions**: Ensure the service account still has access to your sheet
+4. **Re-sync**: Delete and recreate the sync if issues persist
+
+### Missing Tabs
+
+If tabs are missing or incorrectly formatted:
+
+- **Delete old tabs**: Remove any manually created tabs with the same names
+- **Re-run sync**: Delete the sync and set up again to regenerate tabs
+- **Check permissions**: Ensure the service account can edit the sheet
+
+## Tips for Using Synced Data
+
+### Preserve Manual Work
+
+If you add custom charts or formulas to your synced sheet:
+- Create a separate tab for analysis—don't modify the synced tabs
+- Use formulas that reference the synced tabs (e.g., `='Top-Level'!A:D`)
+- This ensures your custom work isn't overwritten during daily syncs
+
+### Combining Data
+
+Use Google Sheets formulas to combine data from multiple tabs:
+- **VLOOKUP**: Match data across tabs
+- **Pivot tables**: Aggregate data from Raw Data tab
+- **Charts**: Visualize trends from Top-Level tab
+
+### Sharing with Stakeholders
+
+When sharing your synced sheet:
+- Set appropriate permissions (Viewer vs. Editor)
+- Add a note explaining the sync timing
+- Create a separate "Dashboard" tab for easy viewing
+
+## Related Integrations
+
+<CardGroup cols={2}>
+  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+    One-time CSV exports for offline analysis
+  </Card>
+  <Card title="API" icon="code" href="/api" color="#0e9373">
+    Build custom integrations with programmatic access
+  </Card>
+  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+    Connect Google Sheets to Looker Studio for advanced dashboards
+  </Card>
+</CardGroup>
+

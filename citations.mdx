@@ -1,168 +1,284 @@
 ---
 title: "Citations"
-description: "See what people are saying about your brand and market online. Track mentions, sentiment, and competitive positioning."
+description: "Discover which web sources AI models use to learn about your brand and inform their recommendations"
 ---
 
 <Info>
-  Citations are available to users on all plans. Head to the [plans page](/plans) to learn more.
+  Citations are available on paid plans only. Trakkr collects and stores citation data from your daily reports to give you insights into how AI models learn about your brand. [Upgrade to access](/plans)
 </Info>
 
-[Citations](https://trakkr.ai/citations) shows you what people are actually saying about your brand and market online. It finds real conversations, reviews, and discussions that mention your brand or industry—the kind of mentions you'd miss with basic keyword searches.
+Citations shows you the actual web sources that AI models reference when answering questions about your industry. When you run daily prompts, AI models often use citations to inform their responses—and these sources directly influence how they understand and recommend your brand.
 
-This isn't just a _nice-to-know_. AI models rely on citations to learn about your brand, and to inform the recommendations they give to potential customers. Trakkr's Citations feature gives you a comprehensive view of these citations, so you can start shifting the narrative in your brand's favour.
+Understanding which websites, articles, and discussions AI models rely on gives you unique insights into:
 
-## What You're Looking At
+- **Content influence**: Which domains and articles shape AI model opinions about your industry
+- **Competitive intelligence**: Where competitors are getting mentioned and why
+- **Reputation monitoring**: How your brand is being discussed in AI-referenced content
+- **Content strategy**: What topics and sources you should target to improve AI visibility
 
-You'll see two main views in your [Citations dashboard](https://trakkr.ai/citations):
+## How Citations Work with Daily Tracking
 
-### Market Analysis
+Citations are automatically collected from your daily reports on paid plans. Each day when Trakkr runs your prompts across AI models, we capture and store any citations the models reference in their responses.
 
-This analyzes your entire industry landscape, not just your brand. The system generates multiple search queries about your market (like "best financial planning software for startups" or "top project management tools for remote teams") and finds all the discussions happening around those topics.
+Over time, this builds a comprehensive database of:
 
-![Frame64(1) Pn](/images/Frame64\(1\).png)
+- Which sources AI models trust for information about your industry
+- How often specific domains and competitors appear in citations
+- What search queries models use to find relevant information
+- How your brand is represented in the content AI models reference
 
-**What you'll see:**
+The Citations feature has three tabs that help you analyze this data from different angles:
 
-- **Top Domains**: The most authoritative, most commonly-cited domains within your market
-- **Top Brands**: All competitors and players in your market, ranked by mention frequency
-- **Most Valuable Citations**: The actual content where your industry is discussed, including mentions of your brand and competitors
-
-This gives you a complete picture of your market's conversation landscape.
-
-### Brand-Specific
-
-This focuses on your particular brand. You'll see:
-
-- Mentions of your brand specifically
-- How you're being compared to competitors
-- What people are saying about your products
-
-![Frame65 Pn](/images/Frame65.png)
-
-You can click on each citation for further details.
-
-## How It Works
-
-### Market Analysis Mode
-
-The system generates multiple different search queries about your industry—the kind of questions your customers actually ask:
-
-```text
-"Best [industry] software for [specific audience]"
-"Top [industry] alternatives for [use case]"
-"How to choose [industry] solution for [problem]"
-```
-
-Then it searches the web to find authentic discussions and reviews that answer these questions. This gives you a complete view of your market's conversation landscape.
-
-### Brand-Specific Mode
-
-This focuses on your brand by asking questions like:
-
-```text
-"Is [Your Brand] worth it?"
-"How does [Your Brand] compare to alternatives?"
-"What's the real experience with [Your Brand]?"
-```
-
-### Behind the Scenes
-
-Some important tips to know when using the Citations feature are:
-
-**Frequency Filtering**\
-Citations prioritizes mentions that appear multiple times across different searches. This helps surface the most important and relevant discussions while filtering out one-off mentions.
-
-**AI-Powered Discovery**\
-The system uses multiple AI models (including ChatGPT and Claude) to search the web and analyze content. You can see which AI models found each citation and how they're using that information in responses.
-
-**Authority Scoring**\
-Each website gets a domain authority score based on factors like traffic, backlinks, and overall credibility. This helps you understand which sources carry the most weight in your industry.
-
-## What the Numbers Mean
-
-### Domain Rating (DR) and Page Authority (PA)
-
-These measure how trustworthy and influential a website is. Higher numbers mean the source carries more weight.
-
-### Sentiment Score
-
-This shows how positively or negatively your brand is discussed:
-
-| Score Range | Sentiment          | What It Means                           |
-| :---------- | :----------------- | :-------------------------------------- |
-| 80-100      | Very positive      | Strong recommendations and praise       |
-| 60-79       | Generally positive | Positive with some balanced perspective |
-| 40-59       | Neutral            | Mixed or balanced sentiment             |
-| 20-39       | Generally negative | Negative with criticism or concerns     |
-| 0-19        | Very negative      | Strong criticism or negative discussion |
-
-### Visibility
-
-This shows how prominently your brand appears in the content:
-
-<Steps>
-  <Step title="High Visibility">
-    Brand mentioned in titles, headers, or as main focus
-  </Step>
-  <Step title="Medium Visibility">
-    Brand discussed significantly within content
-  </Step>
-  <Step title="Low Visibility">
-    Brand mentioned briefly or in passing
-  </Step>
-</Steps>
-
-## Using Your Citations
-
-### Choose Your View
-
-<CardGroup cols={2}>
-  <Card title="Market Analysis" icon="globe">
-    Use when you want to understand your broader industry landscape and competitive positioning
+<CardGroup cols={3}>
+  <Card title="Citations" icon="quote-left" color="#0e9373">
+    View all web sources AI models reference when answering your prompts
   </Card>
-  <Card title="Brand-Specific" icon="magnifying-glass" color="#0e9373">
-    Use when you're focused on your brand's reputation and positioning, and understand how models speak about you
+  <Card title="Search Queries" icon="magnifying-glass" color="#0e9373">
+    See the actual search terms AI models use to find citations
+  </Card>
+  <Card title="Knowledge" icon="brain" color="#0e9373">
+    Understand what AI models know about your brand specifically
   </Card>
 </CardGroup>
 
-### Look for Patterns
+## Citations Tab
 
-Don't focus on individual mentions. Look for trends in:
+The main Citations tab shows all the web sources that AI models reference when responding to your prompts. This is where you discover which content is actually influencing how AI models understand and recommend brands in your industry.
 
-- Which sources mention you most
-- How sentiment changes over time
-- What topics come up repeatedly
-- How you compare to competitors
+[image]
 
-### Take Action
+### Summary Metrics
 
-Use what you find to:
+At the top, you'll see two key sections:
 
-- Address customer concerns
-- Create content that answers real questions
-- Identify partnership opportunities
-- Adjust your messaging
+**Top Domains**
 
-## Common Questions
+The domains that appear most frequently in citations. Citation share shows what percentage of all citations come from each domain. For example, if a domain has 18% citation share, it appears in 18% of all citations collected.
 
-<AccordionGroup>
-  <Accordion title="Why do I see different numbers in Market vs Brand-Specific?">
-    Market Analysis shows all mentions in your industry (including competitors), while Brand-Specific only shows mentions that specifically include your brand.
-  </Accordion>
-  <Accordion title="What makes a citation 'valuable'?">
-    Citations are ranked by relevance, authority of the source, and how prominently your brand is mentioned. Mentions that appear multiple times across different searches are considered more valuable.
-  </Accordion>
-  <Accordion title="Why do some citations show AI model usage?">
-    The system uses multiple AI models to search and analyze content. This shows you which models found each citation and how they're using that information in their responses.
-  </Accordion>
-</AccordionGroup>
+<Note>
+  Citation shares add up to more than 100% because individual citations can include multiple domains and brands.
+</Note>
+
+**Top Competitors**
+
+The brands that most frequently appear in citations alongside your prompts. This reveals which competitors are getting mentioned in the content that AI models reference when discussing your industry.
+
+### Most Important Citations
+
+The main section shows individual citations ranked by importance. Each citation displays:
+
+| Column | Description |
+|--------|-------------|
+| **Title & Domain** | The article title and source domain. Click the title to visit the original URL. |
+| **Times Cited** | How many times this citation has appeared across your daily reports. |
+| **Competitors Referenced** | The number of competing brands mentioned in this citation. |
+| **First Seen** | When this citation first appeared in your tracking. |
+| **Last Seen** | The most recent time this citation appeared in a model response. |
+
+**Expanding Citation Details**
+
+Click the expand arrow on any citation to see:
+
+- **Competitors mentioned**: All brands referenced in this article
+- **Prompts which this citation appeared in**: Which of your tracking prompts caused models to reference this citation
+- **AI search queries which found this citation**: The actual search terms models used to discover this content
+
+**Filtering for Brand Mentions**
+
+Click the "Brand Mentions" button to filter citations to only show articles that specifically mention your brand. When viewing citations that mention your brand, you'll also see sentiment indicators:
+
+- **Positive**: The citation discusses your brand favorably
+- **Neutral**: The citation mentions your brand without strong sentiment
+- **Negative**: The citation includes criticism or concerns about your brand
+
+<Tip>
+  Focus on high-frequency citations with negative or neutral sentiment—these are opportunities to improve how AI models understand your brand by addressing concerns or creating better content.
+</Tip>
+
+## Search Queries Tab
+
+The Search Queries tab reveals the actual search terms AI models use when looking for information to answer your prompts. This helps you understand how models "think" about finding relevant information.
+
+[image]
+
+### Understanding Search Query Data
+
+Each search query shows:
+
+| Column | Description |
+|--------|-------------|
+| **Search Query** | The exact search term the AI model used. Small tags below show which of your prompts triggered this search. |
+| **Searches** | How many times we've observed models making this specific search. |
+| **Presence Rate** | What percentage of citations from this search query mention your brand. A 50% presence rate means half the articles found via this search include your brand. |
+| **Rank #1** | The brand most frequently mentioned in citations from this search query. |
+| **Citations** | Number of citations found via this search. Click "View" to see the actual articles. |
+| **Last Seen** | When this search query was most recently observed. |
+
+**Viewing Citations from a Search**
+
+Click "View" on any search query to see a popup showing all the citations that models found using that search term. This reveals which specific articles and domains appear for different types of queries.
+
+**Filtering Options**
+
+- **Show New**: Display only search queries that appeared in recent reports
+- **Export**: Download the complete search query data as CSV
+- **Search bar**: Find specific queries by keyword
+
+### What This Tells You
+
+Search queries reveal:
+
+- How AI models conceptualize searches about your industry
+- Which types of queries your brand appears in (and which ones you're missing from)
+- What search terms consistently surface competitor content
+- Opportunities to create content targeting specific search patterns
+
+<Warning>
+  Low presence rates on high-frequency search queries indicate blind spots. These are searches models make often, but your brand rarely appears in the results.
+</Warning>
+
+## Knowledge Tab
+
+The Knowledge tab shows what AI models know about your brand when directly prompted about you. Unlike the Citations and Search Queries tabs (which show citations from your tracking prompts), Knowledge specifically tests model understanding of your brand.
+
+[image]
+
+### How Knowledge Works
+
+Trakkr asks AI models dozens of direct questions about your brand, such as:
+
+- "What is [Your Brand]?"
+- "How does [Your Brand] compare to competitors?"
+- "What are the main features of [Your Brand]?"
+- "Who uses [Your Brand]?"
+
+For each question, we collect and analyze any citations the models reference to answer.
+
+### Knowledge Citation Data
+
+The Knowledge tab displays citations organized by:
+
+| Column | Description |
+|--------|-------------|
+| **DR** (Domain Rating) | How authoritative and trustworthy the source domain is (0-100). |
+| **Domain** | The website where this citation is hosted. |
+| **PA** (Page Authority) | The authority score of the specific page (0-100). |
+| **URL & Title** | The specific article or page the model referenced. |
+| **Sentiment** | How positively or negatively the citation discusses your brand. |
+| **Visibility** | How prominently your brand is featured in the content (0-100). |
+| **First Seen** | When this citation first appeared in Knowledge testing. |
+
+**Citation Details**
+
+Click on any citation to view:
+
+- Which AI model found this citation
+- Sentiment score and interpretation
+- Visibility score
+- Topic tags categorizing the content
+- The actual page title and snippet
+
+### What Knowledge Reveals
+
+The Knowledge tab helps you understand:
+
+- What sources AI models consider authoritative about your brand
+- How your brand is described in the content models reference
+- Whether the information models have about you is accurate and up-to-date
+- Sentiment patterns across the content models use to learn about you
+
+<Note>
+  If you see outdated or inaccurate information in high-authority citations, consider reaching out to those sites to request updates or creating newer, more authoritative content.
+</Note>
+
+## Using Citations Strategically
+
+### Content Strategy
+
+Identify content gaps by analyzing which domains and topics dominate citations:
+
+1. Review top domains to understand which publishers influence your industry
+2. Analyze competitors' citation presence to see where they're getting mentioned
+3. Look for high-frequency search queries with low presence rates (your blind spots)
+4. Create content targeting the search patterns and topics models care about
+
+### Reputation Management
+
+Monitor how your brand is discussed in AI-referenced content:
+
+1. Filter for brand mentions to see all citations about you
+2. Track sentiment across citations over time
+3. Identify negative or neutral citations from high-authority domains
+4. Address concerns or create updated content to shift the narrative
+
+### Competitive Intelligence
+
+Understand where competitors are gaining advantage:
+
+1. Review which competitors appear most frequently in citations
+2. Analyze which search queries consistently surface competitor content
+3. Identify domains that favor competitors over your brand
+4. Study competitor mention patterns to understand their positioning
+
+### Partnership Opportunities
+
+Discover valuable websites and publishers in your industry that could become partners, guest post opportunities, or outreach targets. Learn more in our [Outreach guide](/outreach).
+
+## Best Practices
+
+**Track trends, not individual citations**
+
+Focus on patterns over time rather than obsessing over single mentions. Look for:
+
+- Which domains consistently appear across citations
+- How your brand's presence rate changes for key search queries
+- Sentiment trends across high-authority sources
+- Emerging competitors gaining citation frequency
+
+**Prioritize high-authority sources**
+
+Citations with Domain Rating above 70 carry more weight with AI models and users. Focus your content and outreach efforts on these sources first.
+
+**Monitor new vs. recurring citations**
+
+Use the "Show New" filter to spot emerging content that's gaining AI model attention. Recurring citations indicate established, trustworthy sources that models rely on heavily.
+
+**Connect citations to your prompts**
+
+When you see a citation appearing frequently, check which of your prompts trigger it. This reveals which topics and angles cause models to reference specific content.
+
+**Address negative sentiment proactively**
+
+If high-frequency citations about your brand show negative sentiment, investigate why and consider:
+
+- Addressing the concerns raised in that content
+- Creating updated, authoritative content with better sentiment
+- Reaching out to the publisher if information is inaccurate
+
+## Understanding How AI Models Use Citations
+
+AI models use citations in several ways:
+
+**Knowledge building**: Models reference authoritative sources to learn facts about your industry, products, and brands.
+
+**Verification**: When uncertain, models search for current information to verify or update their understanding.
+
+**Recommendations**: The content models find via citations directly influences which brands they recommend and how they describe them.
+
+**Context**: Citations provide context about market positioning, competitive landscape, and brand reputation.
+
+By understanding which citations AI models rely on, you gain insight into how they're forming opinions and making recommendations about your brand versus competitors.
 
 ---
 
-<Card title="Sentiment Tracking" icon="heart" href="/sentiment-analysis">
-  See how AI conversations reflect your brand sentiment
+<Card title="Outreach Opportunities" icon="handshake" href="/outreach" color="#0e9373">
+  Identify high-value websites for partnerships and guest posting opportunities
 </Card>
 
-<Card title="The Intelligence Dashboard" icon="brain" href="/intelligence">
-  Get deeper competitive insights and market positioning
+<Card title="Sentiment Analysis" icon="heart" href="/sentiment-analysis" color="#0e9373">
+  Track how AI conversations reflect your brand sentiment over time
+</Card>
+
+<Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores" color="#0e9373">
+  Learn how citations influence your visibility and presence metrics
 </Card>

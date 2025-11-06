@@ -73,6 +73,30 @@ Your website needs to be publicly accessible for Trakkr to analyze it. Sites beh
 **Temporary Issues**
 If your website is temporarily down or experiencing issues during setup, this can cause the analysis to fail. Try the setup process again when your site is fully accessible.
 
+## Scores Don't Match Direct AI Queries
+
+**Why Trakkr results differ from manual testing**
+
+If you ask ChatGPT or Claude the same prompt directly and see different results than what Trakkr shows, this is completely normal. Here's why:
+
+**Web search enabled (Free vs Paid plans)**
+On the Free plan, Trakkr doesn't use web search enabled prompts. However, when you test manually on ChatGPT, web search is often enabled by default. This means ChatGPT may show brands more frequently when you test manually, while Trakkr Free results won't include these web search-enabled responses. Paid plans have web search enabled for models like ChatGPT and collect citations from those searches—this is why paid plan results more closely match what you see when testing manually. [Learn more about citations →](/citations)
+
+**Different query timing**
+Trakkr runs your prompts at specific times each day (typically overnight). When you test manually, you're querying at a different time, and AI models can have slight variations in their responses between sessions.
+
+**Model version differences**
+AI models update frequently, and different API endpoints may use slightly different model versions. Trakkr uses the same models consistently, but manual queries might hit different versions.
+
+**Response randomness**
+AI models have inherent randomness in their responses. The same prompt asked multiple times can produce slightly different rankings, especially for brands in similar positions.
+
+**Context and conversation history**
+When you ask an AI model directly, your conversation history and context can influence responses. Trakkr queries are fresh, isolated requests without prior context.
+
+**What to do**
+Focus on trends over time rather than comparing individual queries. Trakkr's value is in tracking consistent patterns and changes over days and weeks, not matching a single manual query exactly. If you consistently see major discrepancies over multiple days, check that your prompts in Trakkr exactly match what you're testing manually.
+
 ## Score Fluctuations and Anomalies
 
 ### Understanding Normal Variation
@@ -112,6 +136,32 @@ Some browser extensions, particularly ad blockers or privacy tools, can interfer
 
 Daily reports occasionally fail due to temporary API issues with AI models or high system load. If you notice a report didn't generate on a particular day, it should resume automatically the next day. Multiple consecutive days of missing reports indicate a more serious issue that requires support intervention.
 
+### Data Timing and Freshness
+
+**When is data collected?**
+
+Trakkr runs daily reports automatically, typically overnight. Your data updates once per day, not in real-time. This means changes you make to your website, content, or prompts won't appear immediately—they'll be reflected in the next day's report.
+
+**Why isn't my data real-time?**
+
+AI model queries are computationally expensive and time-consuming. Running real-time queries for all users would be impractical and costly. Daily reports ensure consistent, reliable data collection while keeping costs manageable.
+
+**How long until changes appear?**
+
+- **New prompts**: Included in the next daily report (typically the following day)
+- **Content changes**: May take several days to weeks to appear, as AI models need to crawl and index your updated content
+- **Technical fixes**: Similar to content changes, AI models need time to re-crawl and process your site
+- **Prompt edits**: Changes take effect in the next daily report
+
+**Why don't my improvements show up immediately?**
+
+Even after making content improvements or technical fixes, it can take time for AI models to:
+1. Crawl your updated content
+2. Process and index the changes
+3. Incorporate new information into their responses
+
+This process typically takes days to weeks, not hours. Focus on long-term trends rather than expecting immediate results.
+
 ### Data Export Issues
 
 If data export isn't working, ensure you're using a supported browser (Chrome, Firefox, Safari, or Edge) and that downloads aren't being blocked by your browser settings. Large exports may take several minutes to process, so wait before assuming the export has failed.
@@ -127,6 +177,50 @@ Some corporate email systems have strict filtering that blocks automated emails.
 ### Multiple Brand Setup
 
 While Trakkr supports multiple brands per account, each brand requires separate setup through the same process. You might expect to add multiple brands simultaneously, but each brand needs individual configuration with its own prompts and analysis.
+
+### Adding Competitors
+
+**Why you can't directly add competitors**
+
+Trakkr doesn't track brands directly—it tracks prompts. Brands appear as an output of the system, not an input. When you create prompts about your industry, Trakkr analyzes AI model responses to see which brands get mentioned and how they're ranked. This means there's no way to manually "add a competitor" to your tracking.
+
+**How competitors appear**
+
+Competitors automatically appear in your data when AI models mention them in response to your prompts. If you want to ensure specific competitors show up in your analysis, you need to use prompts that are likely to surface those brands. For example, if you're tracking "best project management tools" and a competitor is well-known in that space, they'll naturally appear in the results.
+
+**Alternative: Using multiple brands for competitive tracking**
+
+Larger brands often use the [Scale plan](/plans), which includes 10 brand slots, to track competitors strategically. Here's how it works:
+
+- Use your first brand slot for your actual brand (e.g., "Nike")
+- Use the remaining 9 slots to set up your main competitors as separate brands (e.g., "Adidas", "Reebok", "Puma", etc.)
+- Each competitor brand gets its own set of prompts, allowing you to see the world through their eyes
+- This gives you comprehensive competitive intelligence by tracking how AI models view each competitor independently
+
+This approach lets you understand not just how you compare to competitors, but how each competitor is positioned in AI conversations about your industry.
+
+### Plan Limits and Feature Restrictions
+
+**Why can't I add more prompts?**
+
+Each plan has prompt limits per brand: Free (5 prompts), Growth (50 prompts), and Scale (50 prompts). These limits are designed to ensure comprehensive but focused tracking. If you've hit your limit, review your existing prompts and remove or consolidate ones that aren't performing well. You can modify prompts at any time, so you're not locked into your initial set.
+
+**Why can't I add more brands?**
+
+Free and Growth plans include 1 brand. Scale includes 10 brands. Additional brands can be added for $39/month each on Growth and Scale plans. If you need more brands, consider upgrading to Scale (which includes 10 brands) or adding individual brands to your current plan.
+
+**Why isn't this feature available?**
+
+Some features are only available on paid plans. For example:
+- Citations, sentiment tracking, and crawler analytics require Growth or Scale
+- API access is exclusive to Scale
+- Team features require Scale
+
+Check the [Plans & Pricing](/plans) page to see which features are included in your plan. If you need a feature that's not available, you may need to upgrade.
+
+**Why can't I see historical data?**
+
+Historical data is only available from when you started tracking. If you just set up your brand, you won't have historical data yet—it builds over time as Trakkr runs daily reports. Free plans have limited historical data retention, while paid plans retain full history.
 
 ## Prevention Tips
 

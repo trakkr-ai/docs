@@ -1,0 +1,140 @@
+---
+title: 'API'
+description: 'Build custom integrations on top of Trakkr with full API access'
+---
+
+<Info>
+  API access is available exclusively on the Scale plan. [Upgrade to access](/plans)
+</Info>
+
+## Overview
+
+The Trakkr API allows you to programmatically access your AI visibility data and build custom integrations. Pull data into internal dashboards, trigger automated workflows, or integrate with your existing tech stack.
+
+## Getting Started
+
+### Generate Your API Key
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    Go to **Integrations** from your sidebar, then select **API**.
+
+    [image]
+  </Step>
+
+  <Step title="View your API key">
+    Your API key is displayed with the first and last characters visible for security. The middle characters are hidden.
+  </Step>
+
+  <Step title="Use your API key">
+    Copy your full API key and use it in your integration. Include it in the `Authorization` header as a Bearer token.
+  </Step>
+</Steps>
+
+<Warning>
+  Keep your API key secure. If you suspect it has been compromised, delete it and generate a new one immediately.
+</Warning>
+
+### View Your Brand IDs
+
+The API uses Brand IDs as unique identifiers for each of your brands. You can find these in the Integrations → API page, or retrieve them programmatically via the `/get-brands` endpoint.
+
+## API Documentation
+
+For complete API documentation, including endpoints, authentication, request/response formats, and examples, visit:
+
+<Card title="API Reference" icon="code" href="/api-reference/introduction" color="#0e9373">
+  View full API documentation with interactive examples
+</Card>
+
+## When to Use the API
+
+The API is best suited for:
+
+- **Automated workflows** - Trigger actions based on score changes or new data
+- **Custom integrations** - Build Trakkr into your existing tools and platforms
+- **Real-time data access** - Pull fresh data programmatically whenever needed
+- **Complex data processing** - Apply your own analytics or combine with other data sources
+- **High-volume operations** - Batch operations or frequent data pulls
+
+### Not sure if you need the API?
+
+Consider these simpler alternatives:
+
+<CardGroup cols={2}>
+  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+    **Best for**: One-time data exports, offline analysis, manual reporting
+  </Card>
+  
+  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+    **Best for**: Daily auto-sync, team collaboration, simple dashboards
+  </Card>
+  
+  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+    **Best for**: Visual dashboards, executive reporting, no-code analytics
+  </Card>
+
+  <Card title="Google Analytics" icon="chart-line" href="/google-analytics" color="#0e9373">
+    **Best for**: Website traffic analysis from AI sources
+  </Card>
+</CardGroup>
+
+## What You Can Build
+
+<CardGroup cols={2}>
+  <Card title="Custom Dashboards" icon="chart-line" color="#0e9373">
+    Pull Trakkr data into your internal BI tools or custom dashboards
+  </Card>
+  <Card title="Automated Alerts" icon="bell" color="#0e9373">
+    Trigger notifications when visibility scores change or new citations appear
+  </Card>
+  <Card title="Data Pipelines" icon="diagram-project" color="#0e9373">
+    Integrate AI visibility data into your existing data warehouse
+  </Card>
+  <Card title="Reporting Tools" icon="file-chart-column" color="#0e9373">
+    Generate custom reports for stakeholders or clients
+  </Card>
+</CardGroup>
+
+## API Key Management
+
+### Regenerating Your Key
+
+If you need to generate a new API key:
+
+1. Click **Delete Key** in the API integration page
+2. Confirm the deletion
+3. A new key will be automatically generated
+4. Update all integrations using the old key
+
+<Note>
+  Deleting your API key will immediately invalidate it. Any integrations using the old key will stop working until you update them with the new key.
+</Note>
+
+## Rate Limits
+
+API rate limits are designed to prevent abuse while allowing legitimate use:
+
+- **Standard requests**: 100 requests per minute
+- **Bulk data endpoints**: 10 requests per minute
+
+If you exceed these limits, you'll receive a `429 Too Many Requests` response. Contact support if you need higher rate limits for enterprise use cases.
+
+## Support
+
+Need help with the API? Check the [API documentation](/api-reference/introduction) for technical details, or contact support at [mack@trakkr.ai](mailto:mack@trakkr.ai) for integration assistance.
+
+## Related Integrations
+
+<CardGroup cols={2}>
+  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+    Export your data as CSV files for offline analysis
+  </Card>
+  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+    Sync your data to Google Sheets automatically each day
+  </Card>
+  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+    Build custom dashboards with Looker Studio integration
+  </Card>
+</CardGroup>
+

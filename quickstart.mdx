@@ -8,7 +8,7 @@ description: "Set up your first brand tracking and generate your first AI visibi
 Get your first AI brand tracking report in just a few minutes. This guide walks you through Trakkr's setup process and helps you understand your results.
 
 <Note>
-  This same process applies whether you're setting up your first brand or adding additional brands to track.
+  Want to understand how Trakkr works before diving in? Check out [How Trakkr Works](/getting-started) to learn the core concepts.
 </Note>
 
 ## The Setup Process
@@ -91,7 +91,7 @@ If you want to add your own prompts, follow these guidelines:
 - Overly narrow queries that won't mention competitors
 
 <Tip>
-  Start with 3-5 broad prompts that cover different aspects of your industry. You can always add more later in the Prompts section.
+  Start with 3-5 broad prompts that cover different aspects of your industry. You can always add more later. See [Working with Prompts](/working-with-prompts) for detailed guidance on creating effective queries.
 </Tip>
 
 ## Step 4: Your First Report Generation
@@ -100,8 +100,8 @@ Once you've set up your prompts, Trakkr immediately runs your first report:
 
 - **Queries 6 AI models** (OpenAI, Anthropic, Gemini, Grok, DeepSeek, Meta)
 - **Takes about 30 seconds** to complete
-- **Analyzes all responses** and calculates your scores
-- **Identifies competitors** mentioned alongside your brand
+- **Analyzes all responses** and calculates your [Visibility and Presence scores](/understanding-scores)
+- **Identifies competitors** mentioned alongside your brand (explore them on the [Competitors page](/competitors))
 
 <Note>
   This initial report gives you immediate results. Going forward, reports will run automatically every day.
@@ -113,32 +113,38 @@ Your dashboard will immediately show:
 
 ### Overview Metrics
 
+These are the two most important metrics Trakkr tracks. Learn more in [Understanding Scores](/understanding-scores).
+
 **Visibility Score (0-100)**
 
 - How prominently your brand appears when mentioned
 - Higher scores = better positioning in AI responses
 - Based on your ranking across all prompts and models
+- Score of 70+ indicates strong positioning
 
 **Presence Score (0-100%)**
 
 - What percentage of queries mention your brand
 - Your "share of voice" in AI conversations
 - Shows how often AI models think of your brand
+- Score of 50%+ indicates good market recognition
 
 ### Dashboard Sections
 
+Explore these key areas of your Trakkr dashboard:
+
 <CardGroup cols={2}>
-  <Card title="Overview" icon="chart-line">
+  <Card title="Overview" icon="chart-line" href="/reading-reports" color="#0e9373">
     Your main visibility and presence scores with trend data
   </Card>
-  <Card title="Reports" icon="file-text">
-    Historical reports showing performance over time
-  </Card>
-  <Card title="Competitors" icon="users">
+  <Card title="Competitors" icon="users" href="/competitors" color="#0e9373">
     Brands that AI models mention alongside yours
   </Card>
-  <Card title="Prompts" icon="message-question">
+  <Card title="Prompts" icon="message-question" href="/working-with-prompts" color="#0e9373">
     Manage your tracking prompts and see individual performance
+  </Card>
+  <Card title="Sentiment" icon="heart" href="/sentiment-analysis" color="#0e9373">
+    How AI models perceive your brand vs competitors
   </Card>
 </CardGroup>
 
@@ -153,52 +159,139 @@ Your dashboard will immediately show:
 
 ### Areas to Investigate
 
-- **Low visibility, high presence** - You're mentioned but not prominently
-- **High visibility, low presence** - You rank well but aren't mentioned often
-- **Missing from key prompts** - Consider why AI models don't mention you
-- **Strong competitors** - Analyze what competitors are doing differently
+- **Low visibility, high presence** - You're mentioned but not prominently. Focus on improving content quality and authority to boost rankings.
+- **High visibility, low presence** - You rank well but aren't mentioned often. Consider adding more prompts or running [Prompt Research](/prompt-research) to find relevant queries.
+- **Missing from key prompts** - Consider why AI models don't mention you. A [Technical Audit](/technical-audit) can identify crawlability issues.
+- **Strong competitors** - Analyze what competitors are doing differently using the [Competitors page](/competitors) to understand their strategy.
 
-## After Setup: Next Steps
+## After Setup: Your First Week with Trakkr
+
+Now that you have your first report, here's how to get the most value from Trakkr in your first week:
 
 <Steps>
-  <Step title="Monitor Daily Reports">
-    Check your dashboard regularly as new reports generate automatically
+  <Step title="Day 1-2: Understand Your Baseline">
+    Review your [Visibility and Presence scores](/understanding-scores) and identify your current competitive position. Check the [Reading Reports guide](/reading-reports) to understand all the metrics available.
   </Step>
-  <Step title="Analyze Competitors" stepNumber={2}>
-    Study which competitors appear most frequently and in what contexts
+  
+  <Step title="Day 3-4: Analyze the Competition">
+    Dive into the [Competitors page](/competitors) to see who appears alongside your brand and how you rank against them. Look for patterns in who consistently outranks you.
   </Step>
-  <Step title="Track Trends" stepNumber={3}>
-    Watch how your scores change over time to measure improvement
+  
+  <Step title="Day 5-6: Optimize Your Prompts">
+    Review which prompts perform well and which don't. Read [Working with Prompts](/working-with-prompts) to refine your tracking strategy and ensure you're monitoring the right queries.
+  </Step>
+  
+  <Step title="Day 7: Plan Your Strategy">
+    Based on your first week's data, identify 2-3 areas to focus on. Consider running [Prompt Research](/prompt-research) to discover more queries your audience asks.
   </Step>
 </Steps>
 
+<Tip>
+  Don't expect immediate changes in your scores. AI visibility is a long-term game. Focus on understanding the data first, then implementing improvements over weeks and months.
+</Tip>
+
 ## Common First-Time Questions
 
-### "Why didn't my brand appear in some prompts?"
+<AccordionGroup>
+  <Accordion title="Why didn't my brand appear in some prompts?">
+    This is completely normal and can happen for several reasons:
+    
+    - **Prompts may be too broad** - Generic queries like "best software" might not mention niche brands
+    - **Brand recognition** - Newer or specialized brands may have lower AI awareness
+    - **Different naming** - AI might know you by a variation of your brand name
+    - **Market positioning** - You might not be top-of-mind for those specific queries
+    
+    Try using more specific prompts that target your actual market segment. See [Working with Prompts](/working-with-prompts) for guidance on creating effective queries.
+  </Accordion>
 
-This is normal and can happen for several reasons:
+  <Accordion title="How often do new reports run?">
+    - **Daily automatic reports** run every morning after your initial setup
+    - **New prompts** you add are included in the next day's report
+    - **Historical data** builds over time, enabling trend analysis
+    - **No manual triggering** - reports run on a fixed schedule
+    
+    Learn more about report timing in [Reading Reports](/reading-reports).
+  </Accordion>
 
-- **Prompts may be too broad** - Try more specific industry questions
-- **Brand recognition** - Newer or niche brands may have lower AI awareness
-- **Different naming** - AI might know you by a variation of your name
-- **Market positioning** - You might not be top-of-mind for those specific queries
+  <Accordion title="My scores seem low. Is that bad?">
+    Not necessarily! Context matters:
+    
+    - **New brands** typically start with lower scores
+    - **Niche markets** may have inherently lower visibility
+    - **Strong competitors** can suppress scores in crowded markets
+    - **Baseline is key** - use your starting scores to measure improvement
+    
+    Focus on upward trends over time rather than absolute numbers. See [Understanding Scores](/understanding-scores) for benchmarks.
+  </Accordion>
 
-### "How often do new reports run?"
+  <Accordion title="How do I improve my visibility?">
+    Improving AI visibility is a multi-faceted effort:
+    
+    - **Content optimization** - Make your site more crawlable and informative
+    - **Technical improvements** - Run a [Technical Audit](/technical-audit) to fix issues
+    - **Citation building** - Get mentioned in authoritative sources AI models reference
+    - **Consistent quality** - Publish expert content that establishes authority
+    
+    Consider using [Optimize Content](/optimize-content) to get specific recommendations for improvement.
+  </Accordion>
 
-- **Daily automatic reports** after your initial setup
-- **New prompts** are included in the next day's report
-- **Historical data** builds over time to show trends
+  <Accordion title="Can I track multiple brands?">
+    Yes! You can add multiple brands to your account:
+    
+    - **Free plan**: 1 brand
+    - **Growth plan**: 1 brand + additional brands at $39/month each
+    - **Scale plan**: 10 brands included + additional brands at $39/month each
+    
+    See the [Plans page](/plans) for full details on multi-brand tracking.
+  </Accordion>
+</AccordionGroup>
 
-### "Can I add more prompts later?"
+## Discover More Features
 
-Not currently - but we're working on adding this\!
+Once you're comfortable with the basics, explore Trakkr's advanced features:
 
----
+<CardGroup cols={2}>
+  <Card title="Prompt Research" icon="magnifying-glass" href="/prompt-research" color="#0e9373">
+    Discover 500+ queries related to your brand that you might want to track
+  </Card>
+  
+  <Card title="Citations" icon="quote-left" href="/citations" color="#0e9373">
+    See which sources AI models reference when answering questions about you
+  </Card>
+  
+  <Card title="Technical Audit" icon="wrench" href="/technical-audit" color="#0e9373">
+    Get actionable recommendations to make your site more AI-friendly
+  </Card>
+  
+  <Card title="Optimize Content" icon="sparkles" href="/optimize-content" color="#0e9373">
+    Analyze specific pages and get AI-optimized improvement suggestions
+  </Card>
+  
+  <Card title="Sentiment Analysis" icon="heart" href="/sentiment-analysis" color="#0e9373">
+    Track how AI models perceive your brand across trust, quality, and innovation
+  </Card>
+  
+  <Card title="Crawler Analytics" icon="spider" href="/crawler-analytics" color="#0e9373">
+    Monitor which AI crawlers are visiting your website and how often
+  </Card>
+</CardGroup>
 
-<Card title="Need Help?" icon="headset" href="/troubleshooting/common-issues">
-  Check our troubleshooting guide if you're not seeing expected results
-</Card>
+## Next Steps
 
-<Card title="Understanding Scores" icon="chart-bar" href="/concepts/visibility-presence-scores">
-  Learn exactly how we calculate visibility and presence scores
-</Card>
+<CardGroup cols={2}>
+  <Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores" color="#0e9373">
+    Learn exactly how Visibility and Presence scores are calculated
+  </Card>
+  
+  <Card title="Reading Reports" icon="file-chart-line" href="/reading-reports" color="#0e9373">
+    Master your dashboard and interpret performance trends
+  </Card>
+  
+  <Card title="Working with Prompts" icon="message-question" href="/working-with-prompts" color="#0e9373">
+    Create effective prompts that capture your market position
+  </Card>
+  
+  <Card title="Troubleshooting" icon="life-ring" href="/troubleshooting" color="#0e9373">
+    Get help if you're not seeing expected results
+  </Card>
+</CardGroup>
