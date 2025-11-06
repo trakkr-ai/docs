@@ -1,6 +1,6 @@
 ---
-title: 'Google Analytics'
-description: 'Track AI-driven traffic to your site with native Google Analytics integration'
+title: "Google Analytics"
+description: "Track AI-driven traffic to your site with native Google Analytics integration"
 ---
 
 <Info>
@@ -16,11 +16,10 @@ Connect your Google Analytics 4 (GA4) property to Trakkr to see detailed breakdo
 Google Analytics integration works alongside Trakkr's other tracking features:
 
 <CardGroup cols={2}>
-  <Card title="Crawler Analytics" icon="spider" href="/crawler-analytics" color="#0e9373">
+  <Card title="Crawler Analytics" icon="spider" color="#0e9373" href="/crawler-analytics">
     Monitor which AI crawlers visit your site to train their models
   </Card>
-  
-  <Card title="Working with Prompts" icon="message-question" href="/working-with-prompts" color="#0e9373">
+  <Card title="Working with Prompts" icon="message-question" color="#0e9373" href="/working-with-prompts">
     Track which prompts drive the traffic you see in Google Analytics
   </Card>
 </CardGroup>
@@ -37,19 +36,28 @@ Google Analytics integration works alongside Trakkr's other tracking features:
   <Step title="Navigate to Integrations">
     Go to **Integrations** from your Trakkr dashboard sidebar, then select **Google Analytics**.
   </Step>
-
   <Step title="Connect with Google">
     Click **Connect to Google Analytics** and sign in with your Google account. Make sure you use an account with read access to the GA4 property you want to track.
 
-    [image]
+    <img
+      src="/images/Screenshot2025-11-06at19.41.09.png"
+      alt="Screenshot2025 11 06at19 41 09 Pn"
+      title="Screenshot2025 11 06at19 41 09 Pn"
+      className="mx-auto"
+      style={{ width:"52%" }}
+    />
   </Step>
-
   <Step title="Select Your Property">
     Choose the GA4 account and property you want to connect to this brand. Each Trakkr brand connects to one GA4 property.
 
-    [image]
+    <img
+      src="/images/Screenshot2025-11-06at19.41.57.png"
+      alt="Screenshot2025 11 06at19 41 57 Pn"
+      title="Screenshot2025 11 06at19 41 57 Pn"
+      className="mx-auto"
+      style={{ width:"53%" }}
+    />
   </Step>
-
   <Step title="Complete Setup">
     Trakkr will load your analytics data and display your dashboard. This may take a few seconds for high-traffic properties.
   </Step>
@@ -61,7 +69,7 @@ Google Analytics integration works alongside Trakkr's other tracking features:
 
 ## Understanding the Dashboard
 
-[image]
+![Screenshot2025 11 06at19 42 59 Pn](/images/Screenshot2025-11-06at19.42.59.png)
 
 ### Summary Metrics
 
@@ -100,6 +108,7 @@ On the right side, you'll see a breakdown of sessions by AI referrer:
 ### Detailed Traffic Trends
 
 The main chart shows a detailed view of AI traffic over time. This updates based on:
+
 - Your selected date range
 - Any AI source filter you've applied by clicking a model name
 
@@ -107,7 +116,7 @@ Use this to identify traffic spikes, patterns, or correlations with your content
 
 ## Analyzing Events
 
-[image]
+![Screenshot2025 11 06at19 43 32 Pn](/images/Screenshot2025-11-06at19.43.32.png)
 
 ### Event Selection
 
@@ -122,17 +131,18 @@ Below the main traffic chart, you can analyze specific events from your GA4 prop
 
 Once you select an event, Trakkr shows a comparison table:
 
-| Metric | AI Traffic | Other Traffic |
-|--------|-----------|---------------|
-| **Count** | Total events from AI sources | Total events from all other sources |
-| **Value** | Monetary value (if configured in GA4) | Monetary value from other sources |
-| **Events/Session** | Average events per AI session | Average events per other sessions |
+| Metric             | AI Traffic                            | Other Traffic                       |
+| ------------------ | ------------------------------------- | ----------------------------------- |
+| **Count**          | Total events from AI sources          | Total events from all other sources |
+| **Value**          | Monetary value (if configured in GA4) | Monetary value from other sources   |
+| **Events/Session** | Average events per AI session         | Average events per other sessions   |
 
 This helps you understand whether AI-referred traffic converts differently than organic, paid, or other referral sources.
 
 ### Event Trends Chart
 
 Below the comparison table, see a trend chart for your selected event with toggle options:
+
 - **Count**: Volume of events over time
 - **Value**: Monetary value of events over time (if configured)
 
@@ -141,6 +151,7 @@ Below the comparison table, see a trend chart for your selected event with toggl
 ### Adjusting the Date Range
 
 Click the **date range selector** in the top-right corner to change the time period:
+
 - Default: Last 30 days
 - Custom ranges available
 - Data refreshes automatically when you change the range
@@ -154,6 +165,7 @@ If you see a connection error:
 </Warning>
 
 To fix:
+
 1. Click **Settings** in the top-right corner
 2. Select **Reset Integration**
 3. Reconnect with a Google account that has read access to your GA4 property
@@ -161,6 +173,7 @@ To fix:
 ### Disconnecting
 
 To disconnect your GA4 property:
+
 1. Go to **Settings** (top-right of the analytics dashboard)
 2. Click **Reset Integration**
 3. Confirm the disconnection
@@ -187,15 +200,12 @@ Trakkr identifies AI-referred traffic using UTM source parameters. When AI model
   <Accordion title="Track AI Conversion Performance">
     Set up conversion events in GA4 (purchases, sign-ups, downloads), then use the Events section to compare conversion rates between AI traffic and other sources.
   </Accordion>
-
   <Accordion title="Identify High-Value AI Sources">
     If certain AI models drive more engaged sessions or longer visit durations, focus your optimization efforts on improving visibility in those specific AI tools.
   </Accordion>
-
   <Accordion title="Validate AI Optimization Efforts">
     After implementing technical audits or content optimizations from Trakkr, use this dashboard to measure whether AI-referred traffic increases over time.
   </Accordion>
-
   <Accordion title="Report AI Impact to Stakeholders">
     Use the visual charts and comparison tables to show executives or clients how AI search is driving real traffic and conversions to your site.
   </Accordion>
@@ -242,4 +252,3 @@ Looking to improve your AI traffic beyond just tracking it? Check out:
 - [Technical Audit](/technical-audit) - Optimize your site for AI crawlers
 - [Optimize Content](/optimize-content) - Make your content more citation-worthy
 - [Crawler Analytics](/crawler-analytics) - See which AI crawlers are visiting your site
-

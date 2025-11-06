@@ -1,6 +1,6 @@
 ---
-title: 'CSV Exports'
-description: 'Export your Trakkr visibility data to CSV files for offline analysis and custom reporting'
+title: "CSV Exports"
+description: "Export your Trakkr visibility data to CSV files for offline analysis and custom reporting"
 ---
 
 <Info>
@@ -24,11 +24,10 @@ CSV Exports are ideal for:
 ### Consider These Alternatives
 
 <CardGroup cols={2}>
-  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+  <Card title="Google Sheets" icon="table" color="#0e9373" href="/google-sheets">
     **Better for**: Daily auto-sync, team collaboration, always-current data
   </Card>
-  
-  <Card title="API" icon="code" href="/api" color="#0e9373">
+  <Card title="API" icon="code" color="#0e9373" href="/api">
     **Better for**: Automated workflows, custom integrations, real-time access
   </Card>
 </CardGroup>
@@ -42,6 +41,7 @@ CSV Exports are ideal for:
 A comprehensive overview of brand performance over time, ideal for executive dashboards and trend analysis.
 
 **Columns included**:
+
 - **Date**: Daily timestamp
 - **Brand**: Your brand name
 - **Visibility**: Daily visibility score
@@ -56,6 +56,7 @@ This export provides a clean, aggregated view perfect for building charts and gr
 Focused analysis of your primary brand's ranking performance across different prompts and models.
 
 **Columns included**:
+
 - **Date**: Daily timestamp
 - **Prompt**: The specific prompt tracked
 - **Tag**: Prompt category/tag (if enabled)
@@ -71,6 +72,7 @@ This export shows individual prompt-model pairings, allowing you to identify whi
 Complete competitive intelligence with full rankings from every AI response.
 
 **Columns included**:
+
 - **Date**: Daily timestamp
 - **Prompt**: The specific prompt tracked
 - **Tag**: Prompt category/tag (if enabled)
@@ -84,20 +86,15 @@ This export provides the most comprehensive data, showing not just your performa
 <Steps>
   <Step title="Navigate to CSV Exports">
     Go to **Integrations** → **CSV Exports**.
-
-    [image]
   </Step>
-
   <Step title="Choose your export type">
     Select **Top-Level**, **Detailed**, or **Raw Data** based on your needs.
   </Step>
-
   <Step title="Review columns">
     See which columns will be included in your export to ensure it matches your requirements.
 
-    [image]
+    ![Screenshot2025 11 06at19 45 54 Pn](/images/Screenshot2025-11-06at19.45.54.png)
   </Step>
-
   <Step title="Start the export">
     Click **Start Export**. The export typically completes within 30 seconds.
   </Step>
@@ -109,9 +106,10 @@ This export provides the most comprehensive data, showing not just your performa
 
 All your generated exports appear in the **[Brand]'s exports** section below the creation form.
 
-[image]
+![Screenshot2025 11 06at19 46 49 Pn](/images/Screenshot2025-11-06at19.46.49.png)
 
 For each export, you can:
+
 - **Download**: Save the CSV file to your computer
 - **Copy Link**: Get a shareable link to the export file
 - **Delete**: Remove the export from your account
@@ -132,19 +130,15 @@ For each export, you can:
   <Accordion title="Executive Reporting">
     Use **Top-Level** exports to create executive dashboards in Excel, Tableau, or PowerPoint. Show visibility and presence trends over time with clean, aggregated data.
   </Accordion>
-
   <Accordion title="Content Optimization">
     Use **Detailed** exports to identify which prompts need improvement. Filter by tag to analyze category performance and prioritize content updates.
   </Accordion>
-
   <Accordion title="Competitive Analysis">
     Use **Raw Data** exports to understand the complete competitive landscape. Identify which competitors consistently outrank you and on which prompts.
   </Accordion>
-
   <Accordion title="Data Science Projects">
     Use **Raw Data** exports for machine learning or statistical analysis. The comprehensive dataset includes all competitors and historical performance.
   </Accordion>
-
   <Accordion title="Client Reporting">
     Agencies can use **Top-Level** exports to create client reports showing performance improvements over time. Combine with competitive data from **Raw Data** exports.
   </Accordion>
@@ -175,6 +169,7 @@ For automated data pipelines, consider using the [API](/api) or [Google Sheets s
 ### Export Taking Too Long
 
 Exports typically complete within 30 seconds. If an export takes longer:
+
 - Check your internet connection
 - Refresh the page to see if the export has completed
 - Try creating a new export if the first attempt fails
@@ -182,6 +177,7 @@ Exports typically complete within 30 seconds. If an export takes longer:
 ### Missing Data
 
 If your export appears incomplete:
+
 - Ensure you have tracking data for the selected time period
 - Verify that prompts are active and running
 - Check that you're on a paid plan (required for exports)
@@ -189,6 +185,7 @@ If your export appears incomplete:
 ### File Format Issues
 
 If you encounter issues opening CSV files:
+
 - Ensure you're using a compatible application (Excel, Google Sheets, etc.)
 - Check that the file extension is `.csv`
 - Try opening with a text editor to verify the file structure
@@ -196,14 +193,13 @@ If you encounter issues opening CSV files:
 ## Related Integrations
 
 <CardGroup cols={2}>
-  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+  <Card title="Google Sheets" icon="table" color="#0e9373" href="/google-sheets">
     Automate data exports with daily Google Sheets sync
   </Card>
-  <Card title="API" icon="code" href="/api" color="#0e9373">
+  <Card title="API" icon="code" color="#0e9373" href="/api">
     Build custom integrations with programmatic API access
   </Card>
-  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+  <Card title="Looker Studio" icon="chart-mixed" color="#0e9373" href="/looker-studio">
     Create interactive dashboards with Looker Studio
   </Card>
 </CardGroup>
-

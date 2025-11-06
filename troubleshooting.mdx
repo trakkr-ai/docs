@@ -11,17 +11,13 @@ This is the most frequently reported issue. You might say "I know AI mentions my
 
 ### Why This Occurs
 
-**Prompt Specificity Mismatch**
-Your prompts may not match the contexts where AI models actually mention your brand. For example, if you're a project management tool but your prompts ask about "business software" generally, AI models might mention you in response to "team collaboration tools" instead.
+**Prompt Specificity Mismatch** Your prompts may not match the contexts where AI models actually mention your brand. For example, if you're a project management tool but your prompts ask about "business software" generally, AI models might mention you in response to "team collaboration tools" instead.
 
-**Brand Name Variations**
-AI models might know your brand by different names or variations. They could mention "Apple Inc." while you're tracking "Apple," or refer to "McDonald's Corporation" when you're monitoring "McDonald's." Similarly, they might use abbreviations, acronyms, or informal names.
+**Brand Name Variations** AI models might know your brand by different names or variations. They could mention "Apple Inc." while you're tracking "Apple," or refer to "McDonald's Corporation" when you're monitoring "McDonald's." Similarly, they might use abbreviations, acronyms, or informal names.
 
-**Market Positioning Differences**
-Your prompts might target a broader or narrower market than where your brand actually has recognition. If you're a specialized B2B tool but your prompts ask about consumer software, AI models won't make the connection.
+**Market Positioning Differences** Your prompts might target a broader or narrower market than where your brand actually has recognition. If you're a specialized B2B tool but your prompts ask about consumer software, AI models won't make the connection.
 
-**Training Data Limitations**
-AI models have training data cutoffs, and newer brands or recent rebranding efforts might not be well-represented. Additionally, some models may have stronger knowledge in certain industries or geographic regions.
+**Training Data Limitations** AI models have training data cutoffs, and newer brands or recent rebranding efforts might not be well-represented. Additionally, some models may have stronger knowledge in certain industries or geographic regions.
 
 ### Diagnostic Steps
 
@@ -33,17 +29,13 @@ Test alternative brand names by checking if AI models know you by variations, ab
 
 ### Solutions
 
-**Refine Your Prompts**
-Make your prompts more specific to your actual market segment. Instead of "best business software," try "best project management tools for remote teams" if that's your specific niche. Use the language your customers actually use when searching for solutions like yours.
+**Refine Your Prompts** Make your prompts more specific to your actual market segment. Instead of "best business software," try "best project management tools for remote teams" if that's your specific niche. Use the language your customers actually use when searching for solutions like yours.
 
-**Test Multiple Contexts**
-Create prompts covering different aspects of your business. If you're mentioned in response to questions about specific features, use cases, or industry applications, make sure you have prompts covering those areas.
+**Test Multiple Contexts** Create prompts covering different aspects of your business. If you're mentioned in response to questions about specific features, use cases, or industry applications, make sure you have prompts covering those areas.
 
-**Check Name Recognition**
-If AI models know you by a different name, consider whether you should update your brand name in Trakkr or create content that reinforces your preferred brand name usage.
+**Check Name Recognition** If AI models know you by a different name, consider whether you should update your brand name in Trakkr or create content that reinforces your preferred brand name usage.
 
-**Start Broader, Then Narrow**
-Begin with prompts where you're confident you should appear, even if they're very specific to your niche. Once you see mentions, gradually expand to broader industry questions.
+**Start Broader, Then Narrow** Begin with prompts where you're confident you should appear, even if they're very specific to your niche. Once you see mentions, gradually expand to broader industry questions.
 
 ## Prompt Management Issues
 
@@ -51,27 +43,21 @@ Begin with prompts where you're confident you should appear, even if they're ver
 
 You might encounter issues with prompts getting stuck or not executing properly. This typically happens during the prompt creation or editing process.
 
-**During Setup**
-If your prompts seem stuck during initial setup, wait for the full setup process to complete. The "Running your first report" step can take up to 30 seconds, and interrupting it may cause issues.
+**During Setup** If your prompts seem stuck during initial setup, wait for the full setup process to complete. The "Running your first report" step can take up to 30 seconds, and interrupting it may cause issues.
 
-**Adding New Prompts**
-When you add prompts after initial setup, they won't run immediately. New prompts are included in the next daily report, which means you'll see results the following day. There's no way to trigger immediate execution.
+**Adding New Prompts** When you add prompts after initial setup, they won't run immediately. New prompts are included in the next daily report, which means you'll see results the following day. There's no way to trigger immediate execution.
 
-**Editing Existing Prompts**
-If you're having trouble saving edits to existing prompts, ensure you're not exceeding character limits or using special characters that might cause formatting issues. Save changes one at a time rather than making multiple edits simultaneously.
+**Editing Existing Prompts** If you're having trouble saving edits to existing prompts, ensure you're not exceeding character limits or using special characters that might cause formatting issues. Save changes one at a time rather than making multiple edits simultaneously.
 
 ### Site Addition Problems
 
 You might experience issues adding your website during setup or when creating new brands. This usually relates to website accessibility or format issues.
 
-**Website Format**
-Ensure you're entering the complete URL including "https://" or "http://". Enter "https://yoursite.com" rather than just "yoursite.com."
+**Website Format** Ensure you're entering the complete URL including "https://" or "http://". Enter "https://yoursite.com" rather than just "yoursite.com."
 
-**Website Accessibility**
-Your website needs to be publicly accessible for Trakkr to analyze it. Sites behind login walls, under construction pages, or with strict bot blocking may cause issues.
+**Website Accessibility** Your website needs to be publicly accessible for Trakkr to analyze it. Sites behind login walls, under construction pages, or with strict bot blocking may cause issues.
 
-**Temporary Issues**
-If your website is temporarily down or experiencing issues during setup, this can cause the analysis to fail. Try the setup process again when your site is fully accessible.
+**Temporary Issues** If your website is temporarily down or experiencing issues during setup, this can cause the analysis to fail. Try the setup process again when your site is fully accessible.
 
 ## Scores Don't Match Direct AI Queries
 
@@ -79,23 +65,17 @@ If your website is temporarily down or experiencing issues during setup, this ca
 
 If you ask ChatGPT or Claude the same prompt directly and see different results than what Trakkr shows, this is completely normal. Here's why:
 
-**Web search enabled (Free vs Paid plans)**
-On the Free plan, Trakkr doesn't use web search enabled prompts. However, when you test manually on ChatGPT, web search is often enabled by default. This means ChatGPT may show brands more frequently when you test manually, while Trakkr Free results won't include these web search-enabled responses. Paid plans have web search enabled for models like ChatGPT and collect citations from those searches—this is why paid plan results more closely match what you see when testing manually. [Learn more about citations →](/citations)
+**Web search enabled (Free vs Paid plans)** On the Free plan, Trakkr doesn't use web search enabled prompts. However, when you test manually on ChatGPT, web search is often enabled by default. This means ChatGPT may show brands more frequently when you test manually, while Trakkr Free results won't include these web search-enabled responses. Paid plans have web search enabled for models like ChatGPT and collect citations from those searches—this is why paid plan results more closely match what you see when testing manually. [Learn more about citations →](/citations)
 
-**Different query timing**
-Trakkr runs your prompts at specific times each day (typically overnight). When you test manually, you're querying at a different time, and AI models can have slight variations in their responses between sessions.
+**Different query timing** Trakkr runs your prompts at specific times each day (typically overnight). When you test manually, you're querying at a different time, and AI models can have slight variations in their responses between sessions.
 
-**Model version differences**
-AI models update frequently, and different API endpoints may use slightly different model versions. Trakkr uses the same models consistently, but manual queries might hit different versions.
+**Model version differences** AI models update frequently, and different API endpoints may use slightly different model versions. Trakkr uses the same models consistently, but manual queries might hit different versions.
 
-**Response randomness**
-AI models have inherent randomness in their responses. The same prompt asked multiple times can produce slightly different rankings, especially for brands in similar positions.
+**Response randomness** AI models have inherent randomness in their responses. The same prompt asked multiple times can produce slightly different rankings, especially for brands in similar positions.
 
-**Context and conversation history**
-When you ask an AI model directly, your conversation history and context can influence responses. Trakkr queries are fresh, isolated requests without prior context.
+**Context and conversation history** When you ask an AI model directly, your conversation history and context can influence responses. Trakkr queries are fresh, isolated requests without prior context.
 
-**What to do**
-Focus on trends over time rather than comparing individual queries. Trakkr's value is in tracking consistent patterns and changes over days and weeks, not matching a single manual query exactly. If you consistently see major discrepancies over multiple days, check that your prompts in Trakkr exactly match what you're testing manually.
+**What to do** Focus on trends over time rather than comparing individual queries. Trakkr's value is in tracking consistent patterns and changes over days and weeks, not matching a single manual query exactly. If you consistently see major discrepancies over multiple days, check that your prompts in Trakkr exactly match what you're testing manually.
 
 ## Score Fluctuations and Anomalies
 
@@ -107,14 +87,11 @@ Market dynamics also affect scores. New competitors entering the market, existin
 
 ### When to Be Concerned
 
-**Sudden Dramatic Drops**
-If your visibility or presence scores drop by more than 20 points overnight without obvious cause, investigate which specific prompts or models are affected. This might indicate a change in AI model behavior or new competitive dynamics.
+**Sudden Dramatic Drops** If your visibility or presence scores drop by more than 20 points overnight without obvious cause, investigate which specific prompts or models are affected. This might indicate a change in AI model behavior or new competitive dynamics.
 
-**Consistent Decline Over Weeks**
-A steady decline over multiple weeks suggests a real trend rather than random variation. Analyze whether this coincides with competitive launches, market changes, or changes to your own prompts.
+**Consistent Decline Over Weeks** A steady decline over multiple weeks suggests a real trend rather than random variation. Analyze whether this coincides with competitive launches, market changes, or changes to your own prompts.
 
-**Extreme Scores**
-Visibility scores over 100 or presence scores over 100% indicate a calculation error and should be reported to support. Similarly, identical scores across multiple days might suggest a data processing issue.
+**Extreme Scores** Visibility scores over 100 or presence scores over 100% indicate a calculation error and should be reported to support. Similarly, identical scores across multiple days might suggest a data processing issue.
 
 ### Troubleshooting Score Issues
 
@@ -156,23 +133,14 @@ AI model queries are computationally expensive and time-consuming. Running real-
 **Why don't my improvements show up immediately?**
 
 Even after making content improvements or technical fixes, it can take time for AI models to:
+
 1. Crawl your updated content
 2. Process and index the changes
 3. Incorporate new information into their responses
 
 This process typically takes days to weeks, not hours. Focus on long-term trends rather than expecting immediate results.
 
-### Data Export Issues
-
-If data export isn't working, ensure you're using a supported browser (Chrome, Firefox, Safari, or Edge) and that downloads aren't being blocked by your browser settings. Large exports may take several minutes to process, so wait before assuming the export has failed.
-
 ## Account and Setup Issues
-
-### Email Verification Problems
-
-If you're not receiving verification emails, check your spam/junk folder as automated emails sometimes get filtered. Also verify you entered your email address correctly during signup.
-
-Some corporate email systems have strict filtering that blocks automated emails. If you're using a company email, try signing up with a personal email address or contact your IT department about allowlisting emails from Trakkr.
 
 ### Multiple Brand Setup
 
@@ -207,11 +175,12 @@ Each plan has prompt limits per brand: Free (5 prompts), Growth (50 prompts), an
 
 **Why can't I add more brands?**
 
-Free and Growth plans include 1 brand. Scale includes 10 brands. Additional brands can be added for $39/month each on Growth and Scale plans. If you need more brands, consider upgrading to Scale (which includes 10 brands) or adding individual brands to your current plan.
+Free and Growth plans include 1 brand. Scale includes 10 brands. Additional brands can be added for \$39/month each on Growth and Scale plans. If you need more brands, consider upgrading to Scale (which includes 10 brands) or adding individual brands to your current plan.
 
 **Why isn't this feature available?**
 
 Some features are only available on paid plans. For example:
+
 - Citations, sentiment tracking, and crawler analytics require Growth or Scale
 - API access is exclusive to Scale
 - Team features require Scale

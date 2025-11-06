@@ -1,6 +1,6 @@
 ---
-title: 'API'
-description: 'Build custom integrations on top of Trakkr with full API access'
+title: "API"
+description: "Build custom integrations on top of Trakkr with full API access"
 ---
 
 <Info>
@@ -18,14 +18,10 @@ The Trakkr API allows you to programmatically access your AI visibility data and
 <Steps>
   <Step title="Navigate to Integrations">
     Go to **Integrations** from your sidebar, then select **API**.
-
-    [image]
   </Step>
-
-  <Step title="View your API key">
+  <Step title="Enable & view your API key">
     Your API key is displayed with the first and last characters visible for security. The middle characters are hidden.
   </Step>
-
   <Step title="Use your API key">
     Copy your full API key and use it in your integration. Include it in the `Authorization` header as a Bearer token.
   </Step>
@@ -43,7 +39,7 @@ The API uses Brand IDs as unique identifiers for each of your brands. You can fi
 
 For complete API documentation, including endpoints, authentication, request/response formats, and examples, visit:
 
-<Card title="API Reference" icon="code" href="/api-reference/introduction" color="#0e9373">
+<Card title="API Reference" icon="code" color="#0e9373" href="/api-reference/introduction">
   View full API documentation with interactive examples
 </Card>
 
@@ -62,19 +58,16 @@ The API is best suited for:
 Consider these simpler alternatives:
 
 <CardGroup cols={2}>
-  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+  <Card title="CSV Exports" icon="download" color="#0e9373" href="/csv-exports">
     **Best for**: One-time data exports, offline analysis, manual reporting
   </Card>
-  
-  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+  <Card title="Google Sheets" icon="table" color="#0e9373" href="/google-sheets">
     **Best for**: Daily auto-sync, team collaboration, simple dashboards
   </Card>
-  
-  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+  <Card title="Looker Studio" icon="chart-mixed" color="#0e9373" href="/looker-studio">
     **Best for**: Visual dashboards, executive reporting, no-code analytics
   </Card>
-
-  <Card title="Google Analytics" icon="chart-line" href="/google-analytics" color="#0e9373">
+  <Card title="Google Analytics" icon="chart-line" color="#0e9373" href="/google-analytics">
     **Best for**: Website traffic analysis from AI sources
   </Card>
 </CardGroup>
@@ -111,15 +104,6 @@ If you need to generate a new API key:
   Deleting your API key will immediately invalidate it. Any integrations using the old key will stop working until you update them with the new key.
 </Note>
 
-## Rate Limits
-
-API rate limits are designed to prevent abuse while allowing legitimate use:
-
-- **Standard requests**: 100 requests per minute
-- **Bulk data endpoints**: 10 requests per minute
-
-If you exceed these limits, you'll receive a `429 Too Many Requests` response. Contact support if you need higher rate limits for enterprise use cases.
-
 ## Support
 
 Need help with the API? Check the [API documentation](/api-reference/introduction) for technical details, or contact support at [mack@trakkr.ai](mailto:mack@trakkr.ai) for integration assistance.
@@ -127,14 +111,13 @@ Need help with the API? Check the [API documentation](/api-reference/introductio
 ## Related Integrations
 
 <CardGroup cols={2}>
-  <Card title="CSV Exports" icon="download" href="/csv-exports" color="#0e9373">
+  <Card title="CSV Exports" icon="download" color="#0e9373" href="/csv-exports">
     Export your data as CSV files for offline analysis
   </Card>
-  <Card title="Google Sheets" icon="table" href="/google-sheets" color="#0e9373">
+  <Card title="Google Sheets" icon="table" color="#0e9373" href="/google-sheets">
     Sync your data to Google Sheets automatically each day
   </Card>
-  <Card title="Looker Studio" icon="chart-mixed" href="/looker-studio" color="#0e9373">
+  <Card title="Looker Studio" icon="chart-mixed" color="#0e9373" href="/looker-studio">
     Build custom dashboards with Looker Studio integration
   </Card>
 </CardGroup>
-

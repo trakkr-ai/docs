@@ -37,8 +37,14 @@
           {
             "group": "Features",
             "pages": [
-              "working-with-prompts",
-              "prompt-research",
+              {
+                "group": "Prompts",
+                "expanded": false,
+                "pages": [
+                  "prompts",
+                  "prompt-research"
+                ]
+              },
               "competitors",
               "citations",
               "outreach",

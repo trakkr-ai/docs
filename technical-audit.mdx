@@ -24,9 +24,9 @@ Technical Audit finds these issues and provides specific, implementable fixes ta
 
 ### Running Your First Audit
 
-Navigate to the Technical Audit section and click "New Scan" to get started.
+Navigate to the Technical Audit section where you can run your first scan.
 
-[image]
+![Screenshot2025 11 06at19 28 59 Pn](/images/Screenshot2025-11-06at19.28.59.png)
 
 ### Choose Your Audit Type
 
@@ -37,6 +37,7 @@ Navigate to the Technical Audit section and click "New Scan" to get started.
     **How it works**: Analyzes a single URL in depth, checking all technical aspects of that specific page.
 
     **Setup**:
+
     1. Enter the URL you want to audit
     2. Click "Start audit"
     3. Results ready in ~30 seconds
@@ -51,6 +52,7 @@ Navigate to the Technical Audit section and click "New Scan" to get started.
     **How it works**: Starts from your main URL and automatically discovers linked pages, auditing the most relevant pages across your site.
 
     **Setup**:
+
     1. Enter your starting URL (typically your homepage)
     2. Optionally add specific URLs you want to ensure are included
     3. Click "Start audit"
@@ -92,7 +94,7 @@ After your audit completes, you'll see results organized into three main tabs: O
 
 The Overview tab gives you an at-a-glance summary of your site's AI optimization.
 
-[image]
+![Screenshot2025 11 06at19 32 36 Pn](/images/Screenshot2025-11-06at19.32.36.png)
 
 **Overall Score**
 
@@ -122,19 +124,19 @@ Click "See X recommended actions" to view all recommendations in the Actions tab
 
 The Actions tab shows prioritized recommendations for improving your site's AI visibility. Each action is ranked by impact, effort, and overall priority to help you focus on what matters most.
 
-[image]
+![Screenshot2025 11 06at19 33 12 Pn](/images/Screenshot2025-11-06at19.33.12.png)
 
 ### Understanding Action Attributes
 
 Each recommendation shows several key details to help you decide what to work on:
 
-| Attribute | Description |
-|-----------|-------------|
-| **Impact** | How much this change will improve AI understanding (High/Low) |
-| **Effort** | How difficult this is to implement (High/Low) |
-| **Priority** | Overall importance ranking (1-10 scale) |
-| **Confidence** | How certain we are this applies to your site (percentage) |
-| **Affected URLs** | Which pages have this issue |
+| Attribute         | Description                                                   |
+| ----------------- | ------------------------------------------------------------- |
+| **Impact**        | How much this change will improve AI understanding (High/Low) |
+| **Effort**        | How difficult this is to implement (High/Low)                 |
+| **Priority**      | Overall importance ranking (1-10 scale)                       |
+| **Confidence**    | How certain we are this applies to your site (percentage)     |
+| **Affected URLs** | Which pages have this issue                                   |
 
 <Tip>
   Focus first on High Impact + Low Effort actions—these are your "quick wins" that deliver meaningful improvements without major development work.
@@ -144,7 +146,7 @@ Each recommendation shows several key details to help you decide what to work on
 
 Click on any action to expand and see complete implementation guidance:
 
-[image]
+![Screenshot2025 11 06at19 34 05 Pn](/images/Screenshot2025-11-06at19.34.05.png)
 
 **Why it matters**
 
@@ -170,7 +172,13 @@ If you're not implementing the fixes yourself, you can easily delegate:
 2. Enter your developer's email address
 3. They'll receive a link with the full action details and implementation steps
 
-[image]
+<img
+  src="/images/Screenshot2025-11-06at19.34.14.png"
+  alt="Screenshot2025 11 06at19 34 14 Pn"
+  title="Screenshot2025 11 06at19 34 14 Pn"
+  className="mx-auto"
+  style={{ width:"74%" }}
+/>
 
 This lets non-technical team members audit the site and coordinate fixes without needing to understand the technical details.
 
@@ -188,7 +196,7 @@ If you've decided not to implement a particular action, click "Dismiss" in the t
 
 The Technical tab provides detailed diagnostic information organized by severity and category. This is where you can drill into specific checks and understand exactly what's passing, what needs attention, and what's critical.
 
-[image]
+![Screenshot2025 11 06at19 33 31 Pn](/images/Screenshot2025-11-06at19.33.31.png)
 
 ### Issue Severity Levels
 
@@ -218,7 +226,7 @@ The Technical tab shows all five main categories with pass/fail counts:
 
 Click on any category to expand and see individual checks within it.
 
-[image]
+![Screenshot2025 11 06at19 35 02 Pn](/images/Screenshot2025-11-06at19.35.02.png)
 
 ### Understanding Individual Checks
 
@@ -311,6 +319,7 @@ Technical Audit works best alongside content optimization:
 **Problem**: AI crawlers can't find or access your content
 
 **Common causes**:
+
 - Missing or misconfigured robots.txt
 - No XML sitemap
 - Broken canonical tags
@@ -323,6 +332,7 @@ Technical Audit works best alongside content optimization:
 **Problem**: Your content lacks semantic signals for AI understanding
 
 **Common causes**:
+
 - No schema markup
 - Missing meta tags
 - Incomplete Article or Product structured data
@@ -334,6 +344,7 @@ Technical Audit works best alongside content optimization:
 **Problem**: Content isn't organized in AI-friendly formats
 
 **Common causes**:
+
 - Missing or generic H1 tags
 - No clear heading hierarchy
 - Dense paragraphs without lists or structure
@@ -346,6 +357,7 @@ Technical Audit works best alongside content optimization:
 **Problem**: AI crawlers can't properly render your page
 
 **Common causes**:
+
 - JavaScript-only rendering
 - Slow page speed
 - Mobile rendering issues
@@ -399,15 +411,14 @@ This means you get actionable instructions regardless of your technical environm
 
 ---
 
-<Card title="Content Optimization" icon="sparkles" href="/optimize-content" color="#0e9373">
+<Card title="Content Optimization" icon="sparkles" color="#0e9373" href="/optimize-content">
   Optimize your content strategy for AI models after fixing technical issues
 </Card>
 
-<Card title="Understanding Scores" icon="chart-bar" href="/understanding-scores" color="#0e9373">
+<Card title="Understanding Scores" icon="chart-bar" color="#0e9373" href="/understanding-scores">
   Learn how technical improvements affect your visibility and presence metrics
 </Card>
 
-<Card title="Prism for Advanced Optimization" icon="wand-magic-sparkles" href="/prism" color="#0e9373">
+<Card title="Prism for Advanced Optimization" icon="wand-magic-sparkles" color="#0e9373" href="/prism">
   Take your AI optimization further with dynamic content serving for AI crawlers
 </Card>
-
