@@ -211,117 +211,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /get-outreach:
-    get:
-      summary: Get outreach opportunities
-      description: |
-        Returns citation opportunities for the specified brand. These are high-impact recommendations
-        for citation wins, including:
-        - **Low-hanging fruit**: Existing articles where competitors are cited but your brand isn't
-        - **Publication gaps**: High-value domains that could be pitched for new articles
-        
-        Opportunities include detailed analysis, pitch templates, contact information, and strategic recommendations.
-        Results are sorted by priority score and paginated.
-      operationId: getOutreach
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: brand
-          in: query
-          required: true
-          schema:
-            type: string
-            pattern: '^[0-9a-fx]{32}$'
-            minLength: 32
-            maxLength: 32
-          description: The brand ID (32-character hexadecimal string)
-          example: "0000000000000x000000000000000000"
-        - name: opportunity_type
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [low-hanging-fruit, publication-gap]
-          description: Filter by opportunity type
-          example: "low-hanging-fruit"
-        - name: status
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [New, In Progress, Done, Archived]
-          description: Filter by opportunity status
-          example: "New"
-        - name: difficulty
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [Easy, Medium, Hard]
-          description: Filter by difficulty level
-          example: "Easy"
-        - name: domain
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Filter by domain (substring match)
-          example: "forbes.com"
-        - name: archived
-          in: query
-          required: false
-          schema:
-            type: boolean
-          description: "Include archived opportunities (default: false)"
-          example: false
-        - name: sort_by
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [priority_score, fit_score, last_seen]
-            default: priority_score
-          description: Sort opportunities by field
-          example: "priority_score"
-        - name: limit
-          in: query
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 500
-            default: 100
-          description: Number of items per page (1-500)
-          example: 100
-        - name: cursor
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Pagination cursor from previous response
-          example: "MTA="
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OutreachResponse'
-              examples:
-                outreach_example:
-                  $ref: '#/components/examples/OutreachExample'
-        '400':
-          description: Bad Request - Missing or invalid parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /get-citations:
     get:
       summary: Get citations
@@ -451,6 +340,117 @@ paths:
                 message: "No data found for brand 1234567890"
                 timestamp: "2025-11-13T12:30:00Z"
                 request_id: "req_abc123"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /get-outreach:
+    get:
+      summary: Get outreach data
+      description: |
+        Returns citation opportunities for the specified brand. These are high-impact recommendations
+        for citation wins, including:
+        - **Low-hanging fruit**: Existing articles where competitors are cited but your brand isn't
+        - **Publication gaps**: High-value domains that could be pitched for new articles
+        
+        Opportunities include detailed analysis, pitch templates, contact information, and strategic recommendations.
+        Results are sorted by priority score and paginated.
+      operationId: getOutreach
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-fx]{32}$'
+            minLength: 32
+            maxLength: 32
+          description: The brand ID (32-character hexadecimal string)
+          example: "0000000000000x000000000000000000"
+        - name: opportunity_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [low-hanging-fruit, publication-gap]
+          description: Filter by opportunity type
+          example: "low-hanging-fruit"
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [New, In Progress, Done, Archived]
+          description: Filter by opportunity status
+          example: "New"
+        - name: difficulty
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Easy, Medium, Hard]
+          description: Filter by difficulty level
+          example: "Easy"
+        - name: domain
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by domain (substring match)
+          example: "forbes.com"
+        - name: archived
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: "Include archived opportunities (default: false)"
+          example: false
+        - name: sort_by
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [priority_score, fit_score, last_seen]
+            default: priority_score
+          description: Sort opportunities by field
+          example: "priority_score"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+          description: Number of items per page (1-500)
+          example: 100
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor from previous response
+          example: "MTA="
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutreachResponse'
+              examples:
+                outreach_example:
+                  $ref: '#/components/examples/OutreachExample'
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
