@@ -211,11 +211,127 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /get-outreach:
+    get:
+      summary: Get outreach opportunities
+      description: |
+        Returns citation opportunities for the specified brand. These are high-impact recommendations
+        for citation wins, including:
+        - **Low-hanging fruit**: Existing articles where competitors are cited but your brand isn't
+        - **Publication gaps**: High-value domains that could be pitched for new articles
+        
+        Opportunities include detailed analysis, pitch templates, contact information, and strategic recommendations.
+        Results are sorted by priority score and paginated.
+      operationId: getOutreach
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: brand
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-fx]{32}$'
+            minLength: 32
+            maxLength: 32
+          description: The brand ID (32-character hexadecimal string)
+          example: "0000000000000x000000000000000000"
+        - name: opportunity_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [low-hanging-fruit, publication-gap]
+          description: Filter by opportunity type
+          example: "low-hanging-fruit"
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [New, In Progress, Done, Archived]
+          description: Filter by opportunity status
+          example: "New"
+        - name: difficulty
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Easy, Medium, Hard]
+          description: Filter by difficulty level
+          example: "Easy"
+        - name: domain
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by domain (substring match)
+          example: "forbes.com"
+        - name: archived
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Include archived opportunities (default: false)
+          example: false
+        - name: sort_by
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [priority_score, fit_score, last_seen]
+            default: priority_score
+          description: Sort opportunities by field
+          example: "priority_score"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+          description: Number of items per page (1-500)
+          example: 100
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor from previous response
+          example: "MTA="
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutreachResponse'
+              examples:
+                outreach_example:
+                  $ref: '#/components/examples/OutreachExample'
+        '400':
+          description: Bad Request - Missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /get-citations:
     get:
       summary: Get citations
       description: |
-        Returns all citations for the specified brand. Requires a valid API key and brand access.
+        Returns citations data for the specified brand in one of three modes:
+        - **citations** (default): AI Search citations with aggregates (top domains/competitors)
+        - **search-queries**: Search queries that return citations, with prompts and citation lists
+        - **knowledge**: Raw knowledge base citations with rich metadata
+        
+        Supports filtering by date range, domain, and search query text. Results are paginated with cursor-based pagination.
       operationId: getCitations
       security:
         - bearerAuth: []
@@ -230,26 +346,111 @@ paths:
             maxLength: 32
           description: The brand ID (32-character hexadecimal string)
           example: "0000000000000x000000000000000000"
+        - name: mode
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [citations, search-queries, knowledge]
+            default: citations
+          description: |
+            Citation mode to use:
+            - `citations` - AI Search citations with aggregates
+            - `search-queries` - Search queries with associated citations
+            - `knowledge` - Knowledge base citations
+          example: "citations"
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: Filter by last seen date (YYYY-MM-DD). Only applies to citations and search-queries modes.
+          example: "2025-01-01"
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: Filter by last seen date (YYYY-MM-DD). Only applies to citations and search-queries modes.
+          example: "2025-01-31"
+        - name: domain
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter citations by domain (substring match)
+          example: "runnersworld.com"
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter search queries by query text (substring match). Only applies to search-queries mode.
+          example: "best running shoes"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+          description: Number of items per page (1-500)
+          example: 100
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor from previous response
+          example: "MTA="
       responses:
         '200':
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CitationsResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/CitationsModeResponse'
+                  - $ref: '#/components/schemas/SearchQueriesModeResponse'
+                  - $ref: '#/components/schemas/KnowledgeModeResponse'
               examples:
-                citations_example:
-                  $ref: '#/components/examples/CitationsExample'
+                citations_mode:
+                  $ref: '#/components/examples/CitationsModeExample'
+                search_queries_mode:
+                  $ref: '#/components/examples/SearchQueriesModeExample'
+                knowledge_mode:
+                  $ref: '#/components/examples/KnowledgeModeExample'
         '400':
-          description: Bad Request - Missing or invalid brand
+          description: Bad Request - Missing or invalid parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error: "INVALID_PARAMETER"
+                message: "Invalid mode 'invalid'. Must be one of: citations, search-queries, knowledge"
+                timestamp: "2025-11-13T12:30:00Z"
+                request_id: "req_abc123"
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found - No data found for brand
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "NOT_FOUND"
+                message: "No data found for brand 1234567890"
+                timestamp: "2025-11-13T12:30:00Z"
+                request_id: "req_abc123"
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -785,17 +986,612 @@ components:
           type: integer
           description: Total number of mentions
           example: 150
-    CitationsResponse:
+    CitationsModeResponse:
       type: object
       required:
+        - brand_id
+        - mode
+        - updated_at
         - citations
+        - pagination
       properties:
+        brand_id:
+          type: string
+          description: The brand ID
+          example: "1749113348709x432280934699237400"
+        mode:
+          type: string
+          enum: [citations]
+          description: Response mode
+          example: "citations"
+        updated_at:
+          type: string
+          format: date-time
+          description: When the snapshot was last updated
+          example: "2025-11-03T01:42:25.502006+00:00"
+        summary:
+          type: object
+          nullable: true
+          description: Top aggregates (only included when no filters applied)
+          properties:
+            total_citations:
+              type: integer
+              description: Total number of citations in snapshot
+              example: 346
+            top_domains:
+              type: array
+              description: Top domains by citation count
+              items:
+                type: object
+                properties:
+                  domain:
+                    type: string
+                    example: "runnersworld.com"
+                  count:
+                    type: integer
+                    example: 161
+                  citation_share:
+                    type: number
+                    format: float
+                    description: Percentage of total citations
+                    example: 13.55
+            top_competitors:
+              type: array
+              description: Top competitors referenced in citations
+              items:
+                type: object
+                properties:
+                  competitor:
+                    type: string
+                    example: "Hoka One One"
+                  count:
+                    type: integer
+                    example: 437
+                  citation_share:
+                    type: number
+                    format: float
+                    description: Percentage of total competitor references
+                    example: 10.93
         citations:
           type: array
-          description: Array of citation objects for the brand
+          description: Array of citation items
+          items:
+            $ref: '#/components/schemas/CitationItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    CitationItem:
+      type: object
+      required:
+        - url
+        - domain
+        - times_cited
+        - first_seen
+        - last_seen
+        - prompts
+        - search_queries
+      properties:
+        url:
+          type: string
+          description: Citation URL
+          example: "https://www.runnersworld.com/best-running-shoes/"
+        domain:
+          type: string
+          description: Domain of the citation
+          example: "runnersworld.com"
+        times_cited:
+          type: integer
+          description: Number of times this citation appeared
+          example: 22
+        first_seen:
+          type: string
+          format: date-time
+          description: First time this citation was seen
+          example: "2025-10-03T11:53:27.751253+00:00"
+        last_seen:
+          type: string
+          format: date-time
+          description: Last time this citation was seen
+          example: "2025-10-28T01:40:50.681897+00:00"
+        competitors_referenced:
+          type: array
+          description: Competitors mentioned in this citation
+          items:
+            type: string
+          example: ["Adidas", "Hoka One One"]
+        prompts:
+          type: array
+          description: Original prompts that led to this citation
+          items:
+            type: string
+          example: ["best running shoes for marathon"]
+        search_queries:
+          type: array
+          description: Search queries that returned this citation
           items:
             type: object
-            description: Citation object (structure may vary)
+            properties:
+              query:
+                type: string
+                example: "best marathon shoes 2025"
+              count:
+                type: integer
+                description: Number of times this query returned this citation
+                example: 5
+        sentiment:
+          type: integer
+          nullable: true
+          minimum: 0
+          maximum: 100
+          description: Sentiment score (0-100, higher is more positive)
+          example: 75
+        domain_rating:
+          type: integer
+          nullable: true
+          minimum: 0
+          maximum: 100
+          description: Domain authority rating
+          example: 85
+        page_authority:
+          type: integer
+          nullable: true
+          minimum: 0
+          maximum: 100
+          description: Page authority rating
+          example: 78
+        topics:
+          type: array
+          nullable: true
+          description: Key topics extracted from citation
+          items:
+            type: string
+          example: ["running", "marathon training", "footwear"]
+        h1:
+          type: string
+          nullable: true
+          description: Page H1 or title
+          example: "Best Running Shoes 2025"
+        mentions_brand:
+          type: boolean
+          nullable: true
+          description: Whether the citation explicitly mentions the brand
+          example: true
+    SearchQueriesModeResponse:
+      type: object
+      required:
+        - brand_id
+        - mode
+        - updated_at
+        - search_queries
+        - pagination
+      properties:
+        brand_id:
+          type: string
+          description: The brand ID
+          example: "1749113348709x432280934699237400"
+        mode:
+          type: string
+          enum: [search-queries]
+          description: Response mode
+          example: "search-queries"
+        updated_at:
+          type: string
+          format: date-time
+          description: When the snapshot was last updated
+          example: "2025-11-03T01:42:25.502006+00:00"
+        search_queries:
+          type: array
+          description: Array of search query items
+          items:
+            $ref: '#/components/schemas/SearchQueryItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    SearchQueryItem:
+      type: object
+      required:
+        - query
+        - searches
+        - prompts
+        - citations
+        - last_seen
+      properties:
+        query:
+          type: string
+          description: The search query text
+          example: "best marathon shoes for beginners 2025"
+        searches:
+          type: integer
+          description: Total number of times this query was searched
+          example: 8
+        prompts:
+          type: array
+          description: Original prompts associated with this query
+          items:
+            type: string
+          example: ["best marathon shoes for beginners"]
+        citations:
+          type: array
+          description: Top citations returned by this query
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                example: "https://www.irunfar.com/best-marathon-shoes"
+              domain:
+                type: string
+                example: "irunfar.com"
+              times_cited:
+                type: integer
+                description: How many times this URL appeared across all queries
+                example: 23
+        last_seen:
+          type: string
+          format: date-time
+          description: Last time this query was seen
+          example: "2025-10-28T01:40:50.681897+00:00"
+    KnowledgeModeResponse:
+      type: object
+      required:
+        - brand_id
+        - mode
+        - citations
+        - pagination
+      properties:
+        brand_id:
+          type: string
+          description: The brand ID
+          example: "1749113348709x432280934699237400"
+        mode:
+          type: string
+          enum: [knowledge]
+          description: Response mode
+          example: "knowledge"
+        citations:
+          type: array
+          description: Array of knowledge base citation objects (raw Bubble schema)
+          items:
+            $ref: '#/components/schemas/KnowledgeCitation'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    KnowledgeCitation:
+      type: object
+      description: Knowledge base citation with rich metadata (Bubble schema)
+      properties:
+        _id:
+          type: string
+          description: Bubble record ID
+          example: "1751366661128x982280299254958800"
+        URL:
+          type: string
+          example: "https://www.reviews.io/company-reviews/store/nike"
+        Domain:
+          type: string
+          example: "reviews.io"
+        Page Title:
+          type: string
+          example: "Nike Reviews - Read 534 Genuine Customer Reviews"
+        Input Prompt Text:
+          type: string
+          example: "What has been your Nike customer service experience?"
+        Input Prompt Type:
+          type: string
+          example: "Brand Specific"
+        Input Prompt Intent:
+          type: string
+          example: "Informational"
+        Brand:
+          type: string
+          description: Brand ID reference
+          example: "1749113348709x432280934699237400"
+        Search Model:
+          type: string
+          example: "ChatGPT Search"
+        Brand Visibility Score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 85
+        Sentiment:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 45
+        Domain Rating:
+          type: integer
+          nullable: true
+          example: 77
+        Page Authority:
+          type: integer
+          nullable: true
+          example: 51
+        Backlinks:
+          type: integer
+          nullable: true
+          example: 284
+        Key Topics:
+          type: array
+          items:
+            type: string
+          example: ["customer service", "returns and refunds", "product quality"]
+        AI Response Snippet:
+          type: string
+          example: "Nike's customer service experiences present a mixed picture..."
+        Source Type:
+          type: string
+          example: "Review Site"
+        Language:
+          type: string
+          example: "English"
+        Date:
+          type: string
+          format: date-time
+          example: "2025-07-01T00:00:00.000Z"
+        Created Date:
+          type: string
+          format: date-time
+          example: "2025-07-01T10:44:21.128Z"
+        Modified Date:
+          type: string
+          format: date-time
+          example: "2025-07-01T10:44:21.129Z"
+        Favicon:
+          type: string
+          example: "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&..."
+    PaginationMetadata:
+      type: object
+      required:
+        - limit
+        - has_more
+        - next_cursor
+      properties:
+        limit:
+          type: integer
+          description: Items per page
+          example: 100
+        has_more:
+          type: boolean
+          description: Whether more results exist
+          example: true
+        next_cursor:
+          type: string
+          nullable: true
+          description: Cursor for next page (null if no more results)
+          example: "MTA="
+    OutreachResponse:
+      type: object
+      required:
+        - brand_id
+        - opportunities
+        - pagination
+      properties:
+        brand_id:
+          type: string
+          description: The brand ID
+          example: "1749113348709x432280934699237400"
+        opportunities:
+          type: array
+          description: Array of outreach opportunity objects
+          items:
+            $ref: '#/components/schemas/OutreachOpportunity'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    OutreachOpportunity:
+      type: object
+      description: Citation opportunity with analysis, pitch template, and contact info
+      properties:
+        _id:
+          type: string
+          description: Bubble record ID
+          example: "1751366661128x982280299254958800"
+        unique_key:
+          type: string
+          description: Unique identifier for deduplication
+          example: "low-hanging-fruit:forbes.com/article-slug"
+        opportunity_type:
+          type: string
+          enum: [low-hanging-fruit, publication-gap]
+          description: Type of opportunity
+          example: "low-hanging-fruit"
+        url:
+          type: string
+          description: Target URL (for low-hanging fruit)
+          example: "https://www.forbes.com/best-running-shoes-2025"
+        domain:
+          type: string
+          description: Target domain
+          example: "forbes.com"
+        title:
+          type: string
+          description: Article or opportunity title
+          example: "Best Running Shoes for Marathon Training in 2025"
+        content_type:
+          type: string
+          description: Type of content
+          example: "Listicle"
+        language:
+          type: string
+          description: Content language
+          example: "English"
+        country:
+          type: string
+          nullable: true
+          description: Target country
+          example: "United States"
+        status:
+          type: string
+          enum: [New, In Progress, Done, Archived]
+          description: Opportunity status
+          example: "New"
+        archived:
+          type: boolean
+          description: Whether opportunity is archived
+          example: false
+        difficulty:
+          type: string
+          enum: [Easy, Medium, Hard]
+          description: Difficulty level
+          example: "Medium"
+        strategy_name:
+          type: string
+          description: Recommended strategy
+          example: "Direct Pitch to Author"
+        topics_covered:
+          type: array
+          description: Topics covered in the content
+          items:
+            type: string
+          example: ["marathon training", "running gear", "footwear reviews"]
+        site_type:
+          type: string
+          description: Type of publication
+          example: "Business News & Analysis"
+        audience_profile:
+          type: string
+          description: Target audience description
+          example: "Business professionals and entrepreneurs aged 25-54"
+        content_style:
+          type: string
+          description: Editorial style
+          example: "Data-driven analysis with expert interviews"
+        competitors:
+          type: array
+          description: Competing brands mentioned
+          items:
+            type: string
+          example: ["Adidas", "Hoka One One", "ASICS"]
+        competitor_count:
+          type: integer
+          description: Number of competitors mentioned
+          example: 5
+        gap_analysis:
+          type: string
+          description: Why brand is missing from the conversation
+          example: "Article focuses on established brands but doesn't mention emerging innovations"
+        why_competitors_win:
+          type: string
+          description: Why competitors are cited
+          example: "They have strong relationships with the publication and provide exclusive data"
+        brand_angle:
+          type: string
+          description: Recommended angle for the brand
+          example: "Highlight Nike's sustainability initiatives and carbon-negative products"
+        fit_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Brand fit score (0-100)
+          example: 85
+        topics_aligned:
+          type: array
+          description: Topics that align with brand
+          items:
+            type: string
+          example: ["performance", "innovation", "athlete endorsements"]
+        audience_match:
+          type: string
+          description: How audience matches brand
+          example: "High overlap with Nike's target demographic of active lifestyle enthusiasts"
+        why_relevant:
+          type: string
+          description: Why this opportunity is relevant to the brand
+          example: "Strong alignment with Nike's brand values and target market"
+        pitch_subject:
+          type: string
+          description: Suggested email subject line
+          example: "Nike's Innovation in Sustainable Running Footwear"
+        pitch_body:
+          type: string
+          description: Complete pitch email template
+          example: "Hi [Author Name],\n\nI noticed your recent article..."
+        author_name:
+          type: string
+          nullable: true
+          description: Content author name
+          example: "John Smith"
+        contact_emails:
+          type: array
+          description: Contact email addresses (may include " CATCH" suffix for catch-all emails)
+          items:
+            type: string
+          example: ["john.smith@forbes.com", "tips@forbes.com CATCH"]
+        contact_confidence:
+          type: string
+          description: Confidence level for contact info
+          example: "High"
+        appearance_count:
+          type: integer
+          description: Times this content appeared in results
+          example: 15
+        prompt_count:
+          type: integer
+          description: Number of prompts that surfaced this
+          example: 3
+        query_count:
+          type: integer
+          description: Number of queries that surfaced this
+          example: 8
+        priority_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Overall priority score for outreach
+          example: 92
+        brand_citations_on_prompt:
+          type: integer
+          description: Brand citations on related prompts
+          example: 2
+        competitor_citations_on_prompt:
+          type: integer
+          description: Competitor citations on related prompts
+          example: 12
+        original_prompts:
+          type: array
+          description: Original prompts (low-hanging fruit)
+          items:
+            type: string
+          example: ["best marathon shoes", "top running gear 2025"]
+        search_queries:
+          type: array
+          description: Search queries that found this (low-hanging fruit)
+          items:
+            type: string
+          example: ["best marathon shoes 2025: 5", "running gear reviews: 3"]
+        weak_prompt:
+          type: string
+          nullable: true
+          description: Prompt where brand is weak (publication gap)
+          example: "best sustainable running shoes"
+        competitors_winning:
+          type: array
+          description: Competitors dominating this space (publication gap)
+          items:
+            type: string
+          example: ["Allbirds", "Veja"]
+        instructions:
+          type: array
+          description: Step-by-step outreach instructions
+          items:
+            type: string
+          example: ["Research author's recent articles", "Personalize pitch with specific data points"]
+        what_itll_do:
+          type: string
+          description: Expected outcome of pursuing this opportunity
+          example: "Secure a mention in a high-authority article reaching 500K+ monthly readers"
+        last_seen_date:
+          type: string
+          format: date-time
+          description: When this opportunity was last seen
+          example: "2025-11-13T10:30:00Z"
+        Created Date:
+          type: string
+          format: date-time
+          description: When opportunity was created
+          example: "2025-11-13T10:30:00Z"
+        Modified Date:
+          type: string
+          format: date-time
+          description: When opportunity was last modified
+          example: "2025-11-13T10:30:00Z"
     Error:
       type: object
       required:
@@ -1103,15 +1899,143 @@ components:
                 avg_rank: "2.5"
                 avg_score: 82.1
                 total_mentions: 60
-    CitationsExample:
-      summary: Example citations response
+    CitationsModeExample:
+      summary: Citations mode response example
       value:
+        brand_id: "1749113348709x432280934699237400"
+        mode: "citations"
+        updated_at: "2025-11-03T01:42:25.502006+00:00"
+        summary:
+          total_citations: 346
+          top_domains:
+            - domain: "runnersworld.com"
+              count: 161
+              citation_share: 13.55
+            - domain: "tomsguide.com"
+              count: 86
+              citation_share: 7.24
+          top_competitors:
+            - competitor: "Hoka One One"
+              count: 437
+              citation_share: 10.93
+            - competitor: "ASICS"
+              count: 426
+              citation_share: 10.66
         citations:
-          - id: "cit_001"
-            text: "Acme was mentioned in the 2025 CRM report."
-            date: "2025-01-15"
-            source: "AI Model"
-          - id: "cit_002"
-            text: "Acme cited as a top brand in email marketing."
-            date: "2025-01-16"
-            source: "Anthropic"
+          - url: "https://www.runnersworld.com/best-running-shoes/"
+            domain: "runnersworld.com"
+            times_cited: 22
+            first_seen: "2025-10-03T11:53:27.751253+00:00"
+            last_seen: "2025-10-28T01:40:50.681897+00:00"
+            competitors_referenced: ["Adidas", "Hoka One One"]
+            prompts: ["best running shoes for marathon"]
+            search_queries:
+              - query: "best marathon shoes 2025"
+                count: 5
+            sentiment: 75
+            domain_rating: 85
+            page_authority: 78
+            topics: ["running", "marathon training"]
+            h1: "Best Running Shoes 2025"
+            mentions_brand: true
+        pagination:
+          limit: 100
+          has_more: true
+          next_cursor: "MTA="
+    SearchQueriesModeExample:
+      summary: Search queries mode response example
+      value:
+        brand_id: "1749113348709x432280934699237400"
+        mode: "search-queries"
+        updated_at: "2025-11-03T01:42:25.502006+00:00"
+        search_queries:
+          - query: "best marathon shoes for beginners 2025"
+            searches: 8
+            prompts: ["best marathon shoes for beginners"]
+            citations:
+              - url: "https://www.irunfar.com/best-marathon-shoes"
+                domain: "irunfar.com"
+                times_cited: 23
+              - url: "https://www.coachweb.com/running-shoes/best-marathon"
+                domain: "coachweb.com"
+                times_cited: 7
+            last_seen: "2025-10-28T01:40:50.681897+00:00"
+          - query: "Nike Vaporfly review carbon plate"
+            searches: 6
+            prompts: ["best carbon-plated racing shoes"]
+            citations:
+              - url: "https://www.wired.com/story/nike-vaporfly"
+                domain: "wired.com"
+                times_cited: 12
+            last_seen: "2025-10-27T01:34:49.273428+00:00"
+        pagination:
+          limit: 100
+          has_more: false
+          next_cursor: null
+    KnowledgeModeExample:
+      summary: Knowledge mode response example
+      value:
+        brand_id: "1749113348709x432280934699237400"
+        mode: "knowledge"
+        citations:
+          - _id: "1751366661128x982280299254958800"
+            URL: "https://www.reviews.io/company-reviews/store/nike"
+            Domain: "reviews.io"
+            Page Title: "Nike Reviews - Read 534 Genuine Customer Reviews"
+            Input Prompt Text: "What has been your Nike customer service experience?"
+            Input Prompt Type: "Brand Specific"
+            Input Prompt Intent: "Informational"
+            Brand: "1749113348709x432280934699237400"
+            Search Model: "ChatGPT Search"
+            Brand Visibility Score: 85
+            Sentiment: 45
+            Domain Rating: 77
+            Page Authority: 51
+            Backlinks: 284
+            Key Topics: ["customer service", "returns and refunds", "product quality"]
+            AI Response Snippet: "Nike's customer service experiences present a mixed picture..."
+            Source Type: "Review Site"
+            Language: "English"
+            Date: "2025-07-01T00:00:00.000Z"
+            Created Date: "2025-07-01T10:44:21.128Z"
+            Modified Date: "2025-07-01T10:44:21.129Z"
+            Favicon: "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&..."
+        pagination:
+          limit: 100
+          has_more: true
+          next_cursor: "MTA="
+    OutreachExample:
+      summary: Outreach opportunities response example
+      value:
+        brand_id: "1749113348709x432280934699237400"
+        opportunities:
+          - _id: "1751366661128x982280299254958800"
+            unique_key: "low-hanging-fruit:forbes.com/best-running-shoes-2025"
+            opportunity_type: "low-hanging-fruit"
+            url: "https://www.forbes.com/best-running-shoes-2025"
+            domain: "forbes.com"
+            title: "Best Running Shoes for Marathon Training in 2025"
+            status: "New"
+            difficulty: "Medium"
+            priority_score: 92
+            fit_score: 88
+            pitch_subject: "Nike's Innovation in Sustainable Marathon Footwear"
+            competitors: ["Adidas", "Hoka One One", "ASICS"]
+            contact_emails: ["sarah.johnson@forbes.com"]
+            last_seen_date: "2025-11-13T10:30:00Z"
+          - _id: "1751366662000x123456789012345600"
+            unique_key: "publication-gap:wired.com:sustainability"
+            opportunity_type: "publication-gap"
+            domain: "wired.com"
+            title: "Pitch: Sustainable Running Shoes Innovation Story"
+            status: "New"
+            difficulty: "Hard"
+            priority_score: 78
+            fit_score: 82
+            weak_prompt: "best sustainable running shoes"
+            competitors_winning: ["Allbirds", "Veja"]
+            last_seen_date: "2025-11-13T10:30:00Z"
+        pagination:
+          limit: 100
+          has_more: false
+          next_cursor: null
